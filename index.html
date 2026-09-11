@@ -227,7 +227,10 @@
             -->
           </div>
           <h3 class="pack__title">30 cups</h3>
-          <p class="pack__line">The box. Net 300g.</p>
+          <ul class="pack__facts">
+            <li>The box</li>
+            <li>Net 300g</li>
+          </ul>
           <button type="button" class="btn btn--primary btn--block" data-amazon="hero" aria-disabled="true">Coming soon on Amazon.ae</button>
         </article>
 
@@ -240,7 +243,10 @@
             -->
           </div>
           <h3 class="pack__title">12 cups</h3>
-          <p class="pack__line">Try it first. Net 120g.</p>
+          <ul class="pack__facts">
+            <li>Try it first</li>
+            <li>Net 120g</li>
+          </ul>
           <button type="button" class="btn btn--secondary btn--block" data-amazon="trial" aria-disabled="true">Coming soon on Amazon.ae</button>
         </article>
 
@@ -340,8 +346,9 @@
 
       <p class="signup__status" id="signupStatus" role="status" aria-live="polite"></p>
 
-      <p class="signup__note" id="signupNote">
-        We will email you when it is live. <a href="privacy.html">Privacy</a>
+      <p class="signup__note">
+        <span id="signupNote">We will email you when it is live</span>
+        <a href="privacy.html">Privacy</a>
       </p>
     </div>
   </section>

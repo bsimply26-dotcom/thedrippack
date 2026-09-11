@@ -26,6 +26,13 @@ Domain: thedrippack.com
 - The full stop after PACK belongs to the logo and to nothing else. Neither
   slogan takes punctuation. POUR WAIT DRINK and REAL COFFEE NO MACHINE are
   written without any full stop.
+- Punctuation, the full rule. This file governs. Short labels and display copy
+  take no full stop: headings, slogans, claims, buttons, nav items, pack card
+  lines, brew steps, the origin line, the contents block, the 404 line. So the
+  pack cards read "The box" and "Net 300g", with none. Ordinary prose sentences
+  punctuate normally, so the FAQ answers, the privacy policy and the terms page
+  keep theirs. If a line is a label, it takes no stop. If it is a sentence in a
+  paragraph, it does.
 - No claim beyond these four: 100% arabica, specialty grade, cupped above 80,
   roasted and packed in the UAE. Nothing else. No health claims, no
   certification logos, no tasting notes, no origin story, no awards, no
