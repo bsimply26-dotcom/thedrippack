@@ -55,15 +55,21 @@ Defined once as CSS custom properties. Never hardcode a hex anywhere else.
 | `--ink` | #141414 | All primary type on bone. |
 | `--green` | #1A331E | The statement band, and nothing else. Opt in only. |
 | `--emerald` | #14A05C | The full stop, and one rule under REAL COFFEE NO MACHINE. Nothing else. |
-| `--sage` | #A9B6A6 | Secondary text inside the green band only. |
+| `--sage` | #A9B6A6 | Retired from the stylesheet. See below. |
 
 The ground is set once as `--ground: var(--bone)`. Green is reached only through
 an explicit `.ground--green` class, so it cannot creep back as a default. There
 is exactly one such section on the site. That is what makes the statement band
 land.
 
-Secondary text on bone is Ink at 70 per cent opacity, which reads at 6.29:1.
-Never put Sage on bone: it falls to 1.9:1. Sage is for the green band alone.
+Secondary text on bone is Ink at 70 per cent opacity, which reads at 6.32:1.
+
+Sage is no longer defined in the stylesheet. It was specified as secondary text
+on green, and the one green section on the site carries only the locked line, so
+nothing used it. It stays in this table as a brand colour rather than a live
+token. If a green section ever needs quiet text, reinstate `--sage: #A9B6A6` in
+the token block and scope it inside `.ground--green`. Never put it on bone: it
+falls to 1.9:1.
 
 Emerald is an accent of last resort. It is not a button colour, not a link
 colour, not a hover state. If you find yourself reaching for it a third time,

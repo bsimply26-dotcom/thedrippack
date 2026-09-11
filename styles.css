@@ -12,7 +12,6 @@
   --green:   #1A331E;
   --bone:    #F1EBE1;
   --emerald: #14A05C;
-  --sage:    #A9B6A6;
   --ink:     #141414;
 
   /* The ground. Bone is the default for the whole site. Green is opt in and is
@@ -24,10 +23,9 @@
   --hairline:   color-mix(in srgb, var(--ink) 12%, transparent);
   --lift:       color-mix(in srgb, var(--ink) 22%, transparent);
 
-  /* Secondary text on bone. Ink at reduced opacity, which over the bone ground
-     lands at 6.29:1, close to sage on green at 6.46:1, so the two grounds carry
-     their quiet text at the same weight. Sage is for the green band only: on
-     bone it would fall to 1.9:1. */
+  /* Secondary text. Ink at reduced opacity, which over the bone ground lands at
+     6.32:1. The green band carries only the locked line, so it needs no quiet
+     tone of its own. */
   --ink-quiet:  color-mix(in srgb, var(--ink) 70%, transparent);
   --rule-ink:   color-mix(in srgb, var(--ink) 14%, transparent);
 
@@ -178,8 +176,6 @@ a { color: inherit; }
 .ground--green { background: var(--green); color: var(--bone); }
 .ground--bone  { background: var(--bone);  color: var(--ink); }
 
-/* Sage exists for the green band only. */
-.ground--green .quiet { color: var(--sage); }
 
 .wrap {
   width: 100%;
@@ -284,7 +280,6 @@ a { color: inherit; }
   cursor: default;
 }
 
-.ground--green .btn[aria-disabled="true"] { color: var(--sage); }
 
 /* --------------------------------------------------------------------------
    8. Navbar. Transparent over the hero, glass past 24px.
