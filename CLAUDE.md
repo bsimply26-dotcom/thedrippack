@@ -33,10 +33,21 @@ Domain: thedrippack.com
   punctuate normally, so the FAQ answers, the privacy policy and the terms page
   keep theirs. If a line is a label, it takes no stop. If it is a sentence in a
   paragraph, it does.
-- No claim beyond these four: 100% arabica, specialty grade, cupped above 80,
-  roasted and packed in the UAE. Nothing else. No health claims, no
-  certification logos, no tasting notes, no origin story, no awards, no
-  est. dates, no exact cup score.
+- Claims and facts are two different things, and the rule only works once they
+  are separated.
+
+  **Product claims.** There are four, and nothing may be added to them:
+  100% arabica, specialty grade, cupped above 80, roasted and packed in the UAE.
+  These assert a quality, so each one has to be defensible.
+
+  **Format facts.** Statements about what the product is, rather than how good
+  it is, are permitted: no machine, no pods, no grinder; real ground coffee
+  rather than instant; single serve sealed portions. They describe the format,
+  they assert nothing about quality, and they are the argument the brand is
+  actually making.
+
+  **Still banned, either way.** Health claims, certification logos, awards,
+  tasting notes, origin story, est. dates, exact cup score.
 - No price and no per cup figure anywhere on the site. Amazon owns the price.
 - Forest #2E4A3E is superseded. It must never appear.
 - Parcelle must not be referenced, linked, or hinted at in any way. No shared
@@ -155,7 +166,7 @@ SPECIALTY GRADE / CUPPED ABOVE 80
 **Why this.** Three lines, in this order. No full stops, they are labels.
 1. No machine, no pods, no grinder
 2. Real ground coffee, not instant
-3. One cup at a time, so it is fresh every time
+3. Sealed until the moment you brew it
 
 **Origin line.** Roasted and packed in the UAE for The Drip Pack, Dubai, UAE
 
