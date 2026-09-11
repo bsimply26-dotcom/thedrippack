@@ -28,8 +28,7 @@
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 
-<!-- ACTIVATE ON FONT DELIVERY: uncomment when fonts/NimbusSans-Bold.woff2 exists. See fonts/README.md. -->
-<!-- <link rel="preload" href="/fonts/NimbusSans-Bold.woff2" as="font" type="font/woff2" crossorigin> -->
+<link rel="preload" href="/fonts/NimbusSans-Bold.woff2" as="font" type="font/woff2" crossorigin>
 
 <link rel="stylesheet" href="/styles.css">
 </head>
@@ -51,10 +50,17 @@
 
 </main>
 
-<!-- ACTIVATE ON LAUNCH: Cloudflare Web Analytics. Cookieless, so no consent banner is required.
-     Replace CF_ANALYTICS_TOKEN with the real token, then uncomment.
-<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "CF_ANALYTICS_TOKEN"}'></script>
--->
+<!-- Cloudflare Web Analytics. Cookieless, so no consent banner is required, which
+     is why it was chosen over Google Analytics. See section 15 of SPEC.md and the
+     Cookies section of privacy.html.
+
+     The token is inline here rather than referenced from a constant in script.js.
+     Cloudflare publish this snippet as type="module", and document.currentScript
+     is null inside a module, so the beacon has to find its own tag by DOM query.
+     Injecting the tag from script.js would depend on that unverifiable internal
+     detail and would fail silently if it ever changed. The token is a permanent
+     per site value, so the four copies carry no practical drift risk. -->
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "09fedf67402a4050bbb4bf32d1588b5b"}'></script>
 
 </body>
 </html>
