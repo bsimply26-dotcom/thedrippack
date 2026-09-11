@@ -152,6 +152,11 @@ SPECIALTY GRADE / CUPPED ABOVE 80
 اسكب قليلاً من الماء الساخن وانتظر /
 أكمل السكب على دفعات ثم ارفع الكيس
 
+**Why this.** Three lines, in this order. No full stops, they are labels.
+1. No machine, no pods, no grinder
+2. Real ground coffee, not instant
+3. One cup at a time, so it is fresh every time
+
 **Origin line.** Roasted and packed in the UAE for The Drip Pack, Dubai, UAE
 
 **Contents.**

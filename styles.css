@@ -535,6 +535,19 @@ body.is-locked { overflow: hidden; }
 }
 
 /* --------------------------------------------------------------------------
+   13b. Why this. Three lines, no markers, no rules, no icons, no cards.
+   Generous space is the only thing separating them.
+   -------------------------------------------------------------------------- */
+
+.why { display: grid; gap: clamp(1.25rem, 2.5vw, 1.75rem); }
+
+.why li {
+  font-size: var(--t-body);
+  line-height: 1.5;
+  max-width: 34ch;
+}
+
+/* --------------------------------------------------------------------------
    14. FAQ. No rules between items, the open state does the separating.
    -------------------------------------------------------------------------- */
 
