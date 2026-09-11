@@ -22,7 +22,9 @@
   --slot:      color-mix(in srgb, var(--green) 92%, var(--bone));
   --sheet:     color-mix(in srgb, var(--green) 98%, var(--bone));
   --field:     color-mix(in srgb, var(--green) 88%, var(--bone));
-  --scrim:     color-mix(in srgb, var(--green) 78%, transparent);
+  --scrim:     color-mix(in srgb, var(--green) 90%, transparent);
+  --lift:      color-mix(in srgb, var(--ink) 42%, transparent);
+  --sheen:     color-mix(in srgb, var(--bone) 24%, transparent);
 
   /* Type */
   --font-display: 'Nimbus Sans', Helvetica, Arial, sans-serif;
@@ -487,10 +489,8 @@ body.is-locked { overflow: hidden; }
   object-fit: cover;
 }
 
-.slot--portrait  { --ratio: 4 / 5; }
-.slot--square    { --ratio: 1 / 1; }
-.slot--wide      { --ratio: 16 / 9; }
-.slot--landscape { --ratio: 3 / 2; }
+.slot--portrait { --ratio: 4 / 5; }
+.slot--square   { --ratio: 1 / 1; }
 
 /* --------------------------------------------------------------------------
    9. How it works.
@@ -867,12 +867,13 @@ body.is-locked { overflow: hidden; }
     transition: opacity 620ms ease, transform 620ms cubic-bezier(0.2, 0.7, 0.3, 1);
   }
 
-  [data-rise="1"] { transition-delay: 0s; }
-  [data-rise="2"] { transition-delay: 0.08s; }
-  [data-rise="3"] { transition-delay: 0.16s; }
-  [data-rise="4"] { transition-delay: 0.24s; }
-  [data-rise="5"] { transition-delay: 0.32s; }
-  [data-rise="6"] { transition-delay: 0.42s; }
+  /* The three beats occupy 0 to 1400ms. Everything else follows the third word. */
+  [data-rise="1"] { transition-delay: 1.40s; }
+  [data-rise="2"] { transition-delay: 1.48s; }
+  [data-rise="3"] { transition-delay: 1.56s; }
+  [data-rise="4"] { transition-delay: 1.64s; }
+  [data-rise="5"] { transition-delay: 1.72s; }
+  [data-rise="6"] { transition-delay: 1.80s; }
 
   body.is-ready [data-rise] { opacity: 1; transform: none; }
 }
@@ -888,7 +889,214 @@ body.is-locked { overflow: hidden; }
 }
 
 /* --------------------------------------------------------------------------
-   18. Breakpoints. Mobile first, so everything above is the small screen.
+   18. Motion.
+   Everything below animates transform and opacity only, so nothing here can
+   trigger layout. Section 19 switches the whole lot off under reduced motion.
+   -------------------------------------------------------------------------- */
+
+/* The three beats. POUR, WAIT and DRINK arrive in sequence, 450ms apart, each
+   rising 20px over 500ms. The third lands at 1400ms. The spans are built by
+   script.js from the single copy string in the markup, so the source keeps the
+   line verbatim and unsplit. */
+.beat { display: block; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .beat {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 500ms ease, transform 500ms cubic-bezier(0.2, 0.7, 0.3, 1);
+  }
+
+  body.is-ready .beat { opacity: 1; transform: none; }
+}
+
+/* Claim row items arrive 100ms apart, after the row itself. */
+@media (prefers-reduced-motion: no-preference) {
+  .claims li {
+    opacity: 0;
+    transform: translateY(12px);
+    transition: opacity 500ms ease, transform 500ms cubic-bezier(0.2, 0.7, 0.3, 1);
+  }
+
+  body.is-ready .claims li { opacity: 1; transform: none; }
+  body.is-ready .claims li:nth-child(1) { transition-delay: 1.90s; }
+  body.is-ready .claims li:nth-child(2) { transition-delay: 2.00s; }
+  body.is-ready .claims li:nth-child(3) { transition-delay: 2.10s; }
+  body.is-ready .claims li:nth-child(4) { transition-delay: 2.20s; }
+}
+
+/* Ken Burns on the hero pack, 3 per cent over 20 seconds, alternating. */
+@keyframes kenburns {
+  from { transform: scale(1); }
+  to   { transform: scale(1.03); }
+}
+
+.kenburns {
+  transform-origin: 50% 45%;
+  animation: kenburns 20s ease-in-out infinite alternate;
+  will-change: transform;
+}
+
+/* One diagonal sheen across the hero pack on load. It runs once and stops. */
+@keyframes sheen {
+  from { transform: translateX(-85%) rotate(0deg); opacity: 0; }
+  20%  { opacity: 1; }
+  to   { transform: translateX(85%) rotate(0deg); opacity: 0; }
+}
+
+.slot--sheen::after {
+  content: "";
+  position: absolute;
+  inset: -40% -60%;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(115deg,
+    transparent 42%,
+    var(--sheen) 50%,
+    transparent 58%);
+  transform: translateX(-85%);
+  opacity: 0;
+  animation: sheen 1200ms ease-out 700ms 1 forwards;
+}
+
+/* Scroll reveal. Rise 24px, fade, 700ms, once only. The delay for a staggered
+   child is set inline by script.js. */
+@media (prefers-reduced-motion: no-preference) {
+  .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 700ms ease, transform 700ms cubic-bezier(0.2, 0.7, 0.3, 1);
+  }
+
+  .reveal.is-in { opacity: 1; transform: none; }
+}
+
+/* The emerald rule draws left to right on entry. Second and last emerald role. */
+@media (prefers-reduced-motion: no-preference) {
+  .statement__rule {
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform 600ms cubic-bezier(0.2, 0.7, 0.3, 1);
+  }
+
+  .statement__rule.is-in { transform: scaleX(1); }
+}
+
+/* Pack cards lift on hover. box-shadow paints, it does not reflow. */
+@media (hover: hover) and (pointer: fine) {
+  .pack {
+    transition: transform 350ms ease, box-shadow 350ms ease;
+  }
+
+  .pack:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 18px 44px var(--lift);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   19. The brew sequence.
+   Four frames cross fade as the section crosses the viewport. Progress is read
+   in a rAF throttled handler that only attaches while the section is on screen,
+   and the frames are warmed one viewport before they are needed.
+   -------------------------------------------------------------------------- */
+
+.brew { margin-inline: auto; max-width: 560px; }
+
+.brew__stage { position: relative; }
+
+.brew__frame {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  will-change: opacity;
+}
+
+.brew__frame[data-frame="0"] { opacity: 1; }
+
+/* The step number lights as its frame arrives. */
+.step__n { transition: color 300ms ease; }
+.step.is-active .step__n { color: var(--bone); }
+
+/* --------------------------------------------------------------------------
+   20. The Anywhere strip.
+   The image is rendered twice inside an overflow hidden track. The track moves
+   by exactly half its width, so the loop closes on itself with no visible reset.
+   -------------------------------------------------------------------------- */
+
+.anywhere .wrap { margin-bottom: clamp(2rem, 5vw, 3rem); }
+
+.strip {
+  width: 100%;
+  overflow: hidden;
+}
+
+@keyframes strip {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+.strip__track {
+  display: flex;
+  width: max-content;
+  animation: strip 45s linear infinite;
+  will-change: transform;
+}
+
+.strip:hover .strip__track,
+.strip:focus-within .strip__track { animation-play-state: paused; }
+
+.strip__img {
+  flex: 0 0 auto;
+  display: block;
+  height: clamp(132px, 20vw, 280px);
+  width: auto;
+  max-width: none;
+}
+
+/* --------------------------------------------------------------------------
+   21. Reduced motion.
+   The initial hidden states above are already scoped to no-preference, so a
+   reduced motion visitor sees the settled page even if the script never runs.
+   This block kills the looping and one shot animations on top of that.
+   -------------------------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .kenburns { animation: none; transform: none; }
+  .slot--sheen::after { content: none; animation: none; }
+  .strip__track { animation: none; transform: none; }
+
+  .pack { transition: none; }
+  .pack:hover { transform: none; box-shadow: none; }
+
+  .beat,
+  .claims li,
+  .reveal,
+  .statement__rule { opacity: 1; transform: none; transition: none; }
+
+  /* One frame only, and nothing scrubs. The script does not attach its
+     listeners in this mode either. */
+  .brew__frame,
+  .brew__frame[data-frame="0"] { opacity: 0; }
+  .brew__frame[data-frame="2"] { opacity: 1; }
+  .step__n { transition: none; }
+
+  /* The strip is scrolled by hand rather than driven. */
+  .strip {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x proximity;
+  }
+
+  .strip__img { scroll-snap-align: start; }
+  .strip__img--dupe { display: none; }
+}
+
+/* --------------------------------------------------------------------------
+   22. Breakpoints. Mobile first, so everything above is the small screen.
    -------------------------------------------------------------------------- */
 
 @media (min-width: 600px) {

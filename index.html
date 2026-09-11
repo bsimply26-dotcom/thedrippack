@@ -31,6 +31,7 @@
 <!-- ACTIVATE ON FONT DELIVERY: uncomment when fonts/NimbusSans-Bold.woff2 exists. See fonts/README.md. -->
 <!-- <link rel="preload" href="fonts/NimbusSans-Bold.woff2" as="font" type="font/woff2" crossorigin> -->
 <link rel="preload" href="fonts/IBMPlexSansArabic-Regular.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="images/hero-pack.webp" as="image" type="image/webp" fetchpriority="high">
 
 <link rel="stylesheet" href="styles.css">
 
@@ -146,25 +147,23 @@
           </svg>
         </h1>
 
-        <p class="hero__headline" data-rise="2">POUR WAIT DRINK</p>
+        <p class="hero__headline">POUR WAIT DRINK</p>
 
-        <p class="hero__sub" data-rise="3">Single serve pour over, 30 cups in a box</p>
+        <p class="hero__sub" data-rise="2">Single serve pour over, 30 cups in a box</p>
 
-        <p class="hero__arabic" lang="ar" dir="rtl" data-rise="4">قهوة بالتنقيط للكوب الواحد</p>
+        <p class="hero__arabic" lang="ar" dir="rtl" data-rise="3">قهوة بالتنقيط للكوب الواحد</p>
 
-        <div class="hero__actions" data-rise="5">
+        <div class="hero__actions" data-rise="4">
           <button type="button" class="btn btn--primary" data-amazon="hero" aria-disabled="true">Coming soon on Amazon.ae</button>
           <a class="btn btn--secondary" href="#how">How it works</a>
         </div>
       </div>
 
-      <div class="hero__media" data-rise="4">
-        <div class="slot slot--portrait" data-placeholder="true" role="img"
-             aria-label="The 30 cup carton of The Drip Pack, three quarter view, lit from the side on a deep green ground">
-          <!-- SWAP: replace this comment with the line below, then delete role and aria-label from the parent div.
-          <img src="images/hero-carton.webp" width="1000" height="1250" decoding="async"
-               alt="The 30 cup carton of The Drip Pack, three quarter view, lit from the side on a deep green ground">
-          -->
+      <div class="hero__media" data-rise="5">
+        <div class="slot slot--portrait slot--sheen">
+          <img class="kenburns" src="images/hero-pack.webp" width="1120" height="1400"
+               fetchpriority="high" decoding="async"
+               alt="The 30 cup carton of The Drip Pack standing at a three quarter angle, its deep green face printed with roasted beans scattered through the air">
         </div>
       </div>
 
@@ -201,12 +200,21 @@
         </li>
       </ol>
 
-      <div class="slot slot--wide" data-placeholder="true" role="img"
-           aria-label="An open sachet hooked over the rim of a cup, water dripping through the grounds">
-        <!-- SWAP: replace this comment with the line below, then delete role and aria-label from the parent div.
-        <img src="images/sachet-on-cup.webp" width="1600" height="900" loading="lazy" decoding="async"
-             alt="An open sachet hooked over the rim of a cup, water dripping through the grounds">
-        -->
+      <div class="brew" id="brew">
+        <div class="slot slot--square brew__stage">
+          <img class="brew__frame" data-frame="0" src="images/brew-01.webp" width="1200" height="1200"
+               loading="lazy" decoding="async"
+               alt="Two hands tearing open a single serve sachet along the seam at its top">
+          <img class="brew__frame" data-frame="1" src="images/brew-02.webp" width="1200" height="1200"
+               loading="lazy" decoding="async"
+               alt="Two hands hooking the opened sachet over the rim of a stoneware mug, the ground coffee visible inside">
+          <img class="brew__frame" data-frame="2" src="images/brew-pour.webp" width="1200" height="1200"
+               loading="lazy" decoding="async"
+               alt="Water poured from a gooseneck kettle into the sachet, steam rising off the saturated grounds">
+          <img class="brew__frame" data-frame="3" src="images/coffee-cup.webp" width="1200" height="1200"
+               loading="lazy" decoding="async"
+               alt="A stoneware mug of brewed black coffee on a dark plate, the spent sachet resting beside it">
+        </div>
       </div>
     </div>
   </section>
@@ -219,12 +227,9 @@
       <div class="packs">
 
         <article class="pack">
-          <div class="slot slot--square" data-placeholder="true" role="img"
-               aria-label="The 30 cup carton standing upright beside a loose sachet">
-            <!-- SWAP: replace this comment with the line below, then delete role and aria-label from the parent div.
-            <img src="images/pack-30.webp" width="1000" height="1000" loading="lazy" decoding="async"
-                 alt="The 30 cup carton standing upright beside a loose sachet">
-            -->
+          <div class="slot slot--portrait">
+            <img src="images/pack-30.webp" width="1120" height="1400" loading="lazy" decoding="async"
+                 alt="The 30 cup carton of The Drip Pack standing upright on a deep green ground, lit hard from one side">
           </div>
           <h3 class="pack__title">30 cups</h3>
           <ul class="pack__facts">
@@ -235,12 +240,9 @@
         </article>
 
         <article class="pack">
-          <div class="slot slot--square" data-placeholder="true" role="img"
-               aria-label="The 12 cup trial carton standing upright beside a loose sachet">
-            <!-- SWAP: replace this comment with the line below, then delete role and aria-label from the parent div.
-            <img src="images/pack-12.webp" width="1000" height="1000" loading="lazy" decoding="async"
-                 alt="The 12 cup trial carton standing upright beside a loose sachet">
-            -->
+          <div class="slot slot--portrait">
+            <img src="images/pack-12.webp" width="1120" height="1400" loading="lazy" decoding="async"
+                 alt="The 12 cup carton of The Drip Pack standing upright on a deep green ground, lit hard from one side">
           </div>
           <h3 class="pack__title">12 cups</h3>
           <ul class="pack__facts">
@@ -275,17 +277,30 @@
         </ul>
       </div>
 
-      <div class="slot slot--landscape" data-placeholder="true" role="img"
-           aria-label="Roasted beans and fine grounds in motion under hard side light on a deep green ground">
-        <!-- SWAP: replace this comment with the line below, then delete role and aria-label from the parent div.
-        <img src="images/beans-grounds.webp" width="1200" height="800" loading="lazy" decoding="async"
-             alt="Roasted beans and fine grounds in motion under hard side light on a deep green ground">
-        -->
+      <div class="slot slot--square">
+        <img src="images/coffee-cup.webp" width="1200" height="1200" loading="lazy" decoding="async"
+             alt="A stoneware mug of brewed black coffee on a dark plate, the spent sachet resting beside it">
       </div>
     </div>
   </section>
 
-  <!-- 6. FAQ -->
+  <!-- 6. Anywhere -->
+  <section class="section anywhere" id="anywhere">
+    <div class="wrap">
+      <h2 class="section__title">Anywhere</h2>
+    </div>
+
+    <div class="strip" id="strip">
+      <div class="strip__track">
+        <img class="strip__img" src="images/scenes-strip.webp" width="3036" height="440"
+             loading="lazy" decoding="async" alt="" aria-hidden="true">
+        <img class="strip__img strip__img--dupe" src="images/scenes-strip.webp" width="3036" height="440"
+             loading="lazy" decoding="async" alt="" aria-hidden="true">
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. FAQ -->
   <section class="section" id="faq">
     <div class="wrap wrap--narrow">
       <h2 class="section__title">FAQ</h2>
@@ -324,7 +339,7 @@
     </div>
   </section>
 
-  <!-- 7. Email signup -->
+  <!-- 8. Email signup -->
   <section class="section signup" id="signup">
     <div class="wrap wrap--narrow">
       <h2 class="visually-hidden">Email signup</h2>
