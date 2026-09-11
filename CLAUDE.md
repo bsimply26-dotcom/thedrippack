@@ -152,24 +152,31 @@ If a piece of copy is not in this file or in SPEC.md, do not invent it. Ask.
 
 ## 8. Imagery
 
-There is no photography in the repo. The five image slots on the homepage are
-empty, and commissioned photography arrives in a second pass.
+Four photographs, and only four. Each one dominates: no image is ever an inset
+thumbnail inside a card.
 
-Each slot is a fixed container with a fixed aspect ratio, carrying
-`data-placeholder="true"` so the swap set is findable in one search, and a flat
-fill so the composition reads while the slot is empty. The container owns the
-ratio, so dropping a photograph in changes nothing about the layout.
+| File | Native | Slot |
+|---|---|---|
+| `hero-pack.webp` | 1600x2000 | Hero, beside the type |
+| `brew-pour.webp` | 2400x1600 | How it works |
+| `pack-open.webp` | 2400x1600 | The packs, 30 cups |
+| `pack-12.webp` | 1600x2000 | The packs, 12 cups |
 
-To fill a slot: drop the WebP into `/images/`, uncomment the `<img>` inside the
-slot, which already carries the alt text, the width and the height, then delete
-`role="img"` and `aria-label` from the slot itself. That is the whole swap.
+Each runs at least 60 per cent of the viewport width at desktop and bleeds to
+both screen edges on a phone, with generous space around it.
 
-`/images/og.png` is the 1200x630 share image. It is a placeholder built from
-the logo on the green ground, and it is replaced in the same pass.
+The declared `width` and `height` only hold the box until the file loads, after
+which the real intrinsic ratio takes over. So each image also carries an explicit
+`aspect-ratio` in the stylesheet, matching its native size. That is what makes a
+re-export a straight file replacement with no layout movement.
 
-Art direction when real photography arrives: roasted beans and fine grounds in
-motion, dramatic side light, deep shadow, shallow depth of field, on the green
+`/images/og.png` is the 1200x630 share image, built from the logo on the green
 ground.
+
+Art direction: roasted beans and fine grounds in motion, dramatic side light,
+deep shadow, shallow depth of field, on the green ground. Export with no border
+and no matte. A pale edge baked into a file reads as a hard bar against the
+ground and cannot be fixed in CSS without cropping the photograph.
 
 ---
 

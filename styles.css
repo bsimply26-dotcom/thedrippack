@@ -1,7 +1,6 @@
 /* ==========================================================================
    The Drip Pack
    One stylesheet. The palette is defined once, below, and nowhere else.
-   Never write a colour literal outside the token block.
    ========================================================================== */
 
 /* --------------------------------------------------------------------------
@@ -16,33 +15,43 @@
   --sage:    #A9B6A6;
   --ink:     #141414;
 
-  /* Derived surfaces. Mixed from the tokens above, never from a new literal. */
-  --glass:     color-mix(in srgb, var(--green) 86%, transparent);
-  --hairline:  color-mix(in srgb, var(--sage) 22%, transparent);
-  --slot:      color-mix(in srgb, var(--green) 92%, var(--bone));
-  --sheet:     color-mix(in srgb, var(--green) 98%, var(--bone));
-  --field:     color-mix(in srgb, var(--green) 88%, var(--bone));
-  --scrim:     color-mix(in srgb, var(--green) 90%, transparent);
-  --lift:      color-mix(in srgb, var(--ink) 42%, transparent);
-  --sheen:     color-mix(in srgb, var(--bone) 24%, transparent);
+  /* Derived. Mixed from the tokens above, never from a new literal. */
+  --glass:      color-mix(in srgb, var(--green) 88%, transparent);
+  --hairline:   color-mix(in srgb, var(--sage) 22%, transparent);
+  --field:      color-mix(in srgb, var(--green) 88%, var(--bone));
+  --lift:       color-mix(in srgb, var(--ink) 22%, transparent);
+
+  /* Quiet body copy. Only one type colour is defined for light grounds, so the
+     quiet tone is mixed from it. 70 per cent lands at 6.29:1 on bone, which is
+     close to sage on green at 6.46:1, so both grounds read at the same weight. */
+  --ink-quiet:  color-mix(in srgb, var(--ink) 70%, var(--bone));
+  --rule-ink:   color-mix(in srgb, var(--ink) 14%, var(--bone));
 
   /* Type */
   --font-display: 'Nimbus Sans', Helvetica, Arial, sans-serif;
   --font-arabic: 'IBM Plex Sans Arabic', sans-serif;
 
+  /* Scale. Two registers and nothing between them. Headings are very large,
+     body is small and quiet. The gap is the point. */
+  --t-display: clamp(3rem, 12vw, 7rem);
+  --t-heading: clamp(2.25rem, 7vw, 4.5rem);
+  --t-lede:    clamp(1.0625rem, 1.6vw, 1.25rem);
+  --t-body:    1.0625rem;
+  --t-micro:   0.8125rem;
+
   /* Measure and rhythm */
   --wrap: 1240px;
   --gutter: clamp(1.25rem, 5vw, 4rem);
-  --band: clamp(4rem, 10vw, 8rem);
+  --band: clamp(4rem, 8vw, 6rem);   /* 64px mobile, 96px desktop, capped */
   --tap: 44px;
+  --nav-h: 4.5rem;
 }
 
 /* --------------------------------------------------------------------------
    2. Fonts.
-   Both families are self hosted in /fonts/ and preloaded in the head of every
-   page. Nimbus Sans Bold is Helvetica metric compatible, every advance width
-   matching exactly, so the Helvetica and Arial fallbacks in the token do not
-   reflow anything if the face is slow to arrive.
+   Both families are self hosted in /fonts/. Nimbus Sans ships as Bold only, so
+   every Latin word on the site is bold. Quiet copy is made quiet by size and
+   colour rather than by weight.
    -------------------------------------------------------------------------- */
 
 @font-face {
@@ -71,13 +80,15 @@
 
 /* --------------------------------------------------------------------------
    3. Reset and base.
+   Body copy is sentence case and untracked. All caps is reserved for the logo,
+   the headings and the two locked lines.
    -------------------------------------------------------------------------- */
 
 *, *::before, *::after { box-sizing: border-box; }
 
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: 6rem;
+  scroll-padding-top: calc(var(--nav-h) + 1.5rem);
   -webkit-text-size-adjust: 100%;
 }
 
@@ -87,11 +98,9 @@ body {
   color: var(--bone);
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: 1rem;
-  line-height: 1.45;
+  font-size: var(--t-body);
+  line-height: 1.65;
   overflow-x: hidden;
-  text-transform: uppercase;
-  letter-spacing: 0.02em;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -103,12 +112,13 @@ img, svg { display: block; max-width: 100%; }
 a { color: inherit; }
 
 :focus-visible {
-  outline: 2px solid var(--bone);
+  outline: 2px solid currentColor;
   outline-offset: 3px;
   border-radius: 2px;
 }
 
 ::selection { background: var(--bone); color: var(--green); }
+.ground--bone ::selection { background: var(--ink); color: var(--bone); }
 
 .visually-hidden {
   position: absolute;
@@ -126,15 +136,26 @@ a { color: inherit; }
   transform: translate(-50%, -120%);
   z-index: 100;
   min-height: var(--tap);
+  display: inline-flex;
+  align-items: center;
   padding: 0.8125rem 1.25rem;
   background: var(--bone);
   color: var(--ink);
   text-decoration: none;
-  font-size: 0.8125rem;
-  letter-spacing: 0.08em;
+  font-size: var(--t-micro);
 }
 
 .skip-link:focus-visible { transform: translate(-50%, 0); }
+
+/* --------------------------------------------------------------------------
+   4. Grounds.
+   Pack Green carries the hero and the statement band. Everything else sits on
+   Bone with Ink type, which is what the palette always intended and the site
+   never used.
+   -------------------------------------------------------------------------- */
+
+.ground--green { background: var(--green); color: var(--bone); }
+.ground--bone  { background: var(--bone);  color: var(--ink); }
 
 .wrap {
   width: 100%;
@@ -145,19 +166,45 @@ a { color: inherit; }
 
 .wrap--narrow { max-width: 760px; }
 
-.section { padding-block: var(--band); }
+.section {
+  padding-block: var(--band);
+  scroll-margin-top: var(--nav-h);
+}
 
 .section__title {
-  font-size: clamp(1.375rem, 3.2vw, 1.875rem);
-  letter-spacing: 0.16em;
-  margin-bottom: clamp(2rem, 5vw, 3.5rem);
+  font-size: var(--t-heading);
+  line-height: 0.95;
+  letter-spacing: -0.01em;
+  margin-bottom: clamp(2rem, 4vw, 3rem);
 }
 
 /* --------------------------------------------------------------------------
-   4. The logo.
-   Both lockups are inline SVG. The letterforms take currentColor. The full
-   stop is the first of exactly two emerald roles on the site.
-   Clear space is no less than the cap height on all sides, applied as padding.
+   5. Feature images.
+   Each runs at least 60 per cent of the viewport at desktop and bleeds to both
+   screen edges on a phone. No image is ever an inset thumbnail in a card.
+   -------------------------------------------------------------------------- */
+
+.feature {
+  margin-block: clamp(2rem, 5vw, 3.5rem);
+}
+
+/* The declared width and height only hold the box until the file loads, after
+   which the real intrinsic ratio takes over. Locking the ratio here means the
+   layout cannot move when a regenerated image of a different size drops in.
+   The height cap stops a portrait image running taller than the screen. */
+.feature__img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+.feature__img--wide { aspect-ratio: 3 / 2; }   /* 2400 x 1600 */
+.feature__img--tall { aspect-ratio: 4 / 5; }   /* 1600 x 2000 */
+
+/* --------------------------------------------------------------------------
+   6. The logo.
+   currentColor, so it inverts with the ground. The emerald full stop is the
+   first of exactly two emerald roles on the site.
    -------------------------------------------------------------------------- */
 
 .logo { fill: currentColor; height: auto; }
@@ -166,19 +213,15 @@ a { color: inherit; }
   font-family: var(--font-display);
   font-weight: 700;
   font-size: 40px;
-  letter-spacing: 0;
 }
 
 .logo__stop { fill: var(--emerald); }
 
-/* Single line. The svg box is the cap height, so clear space is one box. */
-.logo--line { width: auto; height: var(--logo-h, 16px); }
-
-/* Stacked. Cap height is 28.7 of 113 box units, so clear space is 0.254 boxes. */
+.logo--line  { width: auto; height: var(--logo-h, 16px); }
 .logo--stack { width: auto; height: var(--logo-h, 132px); }
 
 /* --------------------------------------------------------------------------
-   5. Buttons.
+   7. Buttons.
    -------------------------------------------------------------------------- */
 
 .btn {
@@ -186,49 +229,41 @@ a { color: inherit; }
   align-items: center;
   justify-content: center;
   min-height: var(--tap);
-  padding: 0.75rem 1.5rem;
-  border: 1px solid var(--bone);
+  padding: 0.8125rem 1.5rem;
+  border: 1px solid currentColor;
   border-radius: 999px;
-  background: var(--bone);
-  color: var(--ink);
+  background: transparent;
+  color: inherit;
   font-family: inherit;
   font-weight: 700;
-  font-size: 0.8125rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
+  font-size: var(--t-micro);
   text-decoration: none;
   text-align: center;
   cursor: pointer;
-  transition: background 180ms ease, color 180ms ease, border-color 180ms ease, opacity 180ms ease;
+  transition: background 180ms ease, color 180ms ease, opacity 180ms ease;
 }
 
-.btn--secondary {
+.ground--green .btn--primary { background: var(--bone); color: var(--ink); border-color: var(--bone); }
+.ground--green .btn--primary:hover { background: transparent; color: var(--bone); }
+.ground--green .btn--secondary:hover { background: var(--bone); color: var(--ink); }
+
+.ground--bone .btn--primary { background: var(--ink); color: var(--bone); border-color: var(--ink); }
+.ground--bone .btn--primary:hover { background: transparent; color: var(--ink); }
+.ground--bone .btn--secondary:hover { background: var(--ink); color: var(--bone); }
+
+.btn[aria-disabled="true"],
+.btn[aria-disabled="true"]:hover {
   background: transparent;
-  color: var(--bone);
-  border-color: var(--bone);
-}
-
-.btn--sm { min-height: var(--tap); padding-inline: 1.125rem; font-size: 0.75rem; }
-.btn--block { display: flex; width: 100%; }
-
-.btn--primary:hover { background: transparent; color: var(--bone); }
-.btn--secondary:hover { background: var(--bone); color: var(--ink); }
-
-.btn[aria-disabled="true"] {
-  background: transparent;
-  color: var(--sage);
-  border-color: var(--hairline);
+  border-color: currentColor;
+  opacity: 0.55;
   cursor: default;
 }
 
-.btn[aria-disabled="true"]:hover {
-  background: transparent;
-  color: var(--sage);
-}
+.ground--green .btn[aria-disabled="true"] { color: var(--bone); }
+.ground--bone  .btn[aria-disabled="true"] { color: var(--ink); }
 
 /* --------------------------------------------------------------------------
-   6. Navbar.
-   Transparent over the hero. Past 24px of scroll it takes a glass surface.
+   8. Navbar. Transparent over the hero, glass past 24px.
    -------------------------------------------------------------------------- */
 
 .nav {
@@ -237,7 +272,7 @@ a { color: inherit; }
   z-index: 50;
   background: transparent;
   border-bottom: 1px solid transparent;
-  backdrop-filter: none;
+  color: var(--bone);
   transition: background 260ms ease, border-color 260ms ease, backdrop-filter 260ms ease;
 }
 
@@ -253,6 +288,7 @@ a { color: inherit; }
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
+  min-height: var(--nav-h);
   max-width: var(--wrap);
   margin-inline: auto;
   padding-inline: var(--gutter);
@@ -263,7 +299,6 @@ a { color: inherit; }
   display: block;
   padding: var(--logo-h);
   margin-inline-start: calc(var(--logo-h) * -1);
-  color: var(--bone);
 }
 
 .nav__links,
@@ -279,336 +314,222 @@ a { color: inherit; }
   padding: 0;
   border: 0;
   background: transparent;
-  color: var(--bone);
+  color: inherit;
   cursor: pointer;
 }
 
-.nav__toggle-bars {
-  display: block;
-  width: 22px;
-}
+.nav__toggle-bars { display: block; width: 22px; }
 
 .nav__toggle-bars span {
   display: block;
   height: 2px;
   background: currentColor;
-  transition: transform 220ms ease, opacity 220ms ease;
+  transition: transform 220ms ease;
 }
 
 .nav__toggle-bars span + span { margin-top: 6px; }
+.nav__toggle[aria-expanded="true"] .nav__toggle-bars span:first-child { transform: translateY(4px) rotate(45deg); }
+.nav__toggle[aria-expanded="true"] .nav__toggle-bars span:last-child { transform: translateY(-4px) rotate(-45deg); }
 
-.nav__toggle[aria-expanded="true"] .nav__toggle-bars span:first-child {
-  transform: translateY(4px) rotate(45deg);
-}
-
-.nav__toggle[aria-expanded="true"] .nav__toggle-bars span:last-child {
-  transform: translateY(-4px) rotate(-45deg);
-}
-
-/* The sheet */
 .sheet {
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
   padding: 1rem var(--gutter) 2rem;
-  background: var(--sheet);
+  background: var(--green);
+  color: var(--bone);
   border-top: 1px solid var(--hairline);
 }
 
 .sheet[hidden] { display: none; }
-
 .sheet__links { display: flex; flex-direction: column; }
 
 .sheet__links a {
   display: flex;
   align-items: center;
   min-height: var(--tap);
-  padding-block: 0.5rem;
-  font-size: 1rem;
-  letter-spacing: 0.1em;
+  font-size: var(--t-lede);
   text-decoration: none;
 }
 
 .sheet .btn { margin-top: 1rem; }
-
 body.is-locked { overflow: hidden; }
 
 /* --------------------------------------------------------------------------
-   7. Hero.
+   9. Hero.
+   The image sits beside the type from tablet up and below it on a phone. It is
+   never behind the text, never scrimmed, and always at full opacity.
    -------------------------------------------------------------------------- */
 
 .hero {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  min-height: 100svh;
-  padding-top: 6rem;
-  padding-bottom: 0;
+  /* Nav clearance plus a small gap. The clearance is structural, not rhythm. */
+  padding-top: calc(var(--nav-h) + clamp(1rem, 3vw, 1.5rem));
+  padding-bottom: var(--band);
 }
 
 .hero__inner {
-  /* Containing block for the mobile hero image, which sits behind the type. */
-  position: relative;
-  flex: 1 1 auto;
   display: grid;
-  align-content: center;
-  gap: clamp(2rem, 6vw, 3rem);
-  width: 100%;
-  max-width: var(--wrap);
-  margin-inline: auto;
-  padding: 0 var(--gutter) clamp(2rem, 6vw, 3.5rem);
+  gap: clamp(2.5rem, 6vw, 4rem);
+  align-items: center;
 }
 
-.hero__inner > * { position: relative; z-index: 1; }
-
-.hero__copy { display: grid; gap: clamp(1rem, 3vw, 1.5rem); justify-items: start; }
+.hero__copy { display: grid; gap: clamp(1.25rem, 3vw, 1.75rem); justify-items: start; }
 
 .hero__logo {
-  --logo-h: clamp(64px, min(17vw, 9vh), 116px);
+  --logo-h: clamp(64px, 13vw, 104px);
   padding: calc(var(--logo-h) * 0.254);
   margin: calc(var(--logo-h) * -0.254);
-  color: var(--bone);
 }
 
 .hero__headline {
-  font-size: clamp(2.25rem, min(12.5vw, 13vh), 8.5rem);
-  line-height: 0.95;
-  letter-spacing: 0.1em;
-  word-spacing: 0.22em;
-  padding-inline-end: 0.1em;
-  /* One word per line at every width, so the three words read as three beats. */
+  font-size: var(--t-display);
+  line-height: 0.9;
+  letter-spacing: -0.02em;
   width: min-content;
 }
 
 .hero__sub {
+  font-size: var(--t-lede);
   color: var(--bone);
-  font-size: clamp(0.875rem, 2.2vw, 1.125rem);
-  letter-spacing: 0.1em;
+  max-width: 34ch;
 }
 
 .hero__arabic {
   font-family: var(--font-arabic);
   font-weight: 400;
   color: var(--sage);
-  font-size: clamp(1rem, 2.6vw, 1.25rem);
-  line-height: 1.8;
-  text-transform: none;
-  letter-spacing: 0;
+  font-size: var(--t-lede);
+  line-height: 1.9;
 }
 
 .hero__actions { display: flex; flex-wrap: wrap; gap: 0.75rem; }
 
-/* Mobile: the image is a ground layer behind the type, under a scrim that
-   keeps the copy legible once a real photograph replaces the flat fill. */
-.hero__media {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  width: 100%;
-  pointer-events: none;
-}
-
-.hero__media .slot { height: 100%; aspect-ratio: auto; }
-
-.hero__media::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: var(--scrim);
-}
-
+/* The claim row. No rules, no tracking, no menu. Four quiet labels. */
 .claims {
-  position: relative;
-  z-index: 1;
   display: flex;
   flex-wrap: wrap;
-  width: 100%;
-  max-width: var(--wrap);
-  margin-inline: auto;
-  padding: 0 var(--gutter);
-  border-top: 1px solid var(--hairline);
+  gap: 0.5rem 1.75rem;
+  margin-top: 0.5rem;
 }
 
 .claims li {
-  flex: 1 1 50%;
-  padding: 1rem 0.75rem 1rem 0;
   color: var(--sage);
-  font-size: 0.6875rem;
-  letter-spacing: 0.14em;
+  font-size: var(--t-micro);
 }
 
-.claims li + li { border-left: 1px solid var(--hairline); padding-left: 0.75rem; }
-.claims li:nth-child(3) { border-left: 0; padding-left: 0; }
-.claims li:nth-child(n+3) { border-top: 1px solid var(--hairline); }
-
-/* Short viewports. A three line display headline plus the lockup does not fit
-   100svh on a small phone or a short laptop, so the hero tightens rather than
-   pushing the claim row past the fold. */
-@media (max-height: 760px) {
-  .hero { padding-top: 4.5rem; }
-  .hero__logo { --logo-h: clamp(44px, min(14vw, 7.5vh), 96px); }
-  .hero__headline { font-size: clamp(1.625rem, min(10.5vw, 10.5vh), 6rem); }
-  .hero__inner { gap: 1.25rem; padding-bottom: 1rem; }
-  .hero__copy { gap: 0.75rem; }
-  .claims li { padding-block: 0.625rem; }
+/* The hero image bleeds to the screen edge on a phone. */
+.hero__media {
+  width: 100vw;
+  margin-inline: calc(var(--gutter) * -1);
+  max-width: none;
 }
 
-@media (max-height: 620px) {
-  .hero { padding-top: 4rem; }
-  .hero__logo { --logo-h: clamp(38px, min(12vw, 7vh), 72px); }
-  .hero__headline { font-size: clamp(1.5rem, min(9.5vw, 9.5vh), 4.5rem); }
-  .hero__sub, .hero__arabic { font-size: 0.8125rem; }
-  .hero__inner { gap: 1rem; padding-bottom: 0.75rem; }
-  .hero__copy { gap: 0.625rem; }
-  .claims li { padding-block: 0.5rem; font-size: 0.625rem; }
-}
-
-/* --------------------------------------------------------------------------
-   8. Image slots.
-   Fixed container, fixed ratio, flat fill. A photograph drops in later with
-   object-fit cover and the layout does not move. Every slot is marked
-   data-placeholder="true" so the swap set is one search away.
-   -------------------------------------------------------------------------- */
-
-.slot {
-  position: relative;
+.hero__media img {
   width: 100%;
-  aspect-ratio: var(--ratio, 4 / 3);
-  background: var(--slot);
-  overflow: hidden;
-}
-
-.slot > img {
-  width: 100%;
-  height: 100%;
+  height: auto;
+  aspect-ratio: 4 / 5;          /* 1600 x 2000 */
   object-fit: cover;
 }
 
-.slot--portrait { --ratio: 4 / 5; }
-.slot--square   { --ratio: 1 / 1; }
-
 /* --------------------------------------------------------------------------
-   9. How it works.
+   10. How it works.
    -------------------------------------------------------------------------- */
 
-.steps {
-  display: grid;
-  gap: clamp(2rem, 5vw, 2.5rem);
-  margin-bottom: clamp(3rem, 7vw, 4.5rem);
-}
+.steps { display: grid; gap: clamp(2rem, 4vw, 2.5rem); }
 
-.step {
-  display: grid;
-  gap: 0.625rem;
-  padding-top: 1.25rem;
-  border-top: 1px solid var(--hairline);
-}
+.step { display: grid; gap: 0.5rem; }
 
 .step__n {
-  color: var(--sage);
-  font-size: 0.75rem;
-  letter-spacing: 0.18em;
+  color: var(--ink-quiet);
+  font-size: var(--t-micro);
 }
 
 .step__en {
-  font-size: clamp(1rem, 2.6vw, 1.25rem);
-  letter-spacing: 0.04em;
-  line-height: 1.35;
+  font-size: var(--t-lede);
+  line-height: 1.4;
+  max-width: 30ch;
 }
 
 .step__ar {
   font-family: var(--font-arabic);
   font-weight: 400;
-  color: var(--sage);
-  font-size: clamp(0.9375rem, 2.4vw, 1.0625rem);
+  color: var(--ink-quiet);
+  font-size: var(--t-body);
   line-height: 1.9;
-  text-transform: none;
-  letter-spacing: 0;
 }
 
 /* --------------------------------------------------------------------------
-   10. The packs.
+   11. The packs. Each pack is a full width block, not a card with a thumbnail.
    -------------------------------------------------------------------------- */
 
-.packs { display: grid; gap: clamp(2.5rem, 6vw, 3rem); }
+.packs { display: grid; gap: clamp(3.5rem, 8vw, 6rem); }
 
-.pack { display: grid; gap: 1rem; align-content: start; }
-
-.pack .slot { margin-bottom: 0.5rem; }
+.pack__body { display: grid; gap: 0.75rem; justify-items: start; }
 
 .pack__title {
-  font-size: clamp(1.5rem, 4vw, 2rem);
-  letter-spacing: 0.12em;
+  font-size: clamp(1.75rem, 4vw, 2.75rem);
+  line-height: 1;
+  letter-spacing: -0.01em;
 }
 
-/* Short labels, so no full stop. See CLAUDE.md section 2. */
-.pack__facts { display: grid; gap: 0.375rem; }
+.pack__facts { display: grid; gap: 0.125rem; }
 
 .pack__facts li {
-  color: var(--sage);
-  font-size: 0.8125rem;
-  letter-spacing: 0.12em;
+  color: var(--ink-quiet);
+  font-size: var(--t-body);
 }
 
+.pack__body .btn { margin-top: 0.75rem; }
+
 /* --------------------------------------------------------------------------
-   11. Statement. The band that carries the locked statement line, which
-   appears here and nowhere else, and the second and last emerald role.
+   12. Statement. The second and last emerald role.
    -------------------------------------------------------------------------- */
 
 .statement {
-  padding-block: clamp(5rem, 14vw, 11rem);
-  border-top: 1px solid var(--hairline);
-  border-bottom: 1px solid var(--hairline);
+  padding-block: var(--band);
   text-align: center;
 }
 
 .statement__line {
-  font-size: clamp(1.75rem, 7.5vw, 5rem);
-  line-height: 1.05;
-  letter-spacing: 0.08em;
-  padding-inline-end: 0.08em;
+  font-size: clamp(1.875rem, 7vw, 5rem);
+  line-height: 1.02;
+  letter-spacing: -0.01em;
 }
 
 .statement__rule {
   display: block;
   width: 72px;
   height: 3px;
-  margin: clamp(1.5rem, 4vw, 2.25rem) auto 0;
+  margin: clamp(1.75rem, 4vw, 2.5rem) auto 0;
   background: var(--emerald);
 }
 
 /* --------------------------------------------------------------------------
-   12. The coffee.
+   13. The coffee. Four claims, no rules between them.
    -------------------------------------------------------------------------- */
 
-.wrap--split { display: grid; gap: clamp(2.5rem, 6vw, 4rem); align-items: center; }
-
-.facts { display: grid; gap: 0.875rem; }
+.facts { display: grid; gap: 0.375rem; }
 
 .facts li {
-  padding-top: 0.875rem;
-  border-top: 1px solid var(--hairline);
-  font-size: clamp(1rem, 2.6vw, 1.25rem);
-  letter-spacing: 0.08em;
+  font-size: var(--t-lede);
+  line-height: 1.5;
 }
 
 /* --------------------------------------------------------------------------
-   13. FAQ.
+   14. FAQ. No rules between items, the open state does the separating.
    -------------------------------------------------------------------------- */
 
-.faq { display: grid; }
+.faq { display: grid; gap: 0.25rem; }
 
-.faq__item { border-top: 1px solid var(--hairline); }
-.faq__item:last-child { border-bottom: 1px solid var(--hairline); }
+.faq__item { border-radius: 4px; }
 
 .faq__item summary {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
-  min-height: calc(var(--tap) + 1rem);
-  padding-block: 0.75rem;
+  min-height: var(--tap);
+  padding-block: 0.875rem;
   cursor: pointer;
   list-style: none;
 }
@@ -616,16 +537,16 @@ body.is-locked { overflow: hidden; }
 .faq__item summary::-webkit-details-marker { display: none; }
 
 .faq__item summary h3 {
-  font-size: clamp(0.875rem, 2.4vw, 1rem);
-  letter-spacing: 0.1em;
+  font-size: var(--t-lede);
+  line-height: 1.3;
   font-weight: 700;
 }
 
 .faq__item summary::after {
   content: "+";
   flex: 0 0 auto;
-  color: var(--sage);
-  font-size: 1.25rem;
+  color: var(--ink-quiet);
+  font-size: 1.375rem;
   line-height: 1;
 }
 
@@ -634,70 +555,52 @@ body.is-locked { overflow: hidden; }
 .faq__item > p {
   max-width: 62ch;
   padding-bottom: 1.5rem;
-  color: var(--sage);
-  font-size: 0.9375rem;
+  color: var(--ink-quiet);
+  font-size: var(--t-body);
   line-height: 1.7;
-  letter-spacing: 0.04em;
-  text-transform: none;
 }
 
 /* --------------------------------------------------------------------------
-   14. Email signup.
+   15. Email signup.
    -------------------------------------------------------------------------- */
 
-.signup { border-top: 1px solid var(--hairline); }
-
-.signup__form { display: grid; gap: 0.75rem; }
+.signup__form { display: grid; gap: 0.75rem; max-width: 520px; }
 
 .signup__input {
   width: 100%;
   min-height: var(--tap);
-  padding: 0.75rem 1rem;
-  border: 1px solid var(--hairline);
+  padding: 0.8125rem 1rem;
+  border: 1px solid var(--rule-ink);
   border-radius: 999px;
-  background: var(--field);
-  color: var(--bone);
+  background: transparent;
+  color: var(--ink);
   font-family: inherit;
   font-weight: 700;
-  font-size: 1rem;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
+  font-size: var(--t-body);
 }
 
-.signup__input::placeholder { color: var(--sage); opacity: 1; }
-.signup__input:focus-visible { border-color: var(--bone); }
+.signup__input::placeholder { color: var(--ink-quiet); opacity: 1; }
+.signup__input:focus-visible { border-color: var(--ink); }
+.signup__input[aria-invalid="true"] { border-color: var(--ink); border-width: 2px; }
 
-.signup__input[aria-invalid="true"] { border-color: var(--bone); border-width: 2px; }
-
-.honeypot {
-  position: absolute;
-  left: -9999px;
-  width: 1px; height: 1px;
-  overflow: hidden;
-}
+.honeypot { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
 
 .signup__status {
   min-height: 1.5rem;
   margin-top: 0.875rem;
-  font-size: 0.8125rem;
-  letter-spacing: 0.1em;
+  font-size: var(--t-micro);
 }
 
 .signup__status:empty { margin-top: 0; }
-.signup__status[data-state="ok"] { color: var(--bone); }
-.signup__status[data-state="error"] { color: var(--bone); }
 
-/* A label, not a sentence in a paragraph, so it takes no full stop. The link
-   is held apart by the gap rather than by punctuation. */
 .signup__note {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   gap: 0 1.25rem;
   margin-top: 0.75rem;
-  color: var(--sage);
-  font-size: 0.75rem;
-  letter-spacing: 0.1em;
+  color: var(--ink-quiet);
+  font-size: var(--t-micro);
 }
 
 .signup__note a {
@@ -708,134 +611,131 @@ body.is-locked { overflow: hidden; }
 }
 
 /* --------------------------------------------------------------------------
-   15. Footer.
+   16. Footer. One logo, the origin line, the two contents blocks side by side,
+   legal links, copyright. No rules, no all caps body.
    -------------------------------------------------------------------------- */
 
-.foot {
-  padding-block: clamp(3rem, 8vw, 5rem);
-  border-top: 1px solid var(--hairline);
-}
+.foot { padding-block: var(--band); }
 
 .foot__logo {
-  --logo-h: 15px;
+  --logo-h: 16px;
   display: block;
   width: fit-content;
   padding: var(--logo-h);
-  margin: calc(var(--logo-h) * -1) 0 clamp(2rem, 5vw, 3rem) calc(var(--logo-h) * -1);
-  color: var(--bone);
+  margin: calc(var(--logo-h) * -1) 0 clamp(1.5rem, 3vw, 2rem) calc(var(--logo-h) * -1);
 }
-
-.foot__grid { display: grid; gap: clamp(2rem, 5vw, 2.5rem); }
-
-.foot__h {
-  margin-bottom: 0.875rem;
-  color: var(--bone);
-  font-size: 0.75rem;
-  letter-spacing: 0.16em;
-}
-
-.foot__list { display: grid; gap: 0.5rem; }
-
-.foot__list li {
-  color: var(--sage);
-  font-size: 0.75rem;
-  line-height: 1.6;
-  letter-spacing: 0.08em;
-}
-
-.foot__list--links a {
-  display: inline-flex;
-  align-items: center;
-  min-height: var(--tap);
-  text-underline-offset: 3px;
-}
-
-.foot__list--links li { display: flex; }
 
 .foot__origin {
   max-width: 34ch;
-  color: var(--sage);
-  font-size: 0.75rem;
-  line-height: 1.7;
-  letter-spacing: 0.08em;
+  color: var(--ink-quiet);
+  font-size: var(--t-body);
 }
 
 .foot__arabic {
-  margin-top: 1rem;
+  margin-top: 0.5rem;
   font-family: var(--font-arabic);
   font-weight: 400;
-  color: var(--sage);
-  font-size: 0.9375rem;
+  color: var(--ink-quiet);
+  font-size: var(--t-body);
   line-height: 1.9;
-  text-transform: none;
-  letter-spacing: 0;
+}
+
+.foot__contents {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(1.5rem, 4vw, 3rem);
+  margin-top: clamp(2.5rem, 5vw, 3.5rem);
+}
+
+.foot__h {
+  margin-bottom: 0.5rem;
+  font-size: var(--t-body);
+}
+
+.foot__col p {
+  color: var(--ink-quiet);
+  font-size: var(--t-micro);
+  line-height: 1.6;
+}
+
+.foot__end {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.75rem 2rem;
+  margin-top: clamp(2.5rem, 5vw, 3.5rem);
+}
+
+.foot__legal { display: flex; gap: 1.5rem; }
+
+.foot__legal a {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--tap);
+  font-size: var(--t-micro);
+  text-underline-offset: 3px;
 }
 
 .foot__copy {
-  margin-top: clamp(2.5rem, 6vw, 3.5rem);
-  padding-top: 1.5rem;
-  border-top: 1px solid var(--hairline);
-  color: var(--sage);
-  font-size: 0.6875rem;
-  letter-spacing: 0.12em;
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--tap);
+  color: var(--ink-quiet);
+  font-size: var(--t-micro);
 }
 
 /* --------------------------------------------------------------------------
-   16. Legal and 404 pages.
+   17. Legal and 404 pages. Both stay on the green ground.
    -------------------------------------------------------------------------- */
 
-.page { padding-top: 9rem; padding-bottom: var(--band); }
+.page {
+  padding-top: calc(var(--nav-h) + clamp(1rem, 3vw, 1.5rem));
+  padding-bottom: var(--band);
+}
 
 .page__title {
-  font-size: clamp(1.75rem, 6vw, 3rem);
-  letter-spacing: 0.1em;
+  font-size: clamp(2rem, 6vw, 3.5rem);
+  line-height: 1;
+  letter-spacing: -0.01em;
   margin-bottom: 0.75rem;
 }
 
 .page__meta {
-  margin-bottom: clamp(2.5rem, 6vw, 3.5rem);
+  margin-bottom: clamp(2.5rem, 5vw, 3.5rem);
   color: var(--sage);
-  font-size: 0.75rem;
-  letter-spacing: 0.12em;
+  font-size: var(--t-micro);
 }
 
 .prose { max-width: 68ch; }
 
 .prose h2 {
   margin-top: clamp(2.25rem, 5vw, 3rem);
-  margin-bottom: 0.875rem;
-  font-size: clamp(0.9375rem, 2.4vw, 1.0625rem);
-  letter-spacing: 0.14em;
+  margin-bottom: 0.75rem;
+  font-size: var(--t-lede);
 }
 
 .prose h3 {
   margin-top: 1.75rem;
-  margin-bottom: 0.625rem;
-  font-size: 0.8125rem;
-  letter-spacing: 0.14em;
+  margin-bottom: 0.5rem;
+  font-size: var(--t-body);
 }
 
-.prose p,
-.prose li {
+.prose p, .prose li {
   color: var(--sage);
-  font-size: 0.9375rem;
-  line-height: 1.8;
-  letter-spacing: 0.03em;
-  text-transform: none;
+  font-size: var(--t-body);
+  line-height: 1.75;
 }
 
 .prose p + p { margin-top: 1rem; }
-
 .prose ul { display: grid; gap: 0.625rem; margin-top: 1rem; padding-left: 1.125rem; }
 .prose ul li { list-style: disc; }
-
 .prose a { text-underline-offset: 3px; }
 
 .notfound {
   display: grid;
   align-content: center;
   justify-items: center;
-  gap: clamp(2rem, 6vw, 3rem);
+  gap: clamp(2rem, 5vw, 3rem);
   min-height: 100svh;
   padding: 6rem var(--gutter);
   text-align: center;
@@ -844,56 +744,17 @@ body.is-locked { overflow: hidden; }
 .notfound__logo {
   --logo-h: clamp(72px, 15vw, 104px);
   padding: calc(var(--logo-h) * 0.254);
-  color: var(--bone);
 }
 
-.notfound__line {
-  font-size: clamp(1rem, 3vw, 1.375rem);
-  letter-spacing: 0.12em;
-}
-
-/* --------------------------------------------------------------------------
-   17. Entry animation. Suppressed wholesale under reduced motion.
-   -------------------------------------------------------------------------- */
-
-@media (prefers-reduced-motion: no-preference) {
-  [data-rise] {
-    opacity: 0;
-    transform: translateY(18px);
-    transition: opacity 620ms ease, transform 620ms cubic-bezier(0.2, 0.7, 0.3, 1);
-  }
-
-  /* The three beats occupy 0 to 1400ms. Everything else follows the third word. */
-  [data-rise="1"] { transition-delay: 1.40s; }
-  [data-rise="2"] { transition-delay: 1.48s; }
-  [data-rise="3"] { transition-delay: 1.56s; }
-  [data-rise="4"] { transition-delay: 1.64s; }
-  [data-rise="5"] { transition-delay: 1.72s; }
-  [data-rise="6"] { transition-delay: 1.80s; }
-
-  body.is-ready [data-rise] { opacity: 1; transform: none; }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  html { scroll-behavior: auto; }
-  *, *::before, *::after {
-    animation-duration: 1ms;
-    animation-iteration-count: 1;
-    transition-duration: 1ms;
-    scroll-behavior: auto;
-  }
-}
+.notfound__line { font-size: var(--t-lede); }
 
 /* --------------------------------------------------------------------------
    18. Motion.
-   Everything below animates transform and opacity only, so nothing here can
-   trigger layout. Section 19 switches the whole lot off under reduced motion.
+   Transform and opacity only. The sheen pass and the Ken Burns are gone: the
+   sheen was painting hard bone bars along the image edges. Section 19 switches
+   everything here off under reduced motion.
    -------------------------------------------------------------------------- */
 
-/* The three beats. POUR, WAIT and DRINK arrive in sequence, 450ms apart, each
-   rising 20px over 500ms. The third lands at 1400ms. The spans are built by
-   script.js from the single copy string in the markup, so the source keeps the
-   line verbatim and unsplit. */
 .beat { display: block; }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -904,60 +765,40 @@ body.is-locked { overflow: hidden; }
   }
 
   body.is-ready .beat { opacity: 1; transform: none; }
-}
 
-/* Claim row items arrive 100ms apart, after the row itself. */
-@media (prefers-reduced-motion: no-preference) {
+  [data-rise] {
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity 620ms ease, transform 620ms cubic-bezier(0.2, 0.7, 0.3, 1);
+  }
+
+  /* The three beats occupy 0 to 1400ms. The rest of the hero follows. */
+  [data-rise="1"] { transition-delay: 1.40s; }
+  [data-rise="2"] { transition-delay: 1.48s; }
+  [data-rise="3"] { transition-delay: 1.56s; }
+  [data-rise="4"] { transition-delay: 1.64s; }
+  [data-rise="5"] { transition-delay: 1.72s; }
+
+  /* The hero image is the largest paint on the page. It rises on its slot but
+     never sits at opacity 0, because an invisible element cannot count as
+     painted and would hold the largest contentful paint back by the whole
+     length of the choreography. */
+  [data-rise="6"] { opacity: 1; transition-delay: 1.72s; }
+
+  body.is-ready [data-rise] { opacity: 1; transform: none; }
+
   .claims li {
     opacity: 0;
-    transform: translateY(12px);
+    transform: translateY(10px);
     transition: opacity 500ms ease, transform 500ms cubic-bezier(0.2, 0.7, 0.3, 1);
   }
 
   body.is-ready .claims li { opacity: 1; transform: none; }
-  body.is-ready .claims li:nth-child(1) { transition-delay: 1.90s; }
-  body.is-ready .claims li:nth-child(2) { transition-delay: 2.00s; }
-  body.is-ready .claims li:nth-child(3) { transition-delay: 2.10s; }
-  body.is-ready .claims li:nth-child(4) { transition-delay: 2.20s; }
-}
+  body.is-ready .claims li:nth-child(1) { transition-delay: 1.80s; }
+  body.is-ready .claims li:nth-child(2) { transition-delay: 1.90s; }
+  body.is-ready .claims li:nth-child(3) { transition-delay: 2.00s; }
+  body.is-ready .claims li:nth-child(4) { transition-delay: 2.10s; }
 
-/* Ken Burns on the hero pack, 3 per cent over 20 seconds, alternating. */
-@keyframes kenburns {
-  from { transform: scale(1); }
-  to   { transform: scale(1.03); }
-}
-
-.kenburns {
-  transform-origin: 50% 45%;
-  animation: kenburns 20s ease-in-out infinite alternate;
-  will-change: transform;
-}
-
-/* One diagonal sheen across the hero pack on load. It runs once and stops. */
-@keyframes sheen {
-  from { transform: translateX(-85%) rotate(0deg); opacity: 0; }
-  20%  { opacity: 1; }
-  to   { transform: translateX(85%) rotate(0deg); opacity: 0; }
-}
-
-.slot--sheen::after {
-  content: "";
-  position: absolute;
-  inset: -40% -60%;
-  z-index: 1;
-  pointer-events: none;
-  background: linear-gradient(115deg,
-    transparent 42%,
-    var(--sheen) 50%,
-    transparent 58%);
-  transform: translateX(-85%);
-  opacity: 0;
-  animation: sheen 1200ms ease-out 700ms 1 forwards;
-}
-
-/* Scroll reveal. Rise 24px, fade, 700ms, once only. The delay for a staggered
-   child is set inline by script.js. */
-@media (prefers-reduced-motion: no-preference) {
   .reveal {
     opacity: 0;
     transform: translateY(24px);
@@ -965,10 +806,7 @@ body.is-locked { overflow: hidden; }
   }
 
   .reveal.is-in { opacity: 1; transform: none; }
-}
 
-/* The emerald rule draws left to right on entry. Second and last emerald role. */
-@media (prefers-reduced-motion: no-preference) {
   .statement__rule {
     transform: scaleX(0);
     transform-origin: left center;
@@ -978,175 +816,119 @@ body.is-locked { overflow: hidden; }
   .statement__rule.is-in { transform: scaleX(1); }
 }
 
-/* Pack cards lift on hover. box-shadow paints, it does not reflow. */
+/* The pack lift. It moves the photograph, which is the object on screen now
+   that the packs are full width blocks rather than cards. */
 @media (hover: hover) and (pointer: fine) {
-  .pack {
+  .pack .feature__img {
     transition: transform 350ms ease, box-shadow 350ms ease;
   }
 
-  .pack:hover {
+  .pack:hover .feature__img {
     transform: translateY(-4px);
     box-shadow: 0 18px 44px var(--lift);
   }
 }
 
 /* --------------------------------------------------------------------------
-   19. The brew sequence.
-   Four frames cross fade as the section crosses the viewport. Progress is read
-   in a rAF throttled handler that only attaches while the section is on screen,
-   and the frames are warmed one viewport before they are needed.
-   -------------------------------------------------------------------------- */
-
-.brew { margin-inline: auto; max-width: 560px; }
-
-.brew__stage { position: relative; }
-
-.brew__frame {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  opacity: 0;
-  will-change: opacity;
-}
-
-.brew__frame[data-frame="0"] { opacity: 1; }
-
-/* The step number lights as its frame arrives. */
-.step__n { transition: color 300ms ease; }
-.step.is-active .step__n { color: var(--bone); }
-
-/* --------------------------------------------------------------------------
-   20. The Anywhere strip.
-   The image is rendered twice inside an overflow hidden track. The track moves
-   by exactly half its width, so the loop closes on itself with no visible reset.
-   -------------------------------------------------------------------------- */
-
-.anywhere .wrap { margin-bottom: clamp(2rem, 5vw, 3rem); }
-
-.strip {
-  width: 100%;
-  overflow: hidden;
-}
-
-@keyframes strip {
-  from { transform: translateX(0); }
-  to   { transform: translateX(-50%); }
-}
-
-.strip__track {
-  display: flex;
-  width: max-content;
-  animation: strip 45s linear infinite;
-  will-change: transform;
-}
-
-.strip:hover .strip__track,
-.strip:focus-within .strip__track { animation-play-state: paused; }
-
-.strip__img {
-  flex: 0 0 auto;
-  display: block;
-  height: clamp(132px, 20vw, 280px);
-  width: auto;
-  max-width: none;
-}
-
-/* --------------------------------------------------------------------------
-   21. Reduced motion.
-   The initial hidden states above are already scoped to no-preference, so a
-   reduced motion visitor sees the settled page even if the script never runs.
-   This block kills the looping and one shot animations on top of that.
+   19. Reduced motion. The hidden states above are already scoped to
+   no-preference, so a reduced motion visitor sees the settled page even if the
+   script never runs. This switches off what is left.
    -------------------------------------------------------------------------- */
 
 @media (prefers-reduced-motion: reduce) {
-  .kenburns { animation: none; transform: none; }
-  .slot--sheen::after { content: none; animation: none; }
-  .strip__track { animation: none; transform: none; }
+  html { scroll-behavior: auto; }
 
-  .pack { transition: none; }
-  .pack:hover { transform: none; box-shadow: none; }
-
-  .beat,
-  .claims li,
-  .reveal,
-  .statement__rule { opacity: 1; transform: none; transition: none; }
-
-  /* One frame only, and nothing scrubs. The script does not attach its
-     listeners in this mode either. */
-  .brew__frame,
-  .brew__frame[data-frame="0"] { opacity: 0; }
-  .brew__frame[data-frame="2"] { opacity: 1; }
-  .step__n { transition: none; }
-
-  /* The strip is scrolled by hand rather than driven. */
-  .strip {
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    scroll-snap-type: x proximity;
+  *, *::before, *::after {
+    animation-duration: 1ms;
+    animation-iteration-count: 1;
+    transition-duration: 1ms;
+    scroll-behavior: auto;
   }
 
-  .strip__img { scroll-snap-align: start; }
-  .strip__img--dupe { display: none; }
+  .beat, .claims li, .reveal, [data-rise] { opacity: 1; transform: none; transition: none; }
+  .statement__rule { transform: none; transition: none; }
+  .pack .feature__img { transition: none; }
+  .pack:hover .feature__img { transform: none; box-shadow: none; }
 }
 
 /* --------------------------------------------------------------------------
-   22. Breakpoints. Mobile first, so everything above is the small screen.
+   20. Breakpoints. Mobile first, so everything above is the small screen.
    -------------------------------------------------------------------------- */
 
-@media (min-width: 600px) {
-  .claims li { flex: 1 1 25%; }
-  .claims li:nth-child(3) { border-left: 1px solid var(--hairline); padding-left: 0.75rem; }
-  .claims li:nth-child(n+3) { border-top: 0; }
-  .packs { grid-template-columns: repeat(2, 1fr); }
-  .foot__grid { grid-template-columns: repeat(2, 1fr); }
+@media (min-width: 768px) {
+  /* The hero image moves beside the type here, not at 960. This is the fix for
+     the slot reading as empty at iPad widths. */
+  .hero__inner {
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    gap: clamp(2rem, 5vw, 4rem);
+  }
+
+  .hero__media {
+    width: auto;
+    margin-inline: 0;
+    margin-inline-end: calc((100vw - min(100vw, var(--wrap))) / -2 - var(--gutter));
+  }
+
+  /* Feature images hold at least 60 per cent of the viewport and are given air. */
+  .feature {
+    width: min(72vw, 1600px);
+    margin-inline: auto;
+    margin-block: clamp(3rem, 6vw, 4.5rem);
+  }
+
+  .steps { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+  .pack__body {
+    max-width: var(--wrap);
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: end;
+    gap: 1rem 3rem;
+  }
+
+  .pack__title { grid-row: 1; grid-column: 1; }
+  .pack__facts { grid-row: 2; grid-column: 1; }
+  .pack__body .btn { grid-row: 1 / 3; grid-column: 2; align-self: center; margin-top: 0; }
+}
+
+@media (min-width: 1024px) {
+  /* Desktop. The hero photograph holds 60 per cent of the viewport, like the
+     other three. The left edge still lines up with the page wrap, so the copy
+     sits under the nav logo, and only the right side runs to the screen edge. */
+  .hero__inner {
+    max-width: none;
+    padding-left: calc((100vw - min(100vw, var(--wrap))) / 2 + var(--gutter));
+    padding-right: 0;
+    grid-template-columns: minmax(0, 1fr) 60vw;
+    column-gap: clamp(2rem, 3.5vw, 3rem);
+  }
+
+  .hero__media { margin-inline-end: 0; width: 100%; }
+
+  /* Sized to the column it now sits in rather than to the viewport. */
+  /* Capped, because the copy column narrows as the viewport grows: the image
+     holds 60vw and the left edge tracks the page wrap. */
+  .hero__headline { font-size: clamp(2.75rem, 5.4vw, 4.5rem); }
 }
 
 @media (min-width: 960px) {
   .nav__toggle { display: none; }
   .sheet { display: none; }
 
-  .nav__links {
-    display: flex;
-    gap: clamp(1.25rem, 3vw, 2.5rem);
-  }
+  .nav__links { display: flex; gap: clamp(1.25rem, 3vw, 2.5rem); }
 
   .nav__links a {
     display: inline-flex;
     align-items: center;
     min-height: var(--tap);
-    font-size: 0.75rem;
-    letter-spacing: 0.12em;
+    font-size: var(--t-micro);
     text-decoration: none;
     color: var(--sage);
     transition: color 180ms ease;
   }
 
   .nav__links a:hover { color: var(--bone); }
-
   .nav__cta { display: block; }
   .nav__logo { --logo-h: 16px; }
-  .foot__logo { --logo-h: 16px; }
-
-  .hero__inner { grid-template-columns: 1.15fr 0.85fr; align-items: center; }
-
-  /* Desktop: the image returns to its own column on the right. */
-  .hero__media {
-    position: static;
-    justify-self: end;
-    max-width: 460px;
-  }
-
-  .hero__media .slot { height: auto; aspect-ratio: var(--ratio); }
-  .hero__media::after { content: none; }
-
-  .wrap--split { grid-template-columns: 1fr 1fr; }
-
-  .steps { grid-template-columns: repeat(3, 1fr); gap: 2.5rem; }
-
-  .foot__grid { grid-template-columns: 1.4fr 1fr 1fr 0.7fr; }
 
   .signup__form { grid-template-columns: 1fr auto; align-items: start; }
 }
-

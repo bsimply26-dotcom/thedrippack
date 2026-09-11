@@ -66,9 +66,6 @@ const BEAT_GAP = 450;      // ms between POUR, WAIT and DRINK
 const CHILD_STAGGER = 80;  // ms between revealed children
 const REVEAL_AT = 0.15;    // fraction of a section visible before it reveals
 
-/* Frame to step. The first two frames both belong to step one. */
-const FRAME_TO_STEP = [0, 0, 1, 2];
-
 const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 const hasObserver = ('IntersectionObserver' in window);
 
@@ -239,9 +236,9 @@ function initBeats() {
    -------------------------------------------------------------------------- */
 
 const REVEAL_WITHIN = [
-  '.section__title', '.statement__line', '.step', '.pack', '.facts li',
-  '.faq__item', '.signup__form', '.signup__note', '.brew', '.strip',
-  '.wrap--split > .slot', '.foot__logo', '.foot__col', '.foot__copy'
+  '.section__title', '.statement__line', '.feature', '.step', '.pack__body',
+  '.facts li', '.faq__item', '.signup__form', '.signup__note',
+  '.foot__logo', '.foot__origin', '.foot__col', '.foot__end'
 ].join(', ');
 
 function initReveal() {
@@ -296,101 +293,6 @@ function initStatementRule() {
   }, { threshold: 0.6 });
 
   observer.observe(rule.closest('.statement'));
-}
-
-/* --------------------------------------------------------------------------
-   The brew sequence.
-   Four frames cross fade against the section's progress through the viewport.
-   The scroll handler is rAF throttled and is only attached while the section
-   is on screen. The frames are warmed one viewport before they are needed.
-   -------------------------------------------------------------------------- */
-
-function initBrew() {
-  const brew = document.getElementById('brew');
-  if (brew === null) return;
-
-  const frames = Array.from(brew.querySelectorAll('.brew__frame'));
-  const steps = Array.from(document.querySelectorAll('#how .step'));
-  if (frames.length === 0) return;
-
-  /* Reduced motion: the CSS shows the pour frame alone and nothing scrubs. */
-  if (prefersReducedMotion) {
-    if (steps.length > 1) steps[1].classList.add('is-active');
-    return;
-  }
-
-  if (hasObserver === false) {
-    if (steps.length > 0) steps[0].classList.add('is-active');
-    return;
-  }
-
-  let ticking = false;
-  let attached = false;
-
-  function progress() {
-    const box = brew.getBoundingClientRect();
-    const viewport = window.innerHeight;
-    const total = box.height + viewport;
-    if (total === 0) return 0;
-    return Math.min(1, Math.max(0, (viewport - box.top) / total));
-  }
-
-  function paint() {
-    ticking = false;
-    const point = progress() * (frames.length - 1);
-    const index = Math.min(frames.length - 2, Math.floor(point));
-    const blend = point - index;
-
-    frames.forEach(function (frame, n) {
-      let value = 0;
-      if (n === index) value = 1 - blend;
-      else if (n === index + 1) value = blend;
-      frame.style.opacity = String(value);
-    });
-
-    const active = FRAME_TO_STEP[Math.round(point)];
-    steps.forEach(function (step, n) {
-      step.classList.toggle('is-active', n === active);
-    });
-  }
-
-  function onScroll() {
-    if (ticking) return;
-    ticking = true;
-    window.requestAnimationFrame(paint);
-  }
-
-  const scrubber = new IntersectionObserver(function (entries) {
-    entries.forEach(function (entry) {
-      if (entry.isIntersecting && attached === false) {
-        attached = true;
-        window.addEventListener('scroll', onScroll, { passive: true });
-        window.addEventListener('resize', onScroll, { passive: true });
-        paint();
-        return;
-      }
-      if (entry.isIntersecting === false && attached) {
-        attached = false;
-        window.removeEventListener('scroll', onScroll);
-        window.removeEventListener('resize', onScroll);
-      }
-    });
-  });
-
-  scrubber.observe(brew);
-
-  /* Warm all four while the section is still one viewport away. */
-  const warmer = new IntersectionObserver(function (entries, obs) {
-    if (entries[0].isIntersecting === false) return;
-    frames.forEach(function (frame) {
-      frame.loading = 'eager';
-      const preload = new Image();
-      preload.src = frame.currentSrc || frame.src;
-    });
-    obs.disconnect();
-  }, { rootMargin: '100% 0px' });
-
-  warmer.observe(brew);
 }
 
 /* --------------------------------------------------------------------------
@@ -502,6 +404,5 @@ initBeats();
 initEntry();
 initReveal();
 initStatementRule();
-initBrew();
 initSignup();
 initYear();
