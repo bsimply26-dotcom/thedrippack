@@ -126,13 +126,13 @@ Single field, email only, plus a submit button. Posts to Formspree.
 
 ## Standalone pages
 
-- `privacy.html` — real policy, not a stub. Must cover the analytics in use and
-  the email signup, what is collected, why, how long it is kept, and how to
-  request deletion. UAE and GDPR wording.
-- `terms.html` — terms of use for a brochure site. Note explicitly that
-  purchases are made on Amazon.ae under Amazon's terms, not here.
-- `404.html` — branded, green ground, logo, one line, a link back to the
-  homepage. Not a default GitHub page.
+- `privacy.html` is a real policy, not a stub. It must cover the analytics in
+  use and the email signup, what is collected, why, how long it is kept, and
+  how to request deletion. UAE and GDPR wording.
+- `terms.html` is the terms of use for a brochure site. It must note explicitly
+  that purchases are made on Amazon.ae under Amazon's terms, not here.
+- `404.html` is branded: the green ground, the logo, one line, and a link back
+  to the homepage. Not a default GitHub page.
 
 ---
 
@@ -140,56 +140,56 @@ Single field, email only, plus a submit button. Posts to Formspree.
 
 All twenty are in scope. Build them, do not treat them as optional.
 
-1. **Privacy policy** — `privacy.html`, as specified above.
-2. **Terms page** — `terms.html`, as specified above.
-3. **Clear CTA** — one primary action, Amazon. Present in the nav, the hero and
-   both product cards. No competing primary actions.
-4. **FAQ** — six questions, appended after section 6. Suggested: how it works,
+1. **Privacy policy.** `privacy.html`, as specified above.
+2. **Terms page.** `terms.html`, as specified above.
+3. **Clear CTA.** One primary action, Amazon. It appears in the nav, the hero
+   and both product cards. No competing primary actions.
+4. **FAQ.** Six questions, appended after section 6. Suggested: how it works,
    what is in the sachet, how many cups, where to buy, how to store it, does it
    need a machine. Answers within the approved claim set only. Mark up with
    FAQPage JSON-LD.
-5. **robots.txt** — at the root. Allow all, and point to the sitemap.
-6. **sitemap.xml** — at the root. Three pages, absolute URLs on
+5. **robots.txt** goes at the root. Allow all, and point to the sitemap.
+6. **sitemap.xml** goes at the root. Three pages, absolute URLs on
    https://thedrippack.com: the homepage, privacy and terms. `404.html` is
    deliberately excluded. It is served with an HTTP 404 status, so listing it
    in a sitemap only produces an error in Search Console. An earlier version of
    this file said all four pages. That was wrong.
-7. **Custom 404** — `404.html`, as specified above.
-8. **Alt text** — every image. Descriptive and specific, not "product image".
+7. **Custom 404.** `404.html`, as specified above.
+8. **Alt text** on every image. Descriptive and specific, not "product image".
    Decorative images get `alt=""` and `aria-hidden="true"`.
-9. **Analytics** — Cloudflare Web Analytics. Cookieless, so no consent banner is
+9. **Analytics.** Cloudflare Web Analytics. Cookieless, so no consent banner is
    required, which is why it was chosen over Google Analytics. Place the
    snippet before `</body>`. Leave the token as a clearly marked constant.
-10. **Meta titles** — unique per page. Homepage:
+10. **Meta titles**, unique per page. Homepage:
     `The Drip Pack. Single serve pour over coffee, UAE`. Under 60 characters.
-11. **Meta description** — unique per page, 150 to 160 characters, drawn from
+11. **Meta description**, unique per page, 150 to 160 characters, drawn from
     approved copy only.
-12. **Social share** — Open Graph and Twitter card tags on all four pages. A
+12. **Social share.** Open Graph and Twitter card tags on all four pages. A
     1200x630 share image built from the pack on the green ground, saved to
     `/images/og.png`. Mark it as a placeholder like every other image.
-13. **Favicon** — an SVG favicon, the emerald full stop on the green ground.
-    Plus a 180px apple touch icon PNG.
-14. **Canonical URLs** — self referencing canonical on every page, absolute,
+13. **Favicon.** An SVG favicon, the emerald full stop on the green ground,
+    plus a 180px apple touch icon PNG.
+14. **Canonical URLs.** A self referencing canonical on every page, absolute,
     https, no trailing slash, no www.
-15. **Cookie consent** — not required, because analytics is cookieless and no
+15. **Cookie consent** is not required, because analytics is cookieless and no
     other cookies are set. State this explicitly in the privacy policy so the
     absence of a banner is a documented decision rather than an oversight. Do
     not add a banner. If Google Analytics is ever swapped in, a banner becomes
     mandatory and the privacy policy must change with it.
-16. **Mobile version** — mobile first. Test at 320, 375, 768, 1024 and 1440.
+16. **Mobile version.** Mobile first. Test at 320, 375, 768, 1024 and 1440.
     Tap targets no smaller than 44px. No horizontal scroll at any width.
-17. **Accessibility** — WCAG 2.1 AA. Semantic landmarks, one `h1` per page,
+17. **Accessibility.** WCAG 2.1 AA. Semantic landmarks, one `h1` per page,
     logical heading order, visible focus states, keyboard operable nav and
     sheet, `prefers-reduced-motion` respected. Check contrast: Sage #A9B6A6 on
     Green #1A331E must be verified and the Sage darkened or the size raised if
     it fails. Report the ratios rather than assuming they pass.
-18. **Test forms** — submit the email form end to end, confirm it reaches
+18. **Test forms.** Submit the email form end to end, confirm it reaches
     Formspree, and confirm the success and error states both render. Test an
     invalid address and an empty submit.
-19. **Check broken links** — every internal anchor resolves, every external
-    link opens correctly, no `href="#"` left except the documented Amazon
+19. **Check broken links.** Every internal anchor resolves, every external link
+    opens correctly, and no `href="#"` is left except the documented Amazon
     placeholders above.
-20. **Optimise performance** — target Lighthouse 90 or above on all four
+20. **Optimise performance.** Target Lighthouse 90 or above on all four
     metrics. Images in WebP with correct `width` and `height` set to prevent
     layout shift, lazy loaded below the fold. Font preloaded. CSS and JS
     minified. No render blocking third party scripts.
