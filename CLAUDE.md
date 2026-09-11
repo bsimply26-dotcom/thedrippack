@@ -51,11 +51,19 @@ Defined once as CSS custom properties. Never hardcode a hex anywhere else.
 
 | Token | Hex | Use |
 |---|---|---|
-| `--green` | #1A331E | The ground. Default background of the site. |
-| `--bone` | #F1EBE1 | All primary type on green. |
+| `--bone` | #F1EBE1 | The ground. Default background of the whole site. |
+| `--ink` | #141414 | All primary type on bone. |
+| `--green` | #1A331E | The statement band, and nothing else. Opt in only. |
 | `--emerald` | #14A05C | The full stop, and one rule under REAL COFFEE NO MACHINE. Nothing else. |
-| `--sage` | #A9B6A6 | Secondary and legal text on green. |
-| `--ink` | #141414 | Type on light grounds only. |
+| `--sage` | #A9B6A6 | Secondary text inside the green band only. |
+
+The ground is set once as `--ground: var(--bone)`. Green is reached only through
+an explicit `.ground--green` class, so it cannot creep back as a default. There
+is exactly one such section on the site. That is what makes the statement band
+land.
+
+Secondary text on bone is Ink at 70 per cent opacity, which reads at 6.29:1.
+Never put Sage on bone: it falls to 1.9:1. Sage is for the green band alone.
 
 Emerald is an accent of last resort. It is not a button colour, not a link
 colour, not a hover state. If you find yourself reaching for it a third time,
@@ -65,15 +73,24 @@ you are using it wrong.
 
 ## 4. Typography
 
-**Latin: Nimbus Sans Bold.** Helvetica metric compatible, open licence. It is
-not on Google Fonts, so it is self hosted as `fonts/NimbusSans-Bold.woff2`,
-loaded with `@font-face` using `font-display: swap` and preloaded in the head of
-all four pages. It is live. The supplied `.otf` is not kept in the repo, only
-the converted `.woff2`.
+**Latin: Nimbus Sans, two cuts.** Regular 400 and Bold 700, registered under one
+family name, self hosted as `fonts/NimbusSans-Regular.woff2` and
+`fonts/NimbusSans-Bold.woff2`, loaded with `@font-face` using `font-display:
+swap` and both preloaded in the head of all four pages. Subsetted to 17KB each.
+The `.otf` originals are not kept in the repo.
 
-The metric compatibility is verified rather than assumed. Every advance width
-matches Helvetica Bold exactly, so the `Helvetica, Arial` fallbacks in the token
-cannot reflow the layout. `fonts/README.md` carries the conversion command.
+Weight is a tool, so use it rather than substituting colour for it:
+
+- **Bold** for the logo, the hero headline, the section headings and the two
+  locked lines.
+- **Regular** for everything else: body copy, sub lines, FAQ answers, card
+  descriptions, the claim row, the contents blocks, the footer and the legal
+  pages.
+
+The metric compatibility is verified rather than assumed, in both cuts. Every
+advance width matches Helvetica exactly, so the `Helvetica, Arial` fallbacks in
+the token cannot reflow the layout. `fonts/README.md` carries the source and the
+conversion commands.
 
 **Arabic: IBM Plex Sans Arabic.** Regular and Bold, taken from Google Fonts and
 self hosted in `/fonts/` as the Arabic subset. Self hosted rather than linked,

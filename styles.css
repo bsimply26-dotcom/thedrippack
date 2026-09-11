@@ -15,17 +15,21 @@
   --sage:    #A9B6A6;
   --ink:     #141414;
 
+  /* The ground. Bone is the default for the whole site. Green is opt in and is
+     used by exactly one section, so it cannot creep back in by default. */
+  --ground: var(--bone);
+
   /* Derived. Mixed from the tokens above, never from a new literal. */
-  --glass:      color-mix(in srgb, var(--green) 88%, transparent);
-  --hairline:   color-mix(in srgb, var(--sage) 22%, transparent);
-  --field:      color-mix(in srgb, var(--green) 88%, var(--bone));
+  --glass:      color-mix(in srgb, var(--bone) 86%, transparent);
+  --hairline:   color-mix(in srgb, var(--ink) 12%, transparent);
   --lift:       color-mix(in srgb, var(--ink) 22%, transparent);
 
-  /* Quiet body copy. Only one type colour is defined for light grounds, so the
-     quiet tone is mixed from it. 70 per cent lands at 6.29:1 on bone, which is
-     close to sage on green at 6.46:1, so both grounds read at the same weight. */
-  --ink-quiet:  color-mix(in srgb, var(--ink) 70%, var(--bone));
-  --rule-ink:   color-mix(in srgb, var(--ink) 14%, var(--bone));
+  /* Secondary text on bone. Ink at reduced opacity, which over the bone ground
+     lands at 6.29:1, close to sage on green at 6.46:1, so the two grounds carry
+     their quiet text at the same weight. Sage is for the green band only: on
+     bone it would fall to 1.9:1. */
+  --ink-quiet:  color-mix(in srgb, var(--ink) 70%, transparent);
+  --rule-ink:   color-mix(in srgb, var(--ink) 14%, transparent);
 
   /* Type */
   --font-display: 'Nimbus Sans', Helvetica, Arial, sans-serif;
@@ -49,10 +53,20 @@
 
 /* --------------------------------------------------------------------------
    2. Fonts.
-   Both families are self hosted in /fonts/. Nimbus Sans ships as Bold only, so
-   every Latin word on the site is bold. Quiet copy is made quiet by size and
-   colour rather than by weight.
+   Both families are self hosted in /fonts/. Nimbus Sans now ships in two cuts
+   under one family name, so weight is available as a tool: Bold for the logo,
+   the hero headline, the section headings and the two locked lines, Regular for
+   everything else. Both are Helvetica metric compatible, verified against the
+   font tables, so the fallback stack cannot reflow the layout.
    -------------------------------------------------------------------------- */
+
+@font-face {
+  font-family: 'Nimbus Sans';
+  src: url('fonts/NimbusSans-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
 
 @font-face {
   font-family: 'Nimbus Sans';
@@ -94,15 +108,23 @@ html {
 
 body {
   margin: 0;
-  background: var(--green);
-  color: var(--bone);
+  background: var(--ground);
+  color: var(--ink);
   font-family: var(--font-display);
-  font-weight: 700;
+  font-weight: 400;
   font-size: var(--t-body);
   line-height: 1.65;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
 }
+
+/* Bold is reserved for the logo, the headings and the two locked lines. */
+h1, h2, h3,
+.hero__headline,
+.statement__line,
+.pack__title,
+.page__title,
+.logo text { font-weight: 700; }
 
 h1, h2, h3, p, ul, ol, figure { margin: 0; }
 ul, ol { padding: 0; list-style: none; }
@@ -117,8 +139,8 @@ a { color: inherit; }
   border-radius: 2px;
 }
 
-::selection { background: var(--bone); color: var(--green); }
-.ground--bone ::selection { background: var(--ink); color: var(--bone); }
+::selection { background: var(--ink); color: var(--bone); }
+.ground--green ::selection { background: var(--bone); color: var(--green); }
 
 .visually-hidden {
   position: absolute;
@@ -149,13 +171,15 @@ a { color: inherit; }
 
 /* --------------------------------------------------------------------------
    4. Grounds.
-   Pack Green carries the hero and the statement band. Everything else sits on
-   Bone with Ink type, which is what the palette always intended and the site
-   never used.
+   Bone with Ink type is the whole site. Pack Green is opt in and is used by the
+   statement band alone, which is what makes that band land.
    -------------------------------------------------------------------------- */
 
 .ground--green { background: var(--green); color: var(--bone); }
 .ground--bone  { background: var(--bone);  color: var(--ink); }
+
+/* Sage exists for the green band only. */
+.ground--green .quiet { color: var(--sage); }
 
 .wrap {
   width: 100%;
@@ -243,24 +267,24 @@ a { color: inherit; }
   transition: background 180ms ease, color 180ms ease, opacity 180ms ease;
 }
 
+/* Ink on bone is the default, since bone is the ground everywhere but one band. */
+.btn--primary { background: var(--ink); color: var(--bone); border-color: var(--ink); }
+.btn--primary:hover { background: transparent; color: var(--ink); }
+.btn--secondary:hover { background: var(--ink); color: var(--bone); }
+
 .ground--green .btn--primary { background: var(--bone); color: var(--ink); border-color: var(--bone); }
 .ground--green .btn--primary:hover { background: transparent; color: var(--bone); }
 .ground--green .btn--secondary:hover { background: var(--bone); color: var(--ink); }
-
-.ground--bone .btn--primary { background: var(--ink); color: var(--bone); border-color: var(--ink); }
-.ground--bone .btn--primary:hover { background: transparent; color: var(--ink); }
-.ground--bone .btn--secondary:hover { background: var(--ink); color: var(--bone); }
 
 .btn[aria-disabled="true"],
 .btn[aria-disabled="true"]:hover {
   background: transparent;
   border-color: currentColor;
-  opacity: 0.55;
+  color: var(--ink-quiet);
   cursor: default;
 }
 
-.ground--green .btn[aria-disabled="true"] { color: var(--bone); }
-.ground--bone  .btn[aria-disabled="true"] { color: var(--ink); }
+.ground--green .btn[aria-disabled="true"] { color: var(--sage); }
 
 /* --------------------------------------------------------------------------
    8. Navbar. Transparent over the hero, glass past 24px.
@@ -272,7 +296,7 @@ a { color: inherit; }
   z-index: 50;
   background: transparent;
   border-bottom: 1px solid transparent;
-  color: var(--bone);
+  color: var(--ink);
   transition: background 260ms ease, border-color 260ms ease, backdrop-filter 260ms ease;
 }
 
@@ -336,8 +360,8 @@ a { color: inherit; }
   flex-direction: column;
   gap: 0.25rem;
   padding: 1rem var(--gutter) 2rem;
-  background: var(--green);
-  color: var(--bone);
+  background: var(--bone);
+  color: var(--ink);
   border-top: 1px solid var(--hairline);
 }
 
@@ -390,14 +414,14 @@ body.is-locked { overflow: hidden; }
 
 .hero__sub {
   font-size: var(--t-lede);
-  color: var(--bone);
+  color: var(--ink-quiet);
   max-width: 34ch;
 }
 
 .hero__arabic {
   font-family: var(--font-arabic);
   font-weight: 400;
-  color: var(--sage);
+  color: var(--ink-quiet);
   font-size: var(--t-lede);
   line-height: 1.9;
 }
@@ -413,7 +437,7 @@ body.is-locked { overflow: hidden; }
 }
 
 .claims li {
-  color: var(--sage);
+  color: var(--ink-quiet);
   font-size: var(--t-micro);
 }
 
@@ -685,7 +709,7 @@ body.is-locked { overflow: hidden; }
 }
 
 /* --------------------------------------------------------------------------
-   17. Legal and 404 pages. Both stay on the green ground.
+   17. Legal and 404 pages. Bone, like everything else.
    -------------------------------------------------------------------------- */
 
 .page {
@@ -702,7 +726,7 @@ body.is-locked { overflow: hidden; }
 
 .page__meta {
   margin-bottom: clamp(2.5rem, 5vw, 3.5rem);
-  color: var(--sage);
+  color: var(--ink-quiet);
   font-size: var(--t-micro);
 }
 
@@ -721,7 +745,7 @@ body.is-locked { overflow: hidden; }
 }
 
 .prose p, .prose li {
-  color: var(--sage);
+  color: var(--ink-quiet);
   font-size: var(--t-body);
   line-height: 1.75;
 }
@@ -922,11 +946,11 @@ body.is-locked { overflow: hidden; }
     min-height: var(--tap);
     font-size: var(--t-micro);
     text-decoration: none;
-    color: var(--sage);
+    color: var(--ink-quiet);
     transition: color 180ms ease;
   }
 
-  .nav__links a:hover { color: var(--bone); }
+  .nav__links a:hover { color: var(--ink); }
   .nav__cta { display: block; }
   .nav__logo { --logo-h: 16px; }
 
