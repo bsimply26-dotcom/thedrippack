@@ -59,11 +59,22 @@ you are using it wrong.
 ## 4. Typography
 
 **Latin: Nimbus Sans Bold.** Helvetica metric compatible, open licence. It is
-not on Google Fonts, so it must be self hosted. Convert the supplied
-`NimbusSans-Bold.otf` to `.woff2`, place it in `/fonts/`, and load it with
+not on Google Fonts, so it must be self hosted. When `NimbusSans-Bold.otf` is
+supplied, convert it to `.woff2`, place it in `/fonts/`, and load it with
 `@font-face` using `font-display: swap`.
 
-**Arabic: IBM Plex Sans Arabic.** Available on Google Fonts. Regular and Bold.
+It has not been supplied yet. The `@font-face` block in `styles.css` and the
+`rel="preload"` link in all four pages are written and held behind an
+`ACTIVATE ON FONT DELIVERY` marker. Until the file lands, `--font-display`
+falls through to Helvetica and then Arial, which are metric compatible with
+Nimbus Sans, so activating it will not reflow the layout. `fonts/README.md`
+carries the conversion command and the activation steps.
+
+**Arabic: IBM Plex Sans Arabic.** Regular and Bold, taken from Google Fonts and
+self hosted in `/fonts/` as the Arabic subset. Self hosted rather than linked,
+because a Google Fonts stylesheet is a render blocking third party request and
+because section 9 of this file puts fonts in `/fonts/`. IBM Plex is SIL Open
+Font Licence 1.1, so redistribution is permitted.
 
 Tokens:
 - `--font-display: 'Nimbus Sans', Helvetica, Arial, sans-serif`
@@ -136,14 +147,20 @@ If a piece of copy is not in this file or in SPEC.md, do not invent it. Ask.
 
 ## 8. Imagery
 
-Every image currently in the repo is AI generated. It has no licence and no
-resolution guarantee. It is approved as visual direction only, and it will be
-replaced with commissioned photography before launch.
+There is no photography in the repo. The five image slots on the homepage are
+empty, and commissioned photography arrives in a second pass.
 
-Because of that, build every image slot as a fixed container with a fixed
-aspect ratio and `object-fit: cover`, so a real photograph can be dropped in
-later without touching the layout. Every image slot carries a
-`data-placeholder="true"` attribute so the swap set is findable in one search.
+Each slot is a fixed container with a fixed aspect ratio, carrying
+`data-placeholder="true"` so the swap set is findable in one search, and a flat
+fill so the composition reads while the slot is empty. The container owns the
+ratio, so dropping a photograph in changes nothing about the layout.
+
+To fill a slot: drop the WebP into `/images/`, uncomment the `<img>` inside the
+slot, which already carries the alt text, the width and the height, then delete
+`role="img"` and `aria-label` from the slot itself. That is the whole swap.
+
+`/images/og.png` is the 1200x630 share image. It is a placeholder built from
+the logo on the green ground, and it is replaced in the same pass.
 
 Art direction when real photography arrives: roasted beans and fine grounds in
 motion, dramatic side light, deep shadow, shallow depth of field, on the green
