@@ -73,8 +73,12 @@ One image slot: a sachet hooked over a cup.
 
 Side by side cards.
 
-- **30 cups.** The box. Net 300g. Primary CTA.
-- **12 cups.** Try it first. Net 120g. Secondary CTA.
+- **30 cups.** Two labels, "The box" and "Net 300g". Primary CTA.
+- **12 cups.** Two labels, "Try it first" and "Net 120g". Secondary CTA.
+
+These are short labels, so they take no full stop. See section 2 of CLAUDE.md,
+which governs punctuation. An earlier version of this file wrote them as
+"The box. Net 300g." That was wrong and contradicted CLAUDE.md.
 
 No price, no per cup figure. One image slot per card.
 
@@ -145,8 +149,11 @@ All twenty are in scope. Build them, do not treat them as optional.
    need a machine. Answers within the approved claim set only. Mark up with
    FAQPage JSON-LD.
 5. **robots.txt** — at the root. Allow all, and point to the sitemap.
-6. **sitemap.xml** — at the root. All four pages, absolute URLs on
-   https://thedrippack.com.
+6. **sitemap.xml** — at the root. Three pages, absolute URLs on
+   https://thedrippack.com: the homepage, privacy and terms. `404.html` is
+   deliberately excluded. It is served with an HTTP 404 status, so listing it
+   in a sitemap only produces an error in Search Console. An earlier version of
+   this file said all four pages. That was wrong.
 7. **Custom 404** — `404.html`, as specified above.
 8. **Alt text** — every image. Descriptive and specific, not "product image".
    Decorative images get `alt=""` and `aria-hidden="true"`.
