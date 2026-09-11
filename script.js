@@ -3,10 +3,44 @@
    One script. Vanilla, no dependencies, no build step.
    ========================================================================== */
 
-/* --------------------------------------------------------------------------
-   Placeholders. Define each once, here, and reference the constant everywhere.
-   Never hardcode any of these three values inline.
-   -------------------------------------------------------------------------- */
+/* ==========================================================================
+   THE TWO SWITCHES
+
+   These three values are the only edits needed to take the site live. Paste
+   into the constants below and nothing else anywhere in the repo changes. Do
+   not hardcode any of them inline, and do not edit the HTML to match.
+
+   ---------------------------------------------------------------------------
+   SWITCH ONE, the buy buttons. AMAZON_HERO and AMAZON_TRIAL.
+
+     Paste  the full Amazon.ae product URL, in quotes, including https
+     Format 'https://www.amazon.ae/dp/XXXXXXXXXX'
+     Sets   AMAZON_HERO  is the 30 cup listing
+            AMAZON_TRIAL is the 12 cup listing
+
+   While a value is '#' the five buy controls, in the nav, the mobile sheet,
+   the hero and both pack cards, render disabled and labelled
+   "Coming soon on Amazon.ae", stay reachable by keyboard, and do not navigate.
+
+   The moment a real URL is pasted in, every control fed by that constant
+   becomes a live link labelled "Buy on Amazon.ae", opening in a new tab with
+   rel="noopener". Filling only one of the two switches only that listing.
+
+   ---------------------------------------------------------------------------
+   SWITCH TWO, the email signup. FORMSPREE_ID.
+
+     Paste  the form ID alone, in quotes, not the whole endpoint
+     Format 'xabcdefg', the last path segment of https://formspree.io/f/xabcdefg
+
+   While it is '' the form still validates the address and still reports
+   errors, but posts nothing and answers "Signup opens soon", so no submission
+   is ever silently lost.
+
+   The moment an ID is pasted in, the same form posts to
+   https://formspree.io/f/<ID> and switches to the live states: "Sending",
+   then "Thank you. We will be in touch" or "That did not send. Please try
+   again". No markup change, no endpoint written anywhere else.
+   ========================================================================== */
 
 const AMAZON_HERO  = '#';   // Amazon.ae listing, 30 cup. Not yet live.
 const AMAZON_TRIAL = '#';   // Amazon.ae listing, 12 cup. Not yet live.

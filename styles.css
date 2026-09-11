@@ -39,15 +39,12 @@
 
 /* --------------------------------------------------------------------------
    2. Fonts.
-   Latin is self hosted. The woff2 is not in the repo yet, so the face is held
-   ready below. On delivery of NimbusSans-Bold.otf, convert it, drop the woff2
-   into /fonts/, uncomment this block and uncomment the preload in the head of
-   all four pages. Until then the stack falls through to Helvetica and Arial,
-   which are metric compatible with Nimbus Sans, so nothing reflows on the swap.
-   See fonts/README.md.
+   Both families are self hosted in /fonts/ and preloaded in the head of every
+   page. Nimbus Sans Bold is Helvetica metric compatible, every advance width
+   matching exactly, so the Helvetica and Arial fallbacks in the token do not
+   reflow anything if the face is slow to arrive.
    -------------------------------------------------------------------------- */
 
-/* ACTIVATE ON FONT DELIVERY
 @font-face {
   font-family: 'Nimbus Sans';
   src: url('fonts/NimbusSans-Bold.woff2') format('woff2');
@@ -55,7 +52,6 @@
   font-style: normal;
   font-display: swap;
 }
-*/
 
 @font-face {
   font-family: 'IBM Plex Sans Arabic';

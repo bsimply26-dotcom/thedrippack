@@ -66,16 +66,14 @@ you are using it wrong.
 ## 4. Typography
 
 **Latin: Nimbus Sans Bold.** Helvetica metric compatible, open licence. It is
-not on Google Fonts, so it must be self hosted. When `NimbusSans-Bold.otf` is
-supplied, convert it to `.woff2`, place it in `/fonts/`, and load it with
-`@font-face` using `font-display: swap`.
+not on Google Fonts, so it is self hosted as `fonts/NimbusSans-Bold.woff2`,
+loaded with `@font-face` using `font-display: swap` and preloaded in the head of
+all four pages. It is live. The supplied `.otf` is not kept in the repo, only
+the converted `.woff2`.
 
-It has not been supplied yet. The `@font-face` block in `styles.css` and the
-`rel="preload"` link in all four pages are written and held behind an
-`ACTIVATE ON FONT DELIVERY` marker. Until the file lands, `--font-display`
-falls through to Helvetica and then Arial, which are metric compatible with
-Nimbus Sans, so activating it will not reflow the layout. `fonts/README.md`
-carries the conversion command and the activation steps.
+The metric compatibility is verified rather than assumed. Every advance width
+matches Helvetica Bold exactly, so the `Helvetica, Arial` fallbacks in the token
+cannot reflow the layout. `fonts/README.md` carries the conversion command.
 
 **Arabic: IBM Plex Sans Arabic.** Regular and Bold, taken from Google Fonts and
 self hosted in `/fonts/` as the Arabic subset. Self hosted rather than linked,

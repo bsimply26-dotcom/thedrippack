@@ -1,38 +1,35 @@
 # Fonts
 
-## IBM Plex Sans Arabic, self hosted, active
+Both families are self hosted here and preloaded in the head of all four pages.
+Nothing on the site loads a font from a third party.
+
+## Nimbus Sans Bold, active
+
+`NimbusSans-Bold.woff2` is the Latin display face, the first family in
+`--font-display`. It was converted from the supplied `NimbusSans-Bold.otf`:
+
+```
+pip install fonttools brotli
+python3 -c "from fontTools.ttLib import TTFont; f=TTFont('fonts/NimbusSans-Bold.otf'); f.flavor='woff2'; f.save('fonts/NimbusSans-Bold.woff2')"
+```
+
+The `.otf` is not kept in the repo. Only the `.woff2` needs to ship, and it is
+83KB as an OTF against 52KB as a woff2.
+
+It is Helvetica metric compatible, verified rather than assumed. Every advance
+width matches Helvetica Bold exactly: H and D and A and K at 0.722em, E and P at
+0.667em, T at 0.611em. So the `Helvetica, Arial` fallbacks in the token cannot
+reflow the layout if the face is ever slow to arrive.
+
+To replace it, drop a new `.woff2` in at the same filename. No other edit.
+
+## IBM Plex Sans Arabic, active
 
 `IBMPlexSansArabic-Regular.woff2` and `IBMPlexSansArabic-Bold.woff2` are the
 Arabic subset of IBM Plex Sans Arabic v15, taken from Google Fonts and served
-from this directory. IBM Plex is licensed under the SIL Open Font Licence 1.1,
-which permits redistribution.
+from here. IBM Plex is licensed under the SIL Open Font Licence 1.1, which
+permits redistribution.
 
-They are self hosted rather than linked from Google Fonts for two reasons. A
-Google Fonts stylesheet is a render blocking third party request, which works
-against the Lighthouse target. And CLAUDE.md section 9 says fonts are self
-hosted in `/fonts/`.
-
-## Nimbus Sans Bold, not yet delivered
-
-`NimbusSans-Bold.otf` has not been supplied, so there is no
-`NimbusSans-Bold.woff2` here and the Latin face is not active. Until it lands,
-`--font-display` falls through to Helvetica and then Arial. Nimbus Sans is
-metric compatible with Helvetica, so the swap will not reflow the layout.
-
-### To activate it
-
-1. Put `NimbusSans-Bold.otf` in this directory.
-2. Convert it:
-
-   ```
-   pip install fonttools brotli
-   fonttools ttLib.woff2 compress -o fonts/NimbusSans-Bold.woff2 fonts/NimbusSans-Bold.otf
-   ```
-
-3. In `styles.css`, uncomment the block marked `ACTIVATE ON FONT DELIVERY`.
-4. In `index.html`, `privacy.html`, `terms.html` and `404.html`, uncomment the
-   line marked `ACTIVATE ON FONT DELIVERY`, which is the `rel="preload"` link.
-5. Delete the `.otf` from the repo. Only the `.woff2` needs to ship.
-
-Nothing else changes. The token, the logo lockups and every type rule already
-point at `'Nimbus Sans'` as the first family in the stack.
+Self hosted rather than linked, because a Google Fonts stylesheet is a render
+blocking third party request, and because section 9 of CLAUDE.md puts fonts in
+`/fonts/`.
