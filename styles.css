@@ -219,8 +219,6 @@ main > * + * { margin-top: var(--band); }
   scroll-margin-top: var(--nav-h);
 }
 
-.claimrow { padding-block: 0; }
-
 /* A label, not a banner. It sits directly above its content. */
 .section__label {
   font-size: var(--t-label);
@@ -253,13 +251,6 @@ main > * + * { margin-top: var(--band); }
 
 .feature__img--wide { aspect-ratio: 1672 / 941; }
 .feature__img--tall { aspect-ratio: 1122 / 1402; }
-
-/* Edge to edge on a phone. The section wrap is escaped rather than removed, so
-   the type beneath keeps its gutter. */
-.section > .feature {
-  width: 100vw;
-  margin-inline: calc(50% - 50vw);
-}
 
 /* --------------------------------------------------------------------------
    6. The logo.
@@ -515,14 +506,27 @@ body.is-locked { overflow: hidden; }
 
 .hero__actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 0.25rem; }
 
-/* The claims. Directly beneath the photograph, on Bone. These four carry the
-   whole product argument, so they are the second thing the page says after the
-   headline, not a caption under it.
+/* The claims and the pack, one block. At 900 and up the four claims hold the
+   left column and the photograph holds the right, centred against each other so
+   the claims sit at the optical middle of the frame rather than at its top.
+   Below 900 they stack, claims first, both full width. There is no separate
+   claim section and no separate photograph block: merging them is what removed
+   the band of empty cream that used to sit between the two.
 
-   Stacked, one to a line, with no gap and a line height of 1.3. Four lines that
-   tight read as one statement of what the product is. Set as a row they read as
-   a spec strip, which is what a caption does. No rules, no markers, no numbers,
-   no background. */
+   The claims themselves are stacked, one to a line, with no gap and a line
+   height of 1.3. Four lines that tight read as one statement of what the
+   product is. Set across as a row they read as a spec strip, which is what a
+   caption does. No rules, no markers, no numbers, no background. */
+.intro__inner { display: grid; gap: var(--band); align-items: center; }
+
+/* The photograph bleeds to both screen edges on a phone, like every other
+   photograph on the page, and is contained from 768 up. */
+.intro__media {
+  width: 100vw;
+  margin-inline: calc(50% - 50vw);
+  margin-block: 0;
+}
+
 .claims { display: grid; gap: 0; }
 
 /* Between body and the section label in the hierarchy, and at full Ink rather
@@ -935,17 +939,8 @@ body.is-locked { overflow: hidden; }
    -------------------------------------------------------------------------- */
 
 @media (min-width: 768px) {
-  /* Contained, and to the page wrap rather than to a share of the viewport, so
-     the edge of the photograph lands on the same line as the label beneath it.
-     A centred share of the viewport drifts off that line at tablet widths, and
-     on a page whose only edge is the photograph's, that drift is visible. */
-  .section > .feature {
-    width: 100%;
-    max-width: var(--wrap);
-    margin-inline: auto;
-    margin-block: 0 clamp(2.5rem, 5vw, 3.75rem);
-    padding-inline: var(--gutter);
-  }
+  /* Contained from here up, no longer bleeding to the screen edges. */
+  .intro__media { width: auto; margin-inline: 0; }
 
   .steps { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 
@@ -954,6 +949,16 @@ body.is-locked { overflow: hidden; }
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: clamp(2rem, 4vw, 3.5rem);
     align-items: start;
+  }
+}
+
+@media (min-width: 900px) {
+  /* The photograph takes the larger share, the claims the rest, with a generous
+     gutter between them. Centred against each other on the cross axis, so the
+     four claims sit at the optical middle of the frame. */
+  .intro__inner {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr);
+    gap: clamp(3rem, 6vw, 5rem);
   }
 }
 

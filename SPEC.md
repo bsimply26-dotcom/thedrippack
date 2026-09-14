@@ -26,8 +26,8 @@ that behaviour, do not leave dead links.
 One page, `index.html`, built as ten blocks in this order. Plus three standalone
 pages.
 
-The page is image led. Every section opens with a photograph, and the type that
-follows is small and quiet and sits beneath or over the image as a label. There
+The page is image led. The type is small and quiet and sits beneath or over a
+photograph as a label. There
 are no large headings floating above empty space. Section labels are 28px Bold
 sitting directly above their content, body is 17px Regular, and the hero
 headline is the only element on the page set large. One loud thing, everything
@@ -130,10 +130,25 @@ hero photograph carries no rise of its own, because it is the largest paint on
 the page and an element held at opacity 0 cannot count as painted. All
 suppressed under `prefers-reduced-motion`.
 
-### 3. The claims
+### 3. The claims and the pack
 
-Directly beneath the hero photograph, on Bone: SINGLE SERVE / 100% ARABICA /
-SPECIALTY GRADE / CUPPED ABOVE 80.
+One block, not two. Directly beneath the hero photograph, on Bone:
+SINGLE SERVE / 100% ARABICA / SPECIALTY GRADE / CUPPED ABOVE 80, with
+`pack-open.webp` beside them.
+
+At 900 and up, two columns: the claims hold the left column on the page's left
+margin, the photograph holds the right at roughly 56 per cent of the content
+width, with a generous gutter between them. The two are centred against each
+other on the cross axis, so the claims sit at the optical middle of the frame
+rather than at its top. Below 900 they stack, claims first, both full width,
+the photograph bleeding to the screen edges below 768 as every photograph does.
+
+The photograph keeps the treatment every photograph has: no border, no
+background, no frame, sitting directly on Bone.
+
+There is no separate claim section and no separate photograph block. Merging
+them is what removed the band of empty cream between the two, so do not
+reintroduce either as a hidden duplicate of the other.
 
 These four carry the whole product argument, so they are the second thing the
 page says after the headline rather than a caption under it. Set them above body
@@ -159,13 +174,13 @@ are neither quiet nor a row.
 
 ### 4. How it works
 
-`pack-open.webp` opens the section, edge to edge on mobile and contained on
-desktop. Contained means sized to the page wrap, not to a share of the viewport,
-so the edge of the photograph lands on the same line as the label beneath it.
+The label, then the three brew steps, verbatim from CLAUDE.md, in a quiet row of
+three columns on desktop and stacked on mobile. Numbers small. Arabic version
+beneath each step in Ink 60%, `dir="rtl"`.
 
-Beneath it the label, then the three brew steps, verbatim from CLAUDE.md, in a
-quiet row of three columns on desktop and stacked on mobile. Numbers small.
-Arabic version beneath each step in Ink 60%, `dir="rtl"`.
+This section leads with its label rather than with a photograph, because
+`pack-open.webp` now sits beside the claims in section 3. An earlier version of
+this file put the photograph here and said every section opens with one.
 
 ### 5. Why this
 
