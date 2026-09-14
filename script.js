@@ -223,7 +223,7 @@ function initBeats() {
    -------------------------------------------------------------------------- */
 
 const REVEAL_WITHIN = [
-  '.section__title', '.statement__line', '.feature', '.step', '.pack__body',
+  '.section__label', '.statement__line', '.feature', '.step', '.pack__body',
   '.why li', '.facts li', '.faq__item',
   '.foot__logo', '.foot__origin', '.foot__col', '.foot__end'
 ].join(', ');
