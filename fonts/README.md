@@ -3,7 +3,24 @@
 Both families are self hosted here and preloaded in the head of all four pages.
 Nothing on the site loads a font from a third party.
 
-## Nimbus Sans Bold, active and subsetted
+## Nimbus Sans, two cuts, active and subsetted
+
+Regular 400 and Bold 700, registered under one family name so `font-weight` picks
+between them. Both are subsetted to the same 223 glyphs, 17KB each.
+
+Both come from the same open source, the URW base 35 set published by Artifex:
+
+```
+https://raw.githubusercontent.com/ArtifexSoftware/urw-base35-fonts/master/fonts/NimbusSans-Regular.otf
+https://raw.githubusercontent.com/ArtifexSoftware/urw-base35-fonts/master/fonts/NimbusSans-Bold.otf
+```
+
+The Bold fetched from there has advance widths identical to the Bold already
+shipping, which is how the two cuts were confirmed to be the same family rather
+than a lookalike. The Regular matches Helvetica Regular exactly: H and D at
+0.722em, A and K at 0.667em, n and o and a and e at 0.556em.
+
+## Converting and subsetting
 
 `NimbusSans-Bold.woff2` is the Latin display face, the first family in
 `--font-display`. It is preloaded in all four pages, so its weight sits on the
@@ -16,6 +33,7 @@ pip install fonttools brotli
 
 # convert
 python3 -c "from fontTools.ttLib import TTFont; f=TTFont('fonts/NimbusSans-Bold.otf'); f.flavor='woff2'; f.save('fonts/NimbusSans-Bold.woff2')"
+python3 -c "from fontTools.ttLib import TTFont; f=TTFont('fonts/NimbusSans-Regular.otf'); f.flavor='woff2'; f.save('fonts/NimbusSans-Regular.woff2')"
 
 # subset to printable ASCII, Latin-1 Supplement, and the common marks
 python3 - <<'EOF'
@@ -23,8 +41,9 @@ from fontTools import subset
 chars = (''.join(chr(c) for c in range(0x20, 0x7F))
          + ''.join(chr(c) for c in range(0xA0, 0x100))
          + '‘’“”…–£€™®')  # no em dash, see CLAUDE.md
-subset.main(['fonts/NimbusSans-Bold.woff2', f'--text={chars}', '--flavor=woff2',
-             '--layout-features=*', '--output-file=fonts/NimbusSans-Bold.woff2'])
+for cut in ['Bold', 'Regular']:
+    subset.main([f'fonts/NimbusSans-{cut}.woff2', f'--text={chars}', '--flavor=woff2',
+                 '--layout-features=*', f'--output-file=fonts/NimbusSans-{cut}.woff2'])
 EOF
 ```
 

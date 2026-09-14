@@ -33,10 +33,21 @@ Domain: thedrippack.com
   punctuate normally, so the FAQ answers, the privacy policy and the terms page
   keep theirs. If a line is a label, it takes no stop. If it is a sentence in a
   paragraph, it does.
-- No claim beyond these four: 100% arabica, specialty grade, cupped above 80,
-  roasted and packed in the UAE. Nothing else. No health claims, no
-  certification logos, no tasting notes, no origin story, no awards, no
-  est. dates, no exact cup score.
+- Claims and facts are two different things, and the rule only works once they
+  are separated.
+
+  **Product claims.** There are four, and nothing may be added to them:
+  100% arabica, specialty grade, cupped above 80, roasted and packed in the UAE.
+  These assert a quality, so each one has to be defensible.
+
+  **Format facts.** Statements about what the product is, rather than how good
+  it is, are permitted: no machine, no pods, no grinder; real ground coffee
+  rather than instant; single serve sealed portions. They describe the format,
+  they assert nothing about quality, and they are the argument the brand is
+  actually making.
+
+  **Still banned, either way.** Health claims, certification logos, awards,
+  tasting notes, origin story, est. dates, exact cup score.
 - No price and no per cup figure anywhere on the site. Amazon owns the price.
 - Forest #2E4A3E is superseded. It must never appear.
 - Parcelle must not be referenced, linked, or hinted at in any way. No shared
@@ -51,11 +62,25 @@ Defined once as CSS custom properties. Never hardcode a hex anywhere else.
 
 | Token | Hex | Use |
 |---|---|---|
-| `--green` | #1A331E | The ground. Default background of the site. |
-| `--bone` | #F1EBE1 | All primary type on green. |
+| `--bone` | #F1EBE1 | The ground. Default background of the whole site. |
+| `--ink` | #141414 | All primary type on bone. |
+| `--green` | #1A331E | The statement band, and nothing else. Opt in only. |
 | `--emerald` | #14A05C | The full stop, and one rule under REAL COFFEE NO MACHINE. Nothing else. |
-| `--sage` | #A9B6A6 | Secondary and legal text on green. |
-| `--ink` | #141414 | Type on light grounds only. |
+| `--sage` | #A9B6A6 | Retired from the stylesheet. See below. |
+
+The ground is set once as `--ground: var(--bone)`. Green is reached only through
+an explicit `.ground--green` class, so it cannot creep back as a default. There
+is exactly one such section on the site. That is what makes the statement band
+land.
+
+Secondary text on bone is Ink at 70 per cent opacity, which reads at 6.32:1.
+
+Sage is no longer defined in the stylesheet. It was specified as secondary text
+on green, and the one green section on the site carries only the locked line, so
+nothing used it. It stays in this table as a brand colour rather than a live
+token. If a green section ever needs quiet text, reinstate `--sage: #A9B6A6` in
+the token block and scope it inside `.ground--green`. Never put it on bone: it
+falls to 1.9:1.
 
 Emerald is an accent of last resort. It is not a button colour, not a link
 colour, not a hover state. If you find yourself reaching for it a third time,
@@ -65,15 +90,24 @@ you are using it wrong.
 
 ## 4. Typography
 
-**Latin: Nimbus Sans Bold.** Helvetica metric compatible, open licence. It is
-not on Google Fonts, so it is self hosted as `fonts/NimbusSans-Bold.woff2`,
-loaded with `@font-face` using `font-display: swap` and preloaded in the head of
-all four pages. It is live. The supplied `.otf` is not kept in the repo, only
-the converted `.woff2`.
+**Latin: Nimbus Sans, two cuts.** Regular 400 and Bold 700, registered under one
+family name, self hosted as `fonts/NimbusSans-Regular.woff2` and
+`fonts/NimbusSans-Bold.woff2`, loaded with `@font-face` using `font-display:
+swap` and both preloaded in the head of all four pages. Subsetted to 17KB each.
+The `.otf` originals are not kept in the repo.
 
-The metric compatibility is verified rather than assumed. Every advance width
-matches Helvetica Bold exactly, so the `Helvetica, Arial` fallbacks in the token
-cannot reflow the layout. `fonts/README.md` carries the conversion command.
+Weight is a tool, so use it rather than substituting colour for it:
+
+- **Bold** for the logo, the hero headline, the section headings and the two
+  locked lines.
+- **Regular** for everything else: body copy, sub lines, FAQ answers, card
+  descriptions, the claim row, the contents blocks, the footer and the legal
+  pages.
+
+The metric compatibility is verified rather than assumed, in both cuts. Every
+advance width matches Helvetica exactly, so the `Helvetica, Arial` fallbacks in
+the token cannot reflow the layout. `fonts/README.md` carries the source and the
+conversion commands.
 
 **Arabic: IBM Plex Sans Arabic.** Regular and Bold, taken from Google Fonts and
 self hosted in `/fonts/` as the Arabic subset. Self hosted rather than linked,
@@ -129,6 +163,11 @@ SPECIALTY GRADE / CUPPED ABOVE 80
 اسكب قليلاً من الماء الساخن وانتظر /
 أكمل السكب على دفعات ثم ارفع الكيس
 
+**Why this.** Three lines, in this order. No full stops, they are labels.
+1. No machine, no pods, no grinder
+2. Real ground coffee, not instant
+3. Sealed until the moment you brew it
+
 **Origin line.** Roasted and packed in the UAE for The Drip Pack, Dubai, UAE
 
 **Contents.**
@@ -152,24 +191,31 @@ If a piece of copy is not in this file or in SPEC.md, do not invent it. Ask.
 
 ## 8. Imagery
 
-There is no photography in the repo. The five image slots on the homepage are
-empty, and commissioned photography arrives in a second pass.
+Four photographs, and only four. Each one dominates: no image is ever an inset
+thumbnail inside a card.
 
-Each slot is a fixed container with a fixed aspect ratio, carrying
-`data-placeholder="true"` so the swap set is findable in one search, and a flat
-fill so the composition reads while the slot is empty. The container owns the
-ratio, so dropping a photograph in changes nothing about the layout.
+| File | Native | Slot |
+|---|---|---|
+| `hero-pack.webp` | 1600x2000 | Hero, beside the type |
+| `brew-pour.webp` | 2400x1600 | How it works |
+| `pack-open.webp` | 2400x1600 | The packs, 30 cups |
+| `pack-12.webp` | 1600x2000 | The packs, 12 cups |
 
-To fill a slot: drop the WebP into `/images/`, uncomment the `<img>` inside the
-slot, which already carries the alt text, the width and the height, then delete
-`role="img"` and `aria-label` from the slot itself. That is the whole swap.
+Each runs at least 60 per cent of the viewport width at desktop and bleeds to
+both screen edges on a phone, with generous space around it.
 
-`/images/og.png` is the 1200x630 share image. It is a placeholder built from
-the logo on the green ground, and it is replaced in the same pass.
+The declared `width` and `height` only hold the box until the file loads, after
+which the real intrinsic ratio takes over. So each image also carries an explicit
+`aspect-ratio` in the stylesheet, matching its native size. That is what makes a
+re-export a straight file replacement with no layout movement.
 
-Art direction when real photography arrives: roasted beans and fine grounds in
-motion, dramatic side light, deep shadow, shallow depth of field, on the green
+`/images/og.png` is the 1200x630 share image, built from the logo on the green
 ground.
+
+Art direction: roasted beans and fine grounds in motion, dramatic side light,
+deep shadow, shallow depth of field, on the green ground. Export with no border
+and no matte. A pale edge baked into a file reads as a hard bar against the
+ground and cannot be fixed in CSS without cropping the photograph.
 
 ---
 
