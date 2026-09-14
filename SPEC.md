@@ -121,12 +121,23 @@ suppressed under `prefers-reduced-motion`.
 
 ### 3. The claim row
 
-Directly beneath the hero photograph, on Bone. Four short labels in a quiet row,
-wrapping on mobile: SINGLE SERVE POUR OVER / 100% ARABICA / SPECIALTY GRADE /
-CUPPED ABOVE 80.
+Directly beneath the hero photograph, on Bone: SINGLE SERVE POUR OVER /
+100% ARABICA / SPECIALTY GRADE / CUPPED ABOVE 80.
 
-No rules between them. An earlier version of this file called for thin Sage
-rules. Sage is retired and the page carries no rules of any kind.
+These four carry the whole product argument, so they are the second thing the
+page says after the headline rather than a caption under it. Set them above body
+copy in the hierarchy and below the section label, 20px on a phone rising to
+26px on a wide screen, in Ink at full strength. Regular weight: scale and space
+do the work, never bold.
+
+Four equal columns from tablet up, two by two on a phone, left aligned at both.
+Equal columns rather than a wrapping row, so each claim holds its own space and
+the row spans the full content width with the first one on the page's left
+margin. A full band above and below, so the row reads as its own moment.
+
+No rules, no separators, no icons, no background. An earlier version of this
+file called for thin Sage rules and a quiet row of small labels. Sage is retired
+and the page carries no rules of any kind, and the row is no longer quiet.
 
 ### 4. How it works
 
