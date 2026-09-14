@@ -28,7 +28,8 @@
   --glass: color-mix(in srgb, var(--bone) 88%, transparent);
 
   /* Secondary type. Ink at 60 per cent, and nothing lighter anywhere, so the
-     page stays crisp. On the bone ground this lands at 4.93:1. */
+     page stays crisp. Composited on the bone ground that is rgb(108, 106, 102),
+     measured at 4.55:1. It clears AA by 0.05, so it is the floor. */
   --ink-quiet: color-mix(in srgb, var(--ink) 60%, transparent);
 
   /* The hero gradient. Ink at three strengths, anchored to the bottom left
@@ -206,10 +207,6 @@ a { color: inherit; }
   padding-block: var(--band);
   scroll-margin-top: var(--nav-h);
 }
-
-/* The two type only sections breathe more than the rest. Why this is the
-   single pause in the page and should feel like one. */
-.section--pause { padding-block: clamp(5rem, 11vw, 8.5rem); }
 
 /* A label, not a banner. It sits directly above its content. */
 .section__label {
@@ -435,10 +432,13 @@ body.is-locked { overflow: hidden; }
   position: relative;
   display: grid;
   align-items: end;
-  min-height: 70vh;
-  min-height: 70svh;
-  padding-top: calc(var(--nav-h) + var(--band));
-  padding-bottom: clamp(2.5rem, 6vw, 4.5rem);
+  min-height: 80vh;
+  min-height: 80svh;
+  /* Clearance from the bar and nothing more. The type is anchored to the foot,
+     so a full band of top padding only pushed the section past 80vh on a short
+     viewport and dropped the claim row below the fold. */
+  padding-top: calc(var(--nav-h) + 1.5rem);
+  padding-bottom: clamp(2.5rem, 5vw, 3.5rem);
   overflow: hidden;
   color: var(--bone);
 }
@@ -477,7 +477,7 @@ body.is-locked { overflow: hidden; }
   position: relative;
   z-index: 2;
   display: grid;
-  gap: clamp(0.875rem, 2vw, 1.25rem);
+  gap: clamp(0.75rem, 1.4vw, 1rem);
   justify-items: start;
 }
 
@@ -500,7 +500,7 @@ body.is-locked { overflow: hidden; }
   line-height: 1.9;
 }
 
-.hero__actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 0.5rem; }
+.hero__actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 0.25rem; }
 
 /* The claim row. Directly beneath the photograph, on Bone. Four quiet labels,
    no rules and no tracking. */
@@ -537,6 +537,7 @@ body.is-locked { overflow: hidden; }
 }
 
 .step__ar {
+  width: fit-content;
   font-family: var(--font-arabic);
   font-weight: 400;
   color: var(--ink-quiet);
@@ -551,10 +552,13 @@ body.is-locked { overflow: hidden; }
    never scaled to match.
    -------------------------------------------------------------------------- */
 
-.packs { display: grid; gap: clamp(3rem, 7vw, 4.5rem); }
+.packs { display: grid; gap: clamp(4rem, 9vw, 5rem); }
 
-/* Inside a tile the photograph fills the tile rather than the screen. */
-.pack .feature { width: auto; margin-inline: 0; }
+/* Inside a tile the photograph fills the tile rather than the screen. The gap
+   under it is tight, so on a phone, where the tiles stack, the count and the
+   weight read as belonging to the photograph above them rather than sitting
+   loose between two of them. */
+.pack .feature { width: auto; margin-inline: 0; margin-block: 0 1rem; }
 
 .pack__body { display: grid; gap: 0.25rem; justify-items: start; }
 
@@ -576,7 +580,7 @@ body.is-locked { overflow: hidden; }
    -------------------------------------------------------------------------- */
 
 .statement {
-  padding-block: clamp(7rem, 18vw, 13rem);
+  padding-block: var(--band);
   text-align: center;
 }
 
@@ -585,6 +589,11 @@ body.is-locked { overflow: hidden; }
   line-height: 1.15;
   letter-spacing: -0.01em;
 }
+
+/* The line breaks after COFFEE, which is how the carton side panel sets it.
+   The two spans carry a single space between them, so the rendered text is
+   still the one approved string. */
+.statement__line span { display: block; }
 
 .statement__rule {
   display: block;
@@ -610,11 +619,13 @@ body.is-locked { overflow: hidden; }
    Generous space is the only thing separating them.
    -------------------------------------------------------------------------- */
 
-.why { display: grid; gap: clamp(1.25rem, 2.5vw, 1.75rem); }
+/* No gap. The three lines are spaced by the body line height alone, so they
+   read as one tight block rather than three separated statements. */
+.why { display: grid; gap: 0; }
 
 .why li {
   font-size: var(--t-body);
-  line-height: 1.5;
+  line-height: 1.65;
   max-width: 34ch;
 }
 
@@ -678,12 +689,12 @@ body.is-locked { overflow: hidden; }
 }
 
 .foot__origin {
-  max-width: 34ch;
   color: var(--ink-quiet);
   font-size: var(--t-body);
 }
 
 .foot__arabic {
+  width: fit-content;
   margin-top: 0.5rem;
   font-family: var(--font-arabic);
   font-weight: 400;
@@ -710,11 +721,13 @@ body.is-locked { overflow: hidden; }
   line-height: 1.6;
 }
 
+/* Stacked at the margin rather than spread across the row. Spreading them put
+   the copyright at the far right of the screen, which is the one block of type
+   on the page not starting on the page's single left edge. */
 .foot__end {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  gap: 0.75rem 2rem;
+  display: grid;
+  justify-items: start;
+  gap: 0.25rem;
   margin-top: clamp(2.5rem, 5vw, 3.5rem);
 }
 
@@ -729,9 +742,8 @@ body.is-locked { overflow: hidden; }
 }
 
 .foot__copy {
-  display: inline-flex;
-  align-items: center;
-  min-height: var(--tap);
+  display: block;
+  padding-block: 0.75rem;
   color: var(--ink-quiet);
   font-size: var(--t-micro);
 }
