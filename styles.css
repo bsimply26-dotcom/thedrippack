@@ -1,6 +1,11 @@
 /* ==========================================================================
    The Drip Pack
    One stylesheet. The palette is defined once, below, and nowhere else.
+
+   The page is image led. Every section opens with a photograph, type is small
+   and quiet, and the only loud element on the page is the hero headline.
+   There are no borders, no card backgrounds, no hairlines and no shadows.
+   The edge of a photograph is the only edge on the page.
    ========================================================================== */
 
 /* --------------------------------------------------------------------------
@@ -14,32 +19,37 @@
   --emerald: #14A05C;
   --ink:     #141414;
 
-  /* The ground. Bone is the default for the whole site. Green is opt in and is
-     used by exactly one section, so it cannot creep back in by default. */
+  /* The ground. Bone is the default for the whole site. Against four deep green
+     photographs it reads as a gallery wall, which is the intended effect. Green
+     is opt in and is used by exactly one section. */
   --ground: var(--bone);
 
   /* Derived. Mixed from the tokens above, never from a new literal. */
-  --glass:      color-mix(in srgb, var(--bone) 86%, transparent);
-  --hairline:   color-mix(in srgb, var(--ink) 12%, transparent);
-  --lift:       color-mix(in srgb, var(--ink) 22%, transparent);
+  --glass: color-mix(in srgb, var(--bone) 88%, transparent);
 
-  /* Secondary text. Ink at reduced opacity, which over the bone ground lands at
-     6.32:1. The green band carries only the locked line, so it needs no quiet
-     tone of its own. */
-  --ink-quiet:  color-mix(in srgb, var(--ink) 70%, transparent);
-  --rule-ink:   color-mix(in srgb, var(--ink) 14%, transparent);
+  /* Secondary type. Ink at 60 per cent, and nothing lighter anywhere, so the
+     page stays crisp. On the bone ground this lands at 4.93:1. */
+  --ink-quiet: color-mix(in srgb, var(--ink) 60%, transparent);
+
+  /* The hero gradient. Ink at three strengths, anchored to the bottom left
+     corner and fully clear of the pour, the kettle and the top right of the
+     frame. The strengths are not a taste decision: they are the measured
+     minimum that holds Bone above 4.5:1 over the brightest pixel the type
+     actually sits on, which in this photograph is the lit paper filter. */
+  --veil-near: color-mix(in srgb, var(--ink) 88%, transparent);
+  --veil-mid:  color-mix(in srgb, var(--ink) 62%, transparent);
+  --veil-none: color-mix(in srgb, var(--ink) 0%, transparent);
 
   /* Type */
   --font-display: 'Nimbus Sans', Helvetica, Arial, sans-serif;
   --font-arabic: 'IBM Plex Sans Arabic', sans-serif;
 
-  /* Scale. Two registers and nothing between them. Headings are very large,
-     body is small and quiet. The gap is the point. */
+  /* Scale. One loud size and two quiet ones. The hero headline is the only
+     thing on the page set large. Section labels are 28px, body is 17px. */
   --t-display: clamp(3rem, 12vw, 7rem);
-  --t-heading: clamp(2.25rem, 7vw, 4.5rem);
-  --t-lede:    clamp(1.0625rem, 1.6vw, 1.25rem);
-  --t-body:    1.0625rem;
-  --t-micro:   0.8125rem;
+  --t-label:   1.75rem;      /* 28px, section labels and pack counts */
+  --t-body:    1.0625rem;    /* 17px */
+  --t-micro:   0.8125rem;    /* 13px */
 
   /* Measure and rhythm */
   --wrap: 1240px;
@@ -51,9 +61,9 @@
 
 /* --------------------------------------------------------------------------
    2. Fonts.
-   Both families are self hosted in /fonts/. Nimbus Sans now ships in two cuts
-   under one family name, so weight is available as a tool: Bold for the logo,
-   the hero headline, the section headings and the two locked lines, Regular for
+   Both families are self hosted in /fonts/. Nimbus Sans ships in two cuts under
+   one family name, so weight is available as a tool: Bold for the logo, the
+   hero headline, the section labels and the two locked lines, Regular for
    everything else. Both are Helvetica metric compatible, verified against the
    font tables, so the fallback stack cannot reflow the layout.
    -------------------------------------------------------------------------- */
@@ -93,7 +103,7 @@
 /* --------------------------------------------------------------------------
    3. Reset and base.
    Body copy is sentence case and untracked. All caps is reserved for the logo,
-   the headings and the two locked lines.
+   the hero headline and the statement line.
    -------------------------------------------------------------------------- */
 
 *, *::before, *::after { box-sizing: border-box; }
@@ -116,7 +126,8 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* Bold is reserved for the logo, the headings and the two locked lines. */
+/* Bold is reserved for the logo, the hero headline, the labels and the
+   statement line. Everything else is Regular. */
 h1, h2, h3,
 .hero__headline,
 .statement__line,
@@ -138,7 +149,8 @@ a { color: inherit; }
 }
 
 ::selection { background: var(--ink); color: var(--bone); }
-.ground--green ::selection { background: var(--bone); color: var(--green); }
+.ground--green ::selection,
+.hero ::selection { background: var(--bone); color: var(--green); }
 
 .visually-hidden {
   position: absolute;
@@ -168,14 +180,13 @@ a { color: inherit; }
 .skip-link:focus-visible { transform: translate(-50%, 0); }
 
 /* --------------------------------------------------------------------------
-   4. Grounds.
-   Bone with Ink type is the whole site. Pack Green is opt in and is used by the
-   statement band alone, which is what makes that band land.
+   4. Grounds and rhythm.
+   Bone with Ink type is the whole site. Pack Green is opt in and belongs to the
+   statement band alone. Because the four photographs are the same green, that
+   band reads as continuous with them rather than as a stripe.
    -------------------------------------------------------------------------- */
 
 .ground--green { background: var(--green); color: var(--bone); }
-.ground--bone  { background: var(--bone);  color: var(--ink); }
-
 
 .wrap {
   width: 100%;
@@ -184,47 +195,66 @@ a { color: inherit; }
   padding-inline: var(--gutter);
 }
 
-.wrap--narrow { max-width: 760px; }
+/* Narrow caps the measure, not the box. Centring the box would jog the label
+   inward off the left edge every other section, and on a page this quiet the
+   jog is the loudest thing in it. Every section label starts at the same
+   gutter. */
+.wrap--narrow { max-width: var(--wrap); }
+.wrap--narrow > * { max-width: 760px; }
 
 .section {
   padding-block: var(--band);
   scroll-margin-top: var(--nav-h);
 }
 
-.section__title {
-  font-size: var(--t-heading);
-  line-height: 0.95;
+/* The two type only sections breathe more than the rest. Why this is the
+   single pause in the page and should feel like one. */
+.section--pause { padding-block: clamp(5rem, 11vw, 8.5rem); }
+
+/* A label, not a banner. It sits directly above its content. */
+.section__label {
+  font-size: var(--t-label);
+  line-height: 1.1;
   letter-spacing: -0.01em;
-  margin-bottom: clamp(2rem, 4vw, 3rem);
+  margin-bottom: clamp(1.25rem, 2.5vw, 1.75rem);
 }
 
 /* --------------------------------------------------------------------------
    5. Feature images.
-   Each runs at least 60 per cent of the viewport at desktop and bleeds to both
-   screen edges on a phone. No image is ever an inset thumbnail in a card.
+   The photograph carries the page, so it is never an inset thumbnail and never
+   sits inside a card. It bleeds to both screen edges on a phone and is
+   contained on desktop, with nothing around it.
    -------------------------------------------------------------------------- */
 
 .feature {
-  margin-block: clamp(2rem, 5vw, 3.5rem);
+  margin-block: 0 clamp(2rem, 5vw, 3.25rem);
 }
 
 /* The declared width and height only hold the box until the file loads, after
    which the real intrinsic ratio takes over. Locking the ratio here means the
    layout cannot move when a regenerated image of a different size drops in.
-   The height cap stops a portrait image running taller than the screen. */
+   Declared as the native pixel counts rather than a rounded ratio, so the box
+   matches the file exactly. */
 .feature__img {
   width: 100%;
   height: auto;
   object-fit: cover;
 }
 
-.feature__img--wide { aspect-ratio: 3 / 2; }   /* 2400 x 1600 */
-.feature__img--tall { aspect-ratio: 4 / 5; }   /* 1600 x 2000 */
+.feature__img--wide { aspect-ratio: 1672 / 941; }
+.feature__img--tall { aspect-ratio: 1122 / 1402; }
+
+/* Edge to edge on a phone. The section wrap is escaped rather than removed, so
+   the type beneath keeps its gutter. */
+.section > .feature {
+  width: 100vw;
+  margin-inline: calc(50% - 50vw);
+}
 
 /* --------------------------------------------------------------------------
    6. The logo.
-   currentColor, so it inverts with the ground. The emerald full stop is the
-   first of exactly two emerald roles on the site.
+   currentColor, so it inverts with whatever it sits on. The emerald full stop
+   is the first of exactly two emerald roles on the site.
    -------------------------------------------------------------------------- */
 
 .logo { fill: currentColor; height: auto; }
@@ -242,6 +272,8 @@ a { color: inherit; }
 
 /* --------------------------------------------------------------------------
    7. Buttons.
+   A filled pill and no outline, because no rule on this page is allowed to be
+   a border. The fill is the control, not a frame around it.
    -------------------------------------------------------------------------- */
 
 .btn {
@@ -250,39 +282,36 @@ a { color: inherit; }
   justify-content: center;
   min-height: var(--tap);
   padding: 0.8125rem 1.5rem;
-  border: 1px solid currentColor;
+  border: 0;
   border-radius: 999px;
-  background: transparent;
-  color: inherit;
+  background: var(--ink);
+  color: var(--bone);
   font-family: inherit;
   font-weight: 700;
   font-size: var(--t-micro);
   text-decoration: none;
   text-align: center;
   cursor: pointer;
-  transition: background 180ms ease, color 180ms ease, opacity 180ms ease;
+  transition: opacity 180ms ease;
 }
 
-/* Ink on bone is the default, since bone is the ground everywhere but one band. */
-.btn--primary { background: var(--ink); color: var(--bone); border-color: var(--ink); }
-.btn--primary:hover { background: transparent; color: var(--ink); }
-.btn--secondary:hover { background: var(--ink); color: var(--bone); }
+.btn:hover { opacity: 0.82; }
 
-.ground--green .btn--primary { background: var(--bone); color: var(--ink); border-color: var(--bone); }
-.ground--green .btn--primary:hover { background: transparent; color: var(--bone); }
-.ground--green .btn--secondary:hover { background: var(--bone); color: var(--ink); }
+/* On the two dark grounds the pill inverts. */
+.hero .btn,
+.ground--green .btn,
+.nav:not(.is-stuck) .btn { background: var(--bone); color: var(--ink); }
 
+/* Pending is not a different surface, only a different label and no link. */
 .btn[aria-disabled="true"],
-.btn[aria-disabled="true"]:hover {
-  background: transparent;
-  border-color: currentColor;
-  color: var(--ink-quiet);
-  cursor: default;
-}
-
+.btn[aria-disabled="true"]:hover { opacity: 1; cursor: default; }
 
 /* --------------------------------------------------------------------------
-   8. Navbar. Transparent over the hero, glass past 24px.
+   8. Navbar.
+   Transparent over the hero photograph with Bone type, translucent Bone glass
+   with Ink type past 24px of scroll. The surface and the type colour are
+   switched by the same class with no transition on either, so the bar is never
+   caught halfway with Ink type on a dark photograph or Bone type on Bone.
    -------------------------------------------------------------------------- */
 
 .nav {
@@ -290,16 +319,37 @@ a { color: inherit; }
   inset: 0 0 auto 0;
   z-index: 50;
   background: transparent;
-  border-bottom: 1px solid transparent;
-  color: var(--ink);
-  transition: background 260ms ease, border-color 260ms ease, backdrop-filter 260ms ease;
+  color: var(--bone);
 }
 
-.nav.is-stuck {
+/* While the bar is transparent it sits on the top of the photograph, where the
+   steam runs to near white and Bone type measures 1.18:1. This fade belongs to
+   the bar rather than to the image: it is the height of the bar, it clears
+   completely just below it, and it is gone the moment the glass surface
+   arrives. */
+.nav::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: calc(var(--nav-h) + 3.5rem);
+  pointer-events: none;
+  background: linear-gradient(to bottom,
+    color-mix(in srgb, var(--ink) 86%, transparent) 0%,
+    color-mix(in srgb, var(--ink) 70%, transparent) 62%,
+    color-mix(in srgb, var(--ink) 0%, transparent) 100%);
+}
+
+.nav.is-stuck::before,
+.nav.is-sheet::before { content: none; }
+
+.nav__inner { position: relative; }
+
+.nav.is-stuck,
+.nav.is-sheet {
   background: var(--glass);
-  border-bottom-color: var(--hairline);
   backdrop-filter: blur(14px) saturate(140%);
   -webkit-backdrop-filter: blur(14px) saturate(140%);
+  color: var(--ink);
 }
 
 .nav__inner {
@@ -357,7 +407,6 @@ a { color: inherit; }
   padding: 1rem var(--gutter) 2rem;
   background: var(--bone);
   color: var(--ink);
-  border-top: 1px solid var(--hairline);
 }
 
 .sheet[hidden] { display: none; }
@@ -367,37 +416,69 @@ a { color: inherit; }
   display: flex;
   align-items: center;
   min-height: var(--tap);
-  font-size: var(--t-lede);
+  font-size: var(--t-body);
   text-decoration: none;
 }
 
-.sheet .btn { margin-top: 1rem; }
+.sheet .btn { margin-top: 1rem; background: var(--ink); color: var(--bone); }
 body.is-locked { overflow: hidden; }
 
 /* --------------------------------------------------------------------------
    9. Hero.
-   The image sits beside the type from tablet up and below it on a phone. It is
-   never behind the text, never scrimmed, and always at full opacity.
+   The photograph is the section, full bleed, 70vh at the least. The type sits
+   over its lower left corner. The gradient runs from that corner only and is
+   transparent well before it reaches the pour, so the photograph is held
+   rather than scrimmed.
    -------------------------------------------------------------------------- */
 
 .hero {
-  /* Nav clearance plus a small gap. The clearance is structural, not rhythm. */
-  padding-top: calc(var(--nav-h) + clamp(1rem, 3vw, 1.5rem));
-  padding-bottom: var(--band);
+  position: relative;
+  display: grid;
+  align-items: end;
+  min-height: 70vh;
+  min-height: 70svh;
+  padding-top: calc(var(--nav-h) + var(--band));
+  padding-bottom: clamp(2.5rem, 6vw, 4.5rem);
+  overflow: hidden;
+  color: var(--bone);
+}
+
+.hero__img {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.hero__veil {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  /* Two axes rather than one diagonal. A single corner to corner gradient
+     either leaves the headline sitting on lit paper or has to be pushed so far
+     that it flattens the whole frame. Split into a rise from the foot and a
+     run from the left edge, each one clear well before the middle, the type is
+     held and the pour, the kettle and the steam above them are untouched. */
+  background:
+    linear-gradient(to top,
+      var(--veil-near) 0%,
+      var(--veil-mid) 32%,
+      var(--veil-none) 72%),
+    linear-gradient(to right,
+      var(--veil-near) 0%,
+      var(--veil-mid) 36%,
+      var(--veil-none) 66%);
 }
 
 .hero__inner {
+  position: relative;
+  z-index: 2;
   display: grid;
-  gap: clamp(2.5rem, 6vw, 4rem);
-  align-items: center;
-}
-
-.hero__copy { display: grid; gap: clamp(1.25rem, 3vw, 1.75rem); justify-items: start; }
-
-.hero__logo {
-  --logo-h: clamp(64px, 13vw, 104px);
-  padding: calc(var(--logo-h) * 0.254);
-  margin: calc(var(--logo-h) * -0.254);
+  gap: clamp(0.875rem, 2vw, 1.25rem);
+  justify-items: start;
 }
 
 .hero__headline {
@@ -408,27 +489,27 @@ body.is-locked { overflow: hidden; }
 }
 
 .hero__sub {
-  font-size: var(--t-lede);
-  color: var(--ink-quiet);
+  font-size: var(--t-body);
   max-width: 34ch;
 }
 
 .hero__arabic {
   font-family: var(--font-arabic);
   font-weight: 400;
-  color: var(--ink-quiet);
-  font-size: var(--t-lede);
+  font-size: var(--t-body);
   line-height: 1.9;
 }
 
-.hero__actions { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+.hero__actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 0.5rem; }
 
-/* The claim row. No rules, no tracking, no menu. Four quiet labels. */
+/* The claim row. Directly beneath the photograph, on Bone. Four quiet labels,
+   no rules and no tracking. */
+.claimrow { padding-block: clamp(1.75rem, 4vw, 2.5rem); }
+
 .claims {
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem 1.75rem;
-  margin-top: 0.5rem;
 }
 
 .claims li {
@@ -436,27 +517,13 @@ body.is-locked { overflow: hidden; }
   font-size: var(--t-micro);
 }
 
-/* The hero image bleeds to the screen edge on a phone. */
-.hero__media {
-  width: 100vw;
-  margin-inline: calc(var(--gutter) * -1);
-  max-width: none;
-}
-
-.hero__media img {
-  width: 100%;
-  height: auto;
-  aspect-ratio: 4 / 5;          /* 1600 x 2000 */
-  object-fit: cover;
-}
-
 /* --------------------------------------------------------------------------
-   10. How it works.
+   10. How it works. Three quiet columns beneath the photograph.
    -------------------------------------------------------------------------- */
 
 .steps { display: grid; gap: clamp(2rem, 4vw, 2.5rem); }
 
-.step { display: grid; gap: 0.5rem; }
+.step { display: grid; gap: 0.375rem; }
 
 .step__n {
   color: var(--ink-quiet);
@@ -464,8 +531,8 @@ body.is-locked { overflow: hidden; }
 }
 
 .step__en {
-  font-size: var(--t-lede);
-  line-height: 1.4;
+  font-size: var(--t-body);
+  line-height: 1.5;
   max-width: 30ch;
 }
 
@@ -478,40 +545,44 @@ body.is-locked { overflow: hidden; }
 }
 
 /* --------------------------------------------------------------------------
-   11. The packs. Each pack is a full width block, not a card with a thumbnail.
+   11. The packs. Two tiles. Each is the photograph at its full width with
+   nothing around it, then the count, one quiet line and the buy control.
+   The 12 cup carton sits smaller in its own frame by design, so the two are
+   never scaled to match.
    -------------------------------------------------------------------------- */
 
-.packs { display: grid; gap: clamp(3.5rem, 8vw, 6rem); }
+.packs { display: grid; gap: clamp(3rem, 7vw, 4.5rem); }
 
-.pack__body { display: grid; gap: 0.75rem; justify-items: start; }
+/* Inside a tile the photograph fills the tile rather than the screen. */
+.pack .feature { width: auto; margin-inline: 0; }
+
+.pack__body { display: grid; gap: 0.25rem; justify-items: start; }
 
 .pack__title {
-  font-size: clamp(1.75rem, 4vw, 2.75rem);
-  line-height: 1;
+  font-size: var(--t-label);
+  line-height: 1.1;
   letter-spacing: -0.01em;
 }
 
-.pack__facts { display: grid; gap: 0.125rem; }
-
-.pack__facts li {
+.pack__line {
   color: var(--ink-quiet);
   font-size: var(--t-body);
 }
 
-.pack__body .btn { margin-top: 0.75rem; }
+.pack__body .btn { margin-top: 1rem; }
 
 /* --------------------------------------------------------------------------
-   12. Statement. The second and last emerald role.
+   12. Statement. Tall and empty, and the second and last emerald role.
    -------------------------------------------------------------------------- */
 
 .statement {
-  padding-block: var(--band);
+  padding-block: clamp(7rem, 18vw, 13rem);
   text-align: center;
 }
 
 .statement__line {
-  font-size: clamp(1.875rem, 7vw, 5rem);
-  line-height: 1.02;
+  font-size: clamp(1.75rem, 4.4vw, 2.75rem);
+  line-height: 1.15;
   letter-spacing: -0.01em;
 }
 
@@ -524,14 +595,14 @@ body.is-locked { overflow: hidden; }
 }
 
 /* --------------------------------------------------------------------------
-   13. The coffee. Four claims, no rules between them.
+   13. The coffee. Four claims, quiet, no rules between them.
    -------------------------------------------------------------------------- */
 
 .facts { display: grid; gap: 0.375rem; }
 
 .facts li {
-  font-size: var(--t-lede);
-  line-height: 1.5;
+  font-size: var(--t-body);
+  line-height: 1.6;
 }
 
 /* --------------------------------------------------------------------------
@@ -548,12 +619,11 @@ body.is-locked { overflow: hidden; }
 }
 
 /* --------------------------------------------------------------------------
-   14. FAQ. No rules between items, the open state does the separating.
+   14. FAQ. Questions at body size in Bold, answers in Regular. No rules, the
+   open state does the separating.
    -------------------------------------------------------------------------- */
 
 .faq { display: grid; gap: 0.25rem; }
-
-.faq__item { border-radius: 4px; }
 
 .faq__item summary {
   display: flex;
@@ -561,7 +631,7 @@ body.is-locked { overflow: hidden; }
   justify-content: space-between;
   gap: 1rem;
   min-height: var(--tap);
-  padding-block: 0.875rem;
+  padding-block: 0.75rem;
   cursor: pointer;
   list-style: none;
 }
@@ -569,8 +639,8 @@ body.is-locked { overflow: hidden; }
 .faq__item summary::-webkit-details-marker { display: none; }
 
 .faq__item summary h3 {
-  font-size: var(--t-lede);
-  line-height: 1.3;
+  font-size: var(--t-body);
+  line-height: 1.4;
   font-weight: 700;
 }
 
@@ -578,7 +648,7 @@ body.is-locked { overflow: hidden; }
   content: "+";
   flex: 0 0 auto;
   color: var(--ink-quiet);
-  font-size: 1.375rem;
+  font-size: 1.25rem;
   line-height: 1;
 }
 
@@ -586,65 +656,15 @@ body.is-locked { overflow: hidden; }
 
 .faq__item > p {
   max-width: 62ch;
-  padding-bottom: 1.5rem;
+  padding-bottom: 1.25rem;
   color: var(--ink-quiet);
   font-size: var(--t-body);
   line-height: 1.7;
 }
 
 /* --------------------------------------------------------------------------
-   15. Email signup.
-   -------------------------------------------------------------------------- */
-
-.signup__form { display: grid; gap: 0.75rem; max-width: 520px; }
-
-.signup__input {
-  width: 100%;
-  min-height: var(--tap);
-  padding: 0.8125rem 1rem;
-  border: 1px solid var(--rule-ink);
-  border-radius: 999px;
-  background: transparent;
-  color: var(--ink);
-  font-family: inherit;
-  font-weight: 700;
-  font-size: var(--t-body);
-}
-
-.signup__input::placeholder { color: var(--ink-quiet); opacity: 1; }
-.signup__input:focus-visible { border-color: var(--ink); }
-.signup__input[aria-invalid="true"] { border-color: var(--ink); border-width: 2px; }
-
-.honeypot { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
-
-.signup__status {
-  min-height: 1.5rem;
-  margin-top: 0.875rem;
-  font-size: var(--t-micro);
-}
-
-.signup__status:empty { margin-top: 0; }
-
-.signup__note {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 0 1.25rem;
-  margin-top: 0.75rem;
-  color: var(--ink-quiet);
-  font-size: var(--t-micro);
-}
-
-.signup__note a {
-  display: inline-block;
-  padding-block: 0.9375rem;
-  margin-block: -0.9375rem;
-  text-underline-offset: 3px;
-}
-
-/* --------------------------------------------------------------------------
-   16. Footer. One logo, the origin line, the two contents blocks side by side,
-   legal links, copyright. No rules, no all caps body.
+   15. Footer. One logo, the origin line, the two contents blocks side by side,
+   legal links, copyright. Content unchanged, set to the new scale.
    -------------------------------------------------------------------------- */
 
 .foot { padding-block: var(--band); }
@@ -717,19 +737,20 @@ body.is-locked { overflow: hidden; }
 }
 
 /* --------------------------------------------------------------------------
-   17. Legal and 404 pages. Bone, like everything else.
+   16. Legal and 404 pages. Bone, like everything else, and set to the same
+   scale so a legal page cannot carry a heading the home page no longer has.
    -------------------------------------------------------------------------- */
 
 .page {
-  padding-top: calc(var(--nav-h) + clamp(1rem, 3vw, 1.5rem));
+  padding-top: calc(var(--nav-h) + clamp(1.5rem, 4vw, 2.5rem));
   padding-bottom: var(--band);
 }
 
 .page__title {
-  font-size: clamp(2rem, 6vw, 3.5rem);
-  line-height: 1;
+  font-size: var(--t-label);
+  line-height: 1.1;
   letter-spacing: -0.01em;
-  margin-bottom: 0.75rem;
+  margin-bottom: 0.5rem;
 }
 
 .page__meta {
@@ -743,7 +764,7 @@ body.is-locked { overflow: hidden; }
 .prose h2 {
   margin-top: clamp(2.25rem, 5vw, 3rem);
   margin-bottom: 0.75rem;
-  font-size: var(--t-lede);
+  font-size: var(--t-body);
 }
 
 .prose h3 {
@@ -778,13 +799,12 @@ body.is-locked { overflow: hidden; }
   padding: calc(var(--logo-h) * 0.254);
 }
 
-.notfound__line { font-size: var(--t-lede); }
+.notfound__line { font-size: var(--t-body); }
 
 /* --------------------------------------------------------------------------
-   18. Motion.
-   Transform and opacity only. The sheen pass and the Ken Burns are gone: the
-   sheen was painting hard bone bars along the image edges. Section 19 switches
-   everything here off under reduced motion.
+   17. Motion.
+   Transform and opacity only. Section 18 switches every rule here off under
+   reduced motion.
    -------------------------------------------------------------------------- */
 
 .beat { display: block; }
@@ -804,18 +824,12 @@ body.is-locked { overflow: hidden; }
     transition: opacity 620ms ease, transform 620ms cubic-bezier(0.2, 0.7, 0.3, 1);
   }
 
-  /* The three beats occupy 0 to 1400ms. The rest of the hero follows. */
-  [data-rise="1"] { transition-delay: 1.40s; }
-  [data-rise="2"] { transition-delay: 1.48s; }
-  [data-rise="3"] { transition-delay: 1.56s; }
-  [data-rise="4"] { transition-delay: 1.64s; }
-  [data-rise="5"] { transition-delay: 1.72s; }
-
-  /* The hero image is the largest paint on the page. It rises on its slot but
-     never sits at opacity 0, because an invisible element cannot count as
-     painted and would hold the largest contentful paint back by the whole
-     length of the choreography. */
-  [data-rise="6"] { opacity: 1; transition-delay: 1.72s; }
+  /* The three beats occupy 0 to 1400ms. The rest of the hero follows. The hero
+     photograph carries no rise of its own: it is the largest paint on the page
+     and an element held at opacity 0 cannot count as painted. */
+  [data-rise="2"] { transition-delay: 1.40s; }
+  [data-rise="3"] { transition-delay: 1.48s; }
+  [data-rise="4"] { transition-delay: 1.56s; }
 
   body.is-ready [data-rise] { opacity: 1; transform: none; }
 
@@ -826,10 +840,10 @@ body.is-locked { overflow: hidden; }
   }
 
   body.is-ready .claims li { opacity: 1; transform: none; }
-  body.is-ready .claims li:nth-child(1) { transition-delay: 1.80s; }
-  body.is-ready .claims li:nth-child(2) { transition-delay: 1.90s; }
-  body.is-ready .claims li:nth-child(3) { transition-delay: 2.00s; }
-  body.is-ready .claims li:nth-child(4) { transition-delay: 2.10s; }
+  body.is-ready .claims li:nth-child(1) { transition-delay: 1.64s; }
+  body.is-ready .claims li:nth-child(2) { transition-delay: 1.74s; }
+  body.is-ready .claims li:nth-child(3) { transition-delay: 1.84s; }
+  body.is-ready .claims li:nth-child(4) { transition-delay: 1.94s; }
 
   .reveal {
     opacity: 0;
@@ -846,23 +860,22 @@ body.is-locked { overflow: hidden; }
   }
 
   .statement__rule.is-in { transform: scaleX(1); }
+
+  /* Declared here rather than in the 960px block below, because a rule in a
+     later block at equal specificity would outrank the reduced motion
+     override and keep animating. */
+  .nav__links a { transition: opacity 180ms ease; }
 }
 
-/* The pack lift. It moves the photograph, which is the object on screen now
-   that the packs are full width blocks rather than cards. */
+/* The pack lift moves the photograph itself. No shadow, because nothing on
+   this page carries one. */
 @media (hover: hover) and (pointer: fine) {
-  .pack .feature__img {
-    transition: transform 350ms ease, box-shadow 350ms ease;
-  }
-
-  .pack:hover .feature__img {
-    transform: translateY(-4px);
-    box-shadow: 0 18px 44px var(--lift);
-  }
+  .pack .feature__img { transition: transform 350ms ease; }
+  .pack:hover .feature__img { transform: translateY(-4px); }
 }
 
 /* --------------------------------------------------------------------------
-   19. Reduced motion. The hidden states above are already scoped to
+   18. Reduced motion. The hidden states above are already scoped to
    no-preference, so a reduced motion visitor sees the settled page even if the
    script never runs. This switches off what is left.
    -------------------------------------------------------------------------- */
@@ -880,66 +893,40 @@ body.is-locked { overflow: hidden; }
   .beat, .claims li, .reveal, [data-rise] { opacity: 1; transform: none; transition: none; }
   .statement__rule { transform: none; transition: none; }
   .pack .feature__img { transition: none; }
-  .pack:hover .feature__img { transform: none; box-shadow: none; }
+  .pack:hover .feature__img { transform: none; }
+
+  /* The universal rule above cannot reach these. A class beats the universal
+     selector on specificity whatever the source order, so every transition
+     declared against a class has to be named here or it survives. */
+  .btn,
+  .nav__toggle-bars span { transition: none; }
 }
 
 /* --------------------------------------------------------------------------
-   20. Breakpoints. Mobile first, so everything above is the small screen.
+   19. Breakpoints. Mobile first, so everything above is the small screen.
    -------------------------------------------------------------------------- */
 
 @media (min-width: 768px) {
-  /* The hero image moves beside the type here, not at 960. This is the fix for
-     the slot reading as empty at iPad widths. */
-  .hero__inner {
-    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
-    gap: clamp(2rem, 5vw, 4rem);
-  }
-
-  .hero__media {
-    width: auto;
-    margin-inline: 0;
-    margin-inline-end: calc((100vw - min(100vw, var(--wrap))) / -2 - var(--gutter));
-  }
-
-  /* Feature images hold at least 60 per cent of the viewport and are given air. */
-  .feature {
-    width: min(72vw, 1600px);
+  /* Contained, and to the page wrap rather than to a share of the viewport, so
+     the edge of the photograph lands on the same line as the label beneath it.
+     A centred share of the viewport drifts off that line at tablet widths, and
+     on a page whose only edge is the photograph's, that drift is visible. */
+  .section > .feature {
+    width: 100%;
+    max-width: var(--wrap);
     margin-inline: auto;
-    margin-block: clamp(3rem, 6vw, 4.5rem);
+    margin-block: 0 clamp(2.5rem, 5vw, 3.75rem);
+    padding-inline: var(--gutter);
   }
 
   .steps { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 
-  .pack__body {
-    max-width: var(--wrap);
-    grid-template-columns: minmax(0, 1fr) auto;
-    align-items: end;
-    gap: 1rem 3rem;
+  /* Two tiles side by side. Each photograph fills its own tile. */
+  .packs {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(2rem, 4vw, 3.5rem);
+    align-items: start;
   }
-
-  .pack__title { grid-row: 1; grid-column: 1; }
-  .pack__facts { grid-row: 2; grid-column: 1; }
-  .pack__body .btn { grid-row: 1 / 3; grid-column: 2; align-self: center; margin-top: 0; }
-}
-
-@media (min-width: 1024px) {
-  /* Desktop. The hero photograph holds 60 per cent of the viewport, like the
-     other three. The left edge still lines up with the page wrap, so the copy
-     sits under the nav logo, and only the right side runs to the screen edge. */
-  .hero__inner {
-    max-width: none;
-    padding-left: calc((100vw - min(100vw, var(--wrap))) / 2 + var(--gutter));
-    padding-right: 0;
-    grid-template-columns: minmax(0, 1fr) 60vw;
-    column-gap: clamp(2rem, 3.5vw, 3rem);
-  }
-
-  .hero__media { margin-inline-end: 0; width: 100%; }
-
-  /* Sized to the column it now sits in rather than to the viewport. */
-  /* Capped, because the copy column narrows as the viewport grows: the image
-     holds 60vw and the left edge tracks the page wrap. */
-  .hero__headline { font-size: clamp(2.75rem, 5.4vw, 4.5rem); }
 }
 
 @media (min-width: 960px) {
@@ -954,13 +941,15 @@ body.is-locked { overflow: hidden; }
     min-height: var(--tap);
     font-size: var(--t-micro);
     text-decoration: none;
-    color: var(--ink-quiet);
-    transition: color 180ms ease;
   }
 
-  .nav__links a:hover { color: var(--ink); }
+  .nav__links a:hover { opacity: 0.7; }
   .nav__cta { display: block; }
   .nav__logo { --logo-h: 16px; }
+}
 
-  .signup__form { grid-template-columns: 1fr auto; align-items: start; }
+@media (min-width: 1024px) {
+  /* The hero headline is capped here. It is the only loud element on the page
+     and it should not run past the lower left corner it sits in. */
+  .hero__headline { font-size: clamp(3.5rem, 7vw, 6rem); }
 }

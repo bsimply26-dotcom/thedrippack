@@ -10,9 +10,9 @@ These rules apply to every session, every file, every change.
 The Drip Pack is a single serve pour over coffee brand launching on Amazon.ae
 in the UAE. Two SKUs, one blend, two counts.
 
-The website is a brochure. It does not sell. Every buy action sends the visitor
-to the Amazon.ae listing. The site exists to make the brand look credible and to
-capture emails.
+The website is a brochure. It does not sell and it collects nothing. Every buy
+action sends the visitor to the Amazon.ae listing. The site exists to make the
+brand look credible, and that is its whole job. There is no form on it.
 
 Domain: thedrippack.com
 
@@ -73,7 +73,16 @@ an explicit `.ground--green` class, so it cannot creep back as a default. There
 is exactly one such section on the site. That is what makes the statement band
 land.
 
-Secondary text on bone is Ink at 70 per cent opacity, which reads at 6.32:1.
+Secondary text on bone is Ink at 60 per cent opacity. Composited that is
+rgb(108, 106, 102), which reads at 4.55:1. That clears AA for normal text by
+0.05, so it is the floor rather than a comfortable setting: never go lighter,
+and if a future change needs headroom, raise it to 62 per cent, which reads at
+4.83:1. Nothing lighter than 60 per cent appears anywhere, because the page has
+to stay crisp against four very dark photographs.
+
+No borders, no card backgrounds, no hairlines and no shadows. The edge of a
+photograph is the only edge on the page, and a button is a filled pill rather
+than an outlined one.
 
 Sage is no longer defined in the stylesheet. It was specified as secondary text
 on green, and the one green section on the site carries only the locked line, so
@@ -129,10 +138,15 @@ numerals inside one string, set them as separate runs.
 Two approved lockups. Both set in Nimbus Sans Bold, all caps.
 
 **Stacked.** THE / DRIP / PACK. over three lines, with the emerald full stop
-after PACK. This is the primary lockup. Use it in the hero.
+after PACK. This is the primary lockup. Use it wherever a page leads with the
+mark rather than with a photograph, which today means the 404 page.
 
 **Single line.** THE DRIP PACK. on one line. Use it in the nav, the footer, and
 anywhere narrow.
+
+The home page hero is a photograph with POUR WAIT DRINK over it, so it carries
+no lockup of its own. The nav sits over that photograph in Bone and holds the
+single line lockup, which is what keeps the mark above the fold.
 
 Build both as inline SVG with `fill="currentColor"` on the letterforms and the
 emerald applied only to the full stop. No image files for the logo.
@@ -196,13 +210,20 @@ thumbnail inside a card.
 
 | File | Native | Slot |
 |---|---|---|
-| `hero-pack.webp` | 1600x2000 | Hero, beside the type |
-| `brew-pour.webp` | 2400x1600 | How it works |
-| `pack-open.webp` | 2400x1600 | The packs, 30 cups |
-| `pack-12.webp` | 1600x2000 | The packs, 12 cups |
+| `brew-pour.webp` | 1672x941 | Hero, full bleed, type over it |
+| `pack-open.webp` | 1672x941 | How it works |
+| `hero-pack.webp` | 1122x1402 | The packs, 30 cups |
+| `pack-12.webp` | 1122x1402 | The packs, 12 cups |
 
-Each runs at least 60 per cent of the viewport width at desktop and bleeds to
-both screen edges on a phone, with generous space around it.
+Every section opens with a photograph. Each one bleeds to both screen edges on
+a phone and is contained on desktop, with generous space around it and nothing
+around its edge. The hero photograph is the section rather than an image inside
+it: it fills the full bleed at 70vh at the least, and the type sits over its
+lower left corner held by a gradient that reaches that corner alone.
+
+The two pack photographs sit as tiles side by side. The 12 cup carton sits
+smaller in its own frame than the 30 cup by design, so the two are never scaled
+to match.
 
 The declared `width` and `height` only hold the box until the file loads, after
 which the real intrinsic ratio takes over. So each image also carries an explicit
