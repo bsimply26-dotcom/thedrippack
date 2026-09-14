@@ -210,16 +210,17 @@ a { color: inherit; }
 
 /* The declared width and height only hold the box until the file loads, after
    which the real intrinsic ratio takes over. Locking the ratio here means the
-   layout cannot move when a regenerated image of a different size drops in.
-   The height cap stops a portrait image running taller than the screen. */
+   layout cannot move when a regenerated image of a different size drops in. */
 .feature__img {
   width: 100%;
   height: auto;
   object-fit: cover;
 }
 
-.feature__img--wide { aspect-ratio: 3 / 2; }   /* 2400 x 1600 */
-.feature__img--tall { aspect-ratio: 4 / 5; }   /* 1600 x 2000 */
+/* Declared as the native pixel counts rather than a rounded ratio, so the box
+   matches the file exactly and nothing shifts as the image decodes. */
+.feature__img--wide { aspect-ratio: 1672 / 941; }
+.feature__img--tall { aspect-ratio: 1122 / 1402; }
 
 /* --------------------------------------------------------------------------
    6. The logo.
@@ -446,7 +447,7 @@ body.is-locked { overflow: hidden; }
 .hero__media img {
   width: 100%;
   height: auto;
-  aspect-ratio: 4 / 5;          /* 1600 x 2000 */
+  aspect-ratio: 1122 / 1402;    /* the native size of hero-pack.webp */
   object-fit: cover;
 }
 

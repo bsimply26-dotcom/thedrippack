@@ -196,10 +196,10 @@ thumbnail inside a card.
 
 | File | Native | Slot |
 |---|---|---|
-| `hero-pack.webp` | 1600x2000 | Hero, beside the type |
-| `brew-pour.webp` | 2400x1600 | How it works |
-| `pack-open.webp` | 2400x1600 | The packs, 30 cups |
-| `pack-12.webp` | 1600x2000 | The packs, 12 cups |
+| `hero-pack.webp` | 1122x1402 | Hero, beside the type |
+| `brew-pour.webp` | 1672x941 | How it works |
+| `pack-open.webp` | 1672x941 | The packs, 30 cups |
+| `pack-12.webp` | 1122x1402 | The packs, 12 cups |
 
 Each runs at least 60 per cent of the viewport width at desktop and bleeds to
 both screen edges on a phone, with generous space around it.
