@@ -49,6 +49,7 @@
      thing on the page set large. Section labels are 28px, body is 17px. */
   --t-display: clamp(3rem, 12vw, 7rem);
   --t-label:   1.75rem;      /* 28px, section labels and pack counts */
+  --t-claim:   clamp(1.25rem, 2.4vw, 1.625rem);  /* 20px to 26px, the claim row */
   --t-body:    1.0625rem;    /* 17px */
   --t-micro:   0.8125rem;    /* 13px */
 
@@ -502,19 +503,27 @@ body.is-locked { overflow: hidden; }
 
 .hero__actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 0.25rem; }
 
-/* The claim row. Directly beneath the photograph, on Bone. Four quiet labels,
-   no rules and no tracking. */
-.claimrow { padding-block: clamp(1.75rem, 4vw, 2.5rem); }
+/* The claim row. Directly beneath the photograph, on Bone. These four carry the
+   whole product argument, so they are the second thing the page says after the
+   headline, not a caption under it. A full band above and below makes the row
+   its own moment. No rules, no separators, no icons, no background. */
+.claimrow { padding-block: var(--band); }
 
+/* Two by two on a phone, four across from tablet up. Equal columns rather than
+   a wrapping row, so each claim holds its own space and the first one starts on
+   the page's left margin like everything else. */
 .claims {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem 1.75rem;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(1.5rem, 3.5vw, 2.25rem) clamp(1rem, 2.5vw, 2rem);
 }
 
+/* Between body and the section label in the hierarchy, and at full Ink rather
+   than the quiet tone. Regular weight: scale and space do the work. */
 .claims li {
-  color: var(--ink-quiet);
-  font-size: var(--t-micro);
+  color: var(--ink);
+  font-size: var(--t-claim);
+  line-height: 1.25;
 }
 
 /* --------------------------------------------------------------------------
@@ -930,6 +939,8 @@ body.is-locked { overflow: hidden; }
     margin-block: 0 clamp(2.5rem, 5vw, 3.75rem);
     padding-inline: var(--gutter);
   }
+
+  .claims { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 
   .steps { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 
