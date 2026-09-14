@@ -204,10 +204,22 @@ a { color: inherit; }
 .wrap--narrow { max-width: var(--wrap); }
 .wrap--narrow > * { max-width: 760px; }
 
+/* One band between blocks, not two. Every section used to carry a full band top
+   and bottom, so each pair of blocks was separated by 192px on desktop rather
+   than 96px, uniformly down the page. The band now sits once, between siblings,
+   so the measured gap is the band itself.
+
+   The statement band keeps its own padding, because that padding is the green
+   band's height rather than a gap, and it gets the same single band of cream
+   above and below from the rule. */
+main > * + * { margin-top: var(--band); }
+
 .section {
-  padding-block: var(--band);
+  padding-block: 0;
   scroll-margin-top: var(--nav-h);
 }
+
+.claimrow { padding-block: 0; }
 
 /* A label, not a banner. It sits directly above its content. */
 .section__label {
@@ -503,27 +515,22 @@ body.is-locked { overflow: hidden; }
 
 .hero__actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 0.25rem; }
 
-/* The claim row. Directly beneath the photograph, on Bone. These four carry the
+/* The claims. Directly beneath the photograph, on Bone. These four carry the
    whole product argument, so they are the second thing the page says after the
-   headline, not a caption under it. A full band above and below makes the row
-   its own moment. No rules, no separators, no icons, no background. */
-.claimrow { padding-block: var(--band); }
+   headline, not a caption under it.
 
-/* Two by two on a phone, four across from tablet up. Equal columns rather than
-   a wrapping row, so each claim holds its own space and the first one starts on
-   the page's left margin like everything else. */
-.claims {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: clamp(1.5rem, 3.5vw, 2.25rem) clamp(1rem, 2.5vw, 2rem);
-}
+   Stacked, one to a line, with no gap and a line height of 1.3. Four lines that
+   tight read as one statement of what the product is. Set as a row they read as
+   a spec strip, which is what a caption does. No rules, no markers, no numbers,
+   no background. */
+.claims { display: grid; gap: 0; }
 
 /* Between body and the section label in the hierarchy, and at full Ink rather
    than the quiet tone. Regular weight: scale and space do the work. */
 .claims li {
   color: var(--ink);
   font-size: var(--t-claim);
-  line-height: 1.25;
+  line-height: 1.3;
 }
 
 /* --------------------------------------------------------------------------
@@ -939,8 +946,6 @@ body.is-locked { overflow: hidden; }
     margin-block: 0 clamp(2.5rem, 5vw, 3.75rem);
     padding-inline: var(--gutter);
   }
-
-  .claims { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 
   .steps { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 

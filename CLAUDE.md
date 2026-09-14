@@ -92,8 +92,14 @@ at the margin while its text stays right to left. Contained photographs are
 sized to the page wrap rather than to a share of the viewport, so their edges
 land on that same line.
 
-Section padding is one band, 96px on desktop and 64px on mobile, and nothing
-exceeds it. No section gets extra breathing room of its own.
+One band between blocks, 96px on desktop and 64px on mobile. The band sits once
+between two blocks, never twice: sections carry no padding of their own, and a
+single margin separates each from the next, so the measured gap down the whole
+page is the band itself. No section gets extra breathing room of its own.
+
+The statement band is the one exception, and only in appearance. Its padding is
+the height of the green, not a gap, so it keeps a full band inside and still
+takes a single band of cream above and below.
 
 Sage is no longer defined in the stylesheet. It was specified as secondary text
 on green, and the one green section on the site carries only the locked line, so
@@ -174,8 +180,14 @@ Clear space around either lockup is no less than the cap height on all sides.
 emerald rule beneath it. Once means once. Set it over two lines, REAL COFFEE
 above NO MACHINE, which is how the side panel of the carton sets it.
 
-**Claims, in this order.** SINGLE SERVE POUR OVER / 100% ARABICA /
-SPECIALTY GRADE / CUPPED ABOVE 80
+**Claims, in this order.** SINGLE SERVE / 100% ARABICA / SPECIALTY GRADE /
+CUPPED ABOVE 80
+
+Four lines of similar length, stacked one to a line as a single block. The first
+was SINGLE SERVE POUR OVER and was shortened: the full phrase already carries on
+the carton, in the hero sub line directly above, and in the page title and meta
+description, so nothing is lost and four even lines read as a statement of what
+the product is rather than as a spec list.
 
 **Arabic descriptor.** قهوة بالتنقيط للكوب الواحد
 

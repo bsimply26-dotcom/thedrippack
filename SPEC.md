@@ -43,8 +43,19 @@ starts on the same left edge, and nothing is pushed to the far right of the
 screen. Verify it by measuring, not by eye: read the left edge of every block on
 the page and assert there is exactly one value.
 
-Section padding is one band, 96px on desktop and 64px on mobile. Nothing exceeds
-it and no section gets extra breathing room of its own.
+One band between blocks, 96px on desktop and 64px on mobile, and the band sits
+once between two blocks rather than twice. Sections carry no padding of their
+own; a single margin separates each from the next. An earlier version gave every
+section a full band top and bottom, which put 192px between every pair of blocks
+down the whole page rather than 96px.
+
+Verify it by measuring, not by eye: read the gap between the last painted thing
+in each block and the first painted thing in the next, and assert every one
+equals the band. Two readings need care. The statement band's own padding is the
+height of the green rather than a gap, so measure to its edge, not to the line
+inside it. The footer logo carries a negative margin that offsets its padding,
+so its box starts a padding short of the band while its letterform lands on
+it.
 
 ### 1. Navbar
 
@@ -119,10 +130,10 @@ hero photograph carries no rise of its own, because it is the largest paint on
 the page and an element held at opacity 0 cannot count as painted. All
 suppressed under `prefers-reduced-motion`.
 
-### 3. The claim row
+### 3. The claims
 
-Directly beneath the hero photograph, on Bone: SINGLE SERVE POUR OVER /
-100% ARABICA / SPECIALTY GRADE / CUPPED ABOVE 80.
+Directly beneath the hero photograph, on Bone: SINGLE SERVE / 100% ARABICA /
+SPECIALTY GRADE / CUPPED ABOVE 80.
 
 These four carry the whole product argument, so they are the second thing the
 page says after the headline rather than a caption under it. Set them above body
@@ -130,14 +141,21 @@ copy in the hierarchy and below the section label, 20px on a phone rising to
 26px on a wide screen, in Ink at full strength. Regular weight: scale and space
 do the work, never bold.
 
-Four equal columns from tablet up, two by two on a phone, left aligned at both.
-Equal columns rather than a wrapping row, so each claim holds its own space and
-the row spans the full content width with the first one on the page's left
-margin. A full band above and below, so the row reads as its own moment.
+Stacked, one to a line, on the page's left margin like everything else. No gap
+between the lines and a line height of 1.3, so the four read as one block rather
+than four separate statements. Four lines that tight read as a statement of what
+the product is. Set across as a row they read as a spec strip, which is what a
+caption does, and that is why the row treatment was abandoned.
 
-No rules, no separators, no icons, no background. An earlier version of this
-file called for thin Sage rules and a quiet row of small labels. Sage is retired
-and the page carries no rules of any kind, and the row is no longer quiet.
+The first claim is SINGLE SERVE rather than SINGLE SERVE POUR OVER. The full
+phrase carries on the carton, in the hero sub line directly above and in the
+page title and meta description, so nothing is lost, and four lines of similar
+length read far better than three short ones and a long one.
+
+No rules, no markers, no numbers, no separators, no icons, no background. An
+earlier version of this file called for thin Sage rules and a quiet row of small
+labels. Sage is retired, the page carries no rules of any kind, and the claims
+are neither quiet nor a row.
 
 ### 4. How it works
 
