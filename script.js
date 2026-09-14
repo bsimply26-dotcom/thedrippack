@@ -4,14 +4,11 @@
    ========================================================================== */
 
 /* ==========================================================================
-   THE TWO SWITCHES
+   THE SWITCH
 
-   These three values are the only edits needed to take the site live. Paste
-   into the constants below and nothing else anywhere in the repo changes. Do
-   not hardcode any of them inline, and do not edit the HTML to match.
-
-   ---------------------------------------------------------------------------
-   SWITCH ONE, the buy buttons. AMAZON_HERO and AMAZON_TRIAL.
+   These two values are the only edits needed to take the site live. Paste into
+   the constants below and nothing else anywhere in the repo changes. Do not
+   hardcode either of them inline, and do not edit the HTML to match.
 
      Paste  the full Amazon.ae product URL, in quotes, including https
      Format 'https://www.amazon.ae/dp/XXXXXXXXXX'
@@ -19,44 +16,23 @@
             AMAZON_TRIAL is the 12 cup listing
 
    While a value is '#' the five buy controls, in the nav, the mobile sheet,
-   the hero and both pack cards, render disabled and labelled
+   the hero and both pack tiles, render disabled and labelled
    "Coming soon on Amazon.ae", stay reachable by keyboard, and do not navigate.
 
    The moment a real URL is pasted in, every control fed by that constant
    becomes a live link labelled "Buy on Amazon.ae", opening in a new tab with
    rel="noopener". Filling only one of the two switches only that listing.
 
-   ---------------------------------------------------------------------------
-   SWITCH TWO, the email signup. FORMSPREE_ID.
-
-     Paste  the form ID alone, in quotes, not the whole endpoint
-     Format 'xabcdefg', the last path segment of https://formspree.io/f/xabcdefg
-
-   While it is '' the form still validates the address and still reports
-   errors, but posts nothing and answers "Signup opens soon", so no submission
-   is ever silently lost.
-
-   The moment an ID is pasted in, the same form posts to
-   https://formspree.io/f/<ID> and switches to the live states: "Sending",
-   then "Thank you. We will be in touch" or "That did not send. Please try
-   again". No markup change, no endpoint written anywhere else.
+   There is no second switch. The site collects nothing, so there is no form,
+   no endpoint and no address to configure.
    ========================================================================== */
 
 const AMAZON_HERO  = '#';   // Amazon.ae listing, 30 cup. Not yet live.
 const AMAZON_TRIAL = '#';   // Amazon.ae listing, 12 cup. Not yet live.
-const FORMSPREE_ID = '';    // Formspree form ID for the email signup.
 
 /* Labels. The buy buttons carry the first until a real URL lands above. */
 const LABEL_PENDING = 'Coming soon on Amazon.ae';
 const LABEL_LIVE    = 'Buy on Amazon.ae';
-
-/* Signup copy. Mirrors the buy button rule: no live endpoint, no dead post. */
-const SIGNUP_PENDING = 'Signup opens soon';
-const SIGNUP_INVALID = 'Enter a valid email address';
-const SIGNUP_EMPTY   = 'Enter your email address';
-const SIGNUP_SENDING = 'Sending';
-const SIGNUP_OK      = 'Thank you. We will be in touch';
-const SIGNUP_ERROR   = 'That did not send. Please try again';
 
 const MOBILE_BREAKPOINT = 960;
 const STUCK_AFTER = 24;
@@ -138,9 +114,18 @@ function initNavSurface() {
 function initNavSheet() {
   const toggle = document.getElementById('navToggle');
   const sheet = document.getElementById('navSheet');
+  const nav = document.getElementById('nav');
   if (toggle === null || sheet === null) return;
 
   let scrollY = 0;
+
+  /* The sheet is Bone with Ink type, so the bar above it has to carry the same
+     surface while it is open. Without this the bar stays transparent with Bone
+     type over the photograph and the two read as separate objects. */
+  function surface(open) {
+    if (nav === null) return;
+    nav.classList.toggle('is-sheet', open);
+  }
 
   function isOpen() {
     return toggle.getAttribute('aria-expanded') === 'true';
@@ -150,6 +135,7 @@ function initNavSheet() {
     scrollY = window.scrollY;
     sheet.hidden = false;
     toggle.setAttribute('aria-expanded', 'true');
+    surface(true);
     document.body.classList.add('is-locked');
     document.body.style.top = '-' + scrollY + 'px';
     document.body.style.position = 'fixed';
@@ -163,6 +149,7 @@ function initNavSheet() {
   function close(returnFocus) {
     sheet.hidden = true;
     toggle.setAttribute('aria-expanded', 'false');
+    surface(false);
     document.body.classList.remove('is-locked');
     document.body.style.position = '';
     document.body.style.top = '';
@@ -237,7 +224,7 @@ function initBeats() {
 
 const REVEAL_WITHIN = [
   '.section__title', '.statement__line', '.feature', '.step', '.pack__body',
-  '.why li', '.facts li', '.faq__item', '.signup__form', '.signup__note',
+  '.why li', '.facts li', '.faq__item',
   '.foot__logo', '.foot__origin', '.foot__col', '.foot__end'
 ].join(', ');
 
@@ -296,94 +283,6 @@ function initStatementRule() {
 }
 
 /* --------------------------------------------------------------------------
-   Email signup. Client side validation, inline states, no alert, no reload.
-   -------------------------------------------------------------------------- */
-
-const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
-
-function initSignup() {
-  const form = document.getElementById('signupForm');
-  const field = document.getElementById('email');
-  const status = document.getElementById('signupStatus');
-  if (form === null || field === null || status === null) return;
-
-  const submit = form.querySelector('button[type="submit"]');
-
-  function say(message, state) {
-    status.textContent = message;
-    status.setAttribute('data-state', state);
-  }
-
-  function markInvalid(message) {
-    field.setAttribute('aria-invalid', 'true');
-    say(message, 'error');
-    field.focus();
-  }
-
-  function clearInvalid() {
-    field.removeAttribute('aria-invalid');
-  }
-
-  function lockSubmit(locked) {
-    if (submit === null) return;
-    submit.disabled = locked;
-  }
-
-  field.addEventListener('input', function () {
-    if (field.getAttribute('aria-invalid') === 'true') {
-      clearInvalid();
-      say('', 'idle');
-    }
-  });
-
-  form.addEventListener('submit', function (event) {
-    event.preventDefault();
-
-    const value = field.value.trim();
-
-    if (value.length === 0) {
-      markInvalid(SIGNUP_EMPTY);
-      return;
-    }
-
-    if (EMAIL_PATTERN.test(value) === false) {
-      markInvalid(SIGNUP_INVALID);
-      return;
-    }
-
-    clearInvalid();
-
-    /* No endpoint yet, so nothing is posted and nothing is lost. */
-    if (isPlaceholder(FORMSPREE_ID)) {
-      say(SIGNUP_PENDING, 'ok');
-      return;
-    }
-
-    say(SIGNUP_SENDING, 'idle');
-    lockSubmit(true);
-
-    const payload = new FormData(form);
-
-    window.fetch('https://formspree.io/f/' + FORMSPREE_ID, {
-      method: 'POST',
-      body: payload,
-      headers: { Accept: 'application/json' }
-    }).then(function (response) {
-      if (response.ok) {
-        form.reset();
-        say(SIGNUP_OK, 'ok');
-        return;
-      }
-      say(SIGNUP_ERROR, 'error');
-    }).catch(function () {
-      say(SIGNUP_ERROR, 'error');
-    }).then(function () {
-      lockSubmit(false);
-    });
-  });
-}
-
-/* --------------------------------------------------------------------------
    Footer year.
    -------------------------------------------------------------------------- */
 
@@ -404,5 +303,4 @@ initBeats();
 initEntry();
 initReveal();
 initStatementRule();
-initSignup();
 initYear();

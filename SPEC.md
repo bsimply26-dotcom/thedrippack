@@ -12,7 +12,6 @@ and reference the constant everywhere else. Never hardcode them inline.
 ```js
 const AMAZON_HERO  = '#';   // Amazon.ae listing, 30 cup. Not yet live.
 const AMAZON_TRIAL = '#';   // Amazon.ae listing, 12 cup. Not yet live.
-const FORMSPREE_ID = '';    // Formspree form ID for the email signup.
 ```
 
 While `AMAZON_HERO` is `'#'`, every buy button renders in a disabled state with
@@ -102,18 +101,7 @@ the UAE. Do not expand beyond that.
 
 One image slot: beans and grounds on the green ground.
 
-### 7. Email signup
-
-Single field, email only, plus a submit button. Posts to Formspree.
-
-- Label and placeholder both present, label visually hidden is acceptable
-- Client side validation on the email format before submit
-- Inline success and error states, no alert boxes, no page reload
-- Honeypot field for spam, hidden from screen readers
-- One line beneath: We will email you when it is live. Nothing else.
-- Links to the privacy policy
-
-### 8. Footer
+### 7. Footer
 
 - Single line logo lockup
 - Origin line, verbatim
@@ -126,9 +114,10 @@ Single field, email only, plus a submit button. Posts to Formspree.
 
 ## Standalone pages
 
-- `privacy.html` is a real policy, not a stub. It must cover the analytics in
-  use and the email signup, what is collected, why, how long it is kept, and
-  how to request deletion. UAE and GDPR wording.
+- `privacy.html` is a real policy, not a stub. The site collects nothing, so
+  the policy covers the cookieless analytics in use, states plainly that no
+  personal data is held, and explains why no data request address is offered.
+  UAE and GDPR wording.
 - `terms.html` is the terms of use for a brochure site. It must note explicitly
   that purchases are made on Amazon.ae under Amazon's terms, not here.
 - `404.html` is branded: the green ground, the logo, one line, and a link back
@@ -183,9 +172,9 @@ All twenty are in scope. Build them, do not treat them as optional.
     sheet, `prefers-reduced-motion` respected. Check contrast: Sage #A9B6A6 on
     Green #1A331E must be verified and the Sage darkened or the size raised if
     it fails. Report the ratios rather than assuming they pass.
-18. **Test forms.** Submit the email form end to end, confirm it reaches
-    Formspree, and confirm the success and error states both render. Test an
-    invalid address and an empty submit.
+18. **Confirm the site collects nothing.** No form, no input, no honeypot and
+    no endpoint anywhere in the markup or the script. The only third party
+    request is the cookieless analytics beacon.
 19. **Check broken links.** Every internal anchor resolves, every external link
     opens correctly, and no `href="#"` is left except the documented Amazon
     placeholders above.

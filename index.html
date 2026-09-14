@@ -30,7 +30,7 @@
 
 <link rel="preload" href="fonts/NimbusSans-Regular.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/NimbusSans-Bold.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="images/hero-pack.webp" as="image" type="image/webp" fetchpriority="high">
+<link rel="preload" href="images/brew-pour.webp" as="image" type="image/webp" fetchpriority="high">
 
 <link rel="stylesheet" href="styles.css">
 
@@ -112,7 +112,7 @@
     </nav>
 
     <div class="nav__cta">
-      <button type="button" class="btn btn--primary btn--sm" data-amazon="hero" aria-disabled="true">Coming soon on Amazon.ae</button>
+      <button type="button" class="btn btn--sm" data-amazon="hero" aria-disabled="true">Coming soon on Amazon.ae</button>
     </div>
 
     <button type="button" class="nav__toggle" id="navToggle" aria-expanded="false" aria-controls="navSheet">
@@ -129,66 +129,64 @@
       <a href="#packs">The packs</a>
       <a href="#faq">FAQ</a>
     </nav>
-    <button type="button" class="btn btn--primary" data-amazon="hero" aria-disabled="true">Coming soon on Amazon.ae</button>
+    <button type="button" class="btn" data-amazon="hero" aria-disabled="true">Coming soon on Amazon.ae</button>
   </div>
 </header>
 
 <main id="main">
 
-  <!-- 1. Hero. Pack Green. -->
+  <!-- 1. Hero. The photograph is the section. The type sits over its lower left
+       corner, held by a gradient that reaches only that corner. -->
   <section class="hero" id="top">
+
+    <img class="hero__img" src="images/brew-pour.webp" width="1672" height="941"
+         fetchpriority="high" decoding="async"
+         alt="Hot water pouring from a gooseneck kettle into an unbranded paper filter hooked over a mug, steam rising">
+
+    <span class="hero__veil" aria-hidden="true"></span>
+
     <div class="wrap hero__inner">
-
-      <div class="hero__copy">
-        <h1 class="hero__logo" data-rise="1">
-          <svg class="logo logo--stack" viewBox="0 0 126 113" role="img" aria-label="The Drip Pack" focusable="false">
-            <text x="0" y="29" textLength="80" lengthAdjust="spacingAndGlyphs">THE</text>
-            <text x="0" y="71" textLength="96" lengthAdjust="spacingAndGlyphs">DRIP</text>
-            <text x="0" y="113" textLength="125" lengthAdjust="spacingAndGlyphs">PACK<tspan class="logo__stop">.</tspan></text>
-          </svg>
-        </h1>
-
-        <p class="hero__headline">POUR WAIT DRINK</p>
-
-        <p class="hero__sub" data-rise="2">Single serve pour over, 30 cups in a box</p>
-
-        <p class="hero__arabic" lang="ar" dir="rtl" data-rise="3">قهوة بالتنقيط للكوب الواحد</p>
-
-        <div class="hero__actions" data-rise="4">
-          <button type="button" class="btn btn--primary" data-amazon="hero" aria-disabled="true">Coming soon on Amazon.ae</button>
-          <a class="btn btn--secondary" href="#how">How it works</a>
-        </div>
-
-        <ul class="claims" data-rise="5">
-          <li>Single serve pour over</li>
-          <li>100% arabica</li>
-          <li>Specialty grade</li>
-          <li>Cupped above 80</li>
-        </ul>
+      <h1 class="hero__headline">POUR WAIT DRINK</h1>
+      <p class="hero__sub" data-rise="2">Single serve pour over, 30 cups in a box</p>
+      <p class="hero__arabic" lang="ar" dir="rtl" data-rise="3">قهوة بالتنقيط للكوب الواحد</p>
+      <div class="hero__actions" data-rise="4">
+        <button type="button" class="btn" data-amazon="hero" aria-disabled="true">Coming soon on Amazon.ae</button>
       </div>
+    </div>
 
-      <div class="hero__media" data-rise="6">
-        <img src="images/hero-pack.webp" width="1122" height="1402"
-             fetchpriority="high" decoding="async"
-             alt="The 30 cup carton of The Drip Pack lit hard from the left on a deep green ground, roasted beans and grounds scattered across its face">
-      </div>
+  </section>
 
+  <!-- The claim row. Directly beneath the photograph, on Bone. Four labels. -->
+  <section class="claimrow" aria-label="Product claims">
+    <div class="wrap">
+      <ul class="claims">
+        <li>Single serve pour over</li>
+        <li>100% arabica</li>
+        <li>Specialty grade</li>
+        <li>Cupped above 80</li>
+      </ul>
     </div>
   </section>
 
-  <!-- 2. How it works. Bone ground, Ink type. -->
+  <!-- Every image below the hero carries fetchpriority="low" as well as
+       loading="lazy". An image led page puts three large photographs close
+       enough to the fold that Chrome's lazy threshold fetches them anyway, and
+       without the hint they compete with the hero for the same connection and
+       cost the mobile score five points. Nothing is cut, they simply queue
+       behind the one image that decides the largest contentful paint. -->
+
+  <!-- 2. How it works. The photograph opens the section, the label sits above
+       the steps rather than above empty space. -->
   <section class="section" id="how">
-    <div class="wrap">
-      <h2 class="section__title">How it works</h2>
-    </div>
 
     <figure class="feature">
-      <img class="feature__img feature__img--wide" src="images/brew-pour.webp" width="1672" height="941"
-           loading="lazy" decoding="async"
-           alt="Hot water pouring from a gooseneck kettle into an unbranded paper filter hooked over a mug, steam rising">
+      <img class="feature__img feature__img--wide" src="images/pack-open.webp" width="1672" height="941"
+           loading="lazy" fetchpriority="low" decoding="async"
+           alt="The open 30 cup carton of The Drip Pack with a row of branded sachets fanned beside it">
     </figure>
 
     <div class="wrap">
+      <h2 class="section__label">How it works</h2>
       <ol class="steps">
         <li class="step">
           <span class="step__n" aria-hidden="true">01</span>
@@ -209,10 +207,10 @@
     </div>
   </section>
 
-  <!-- 3. Why this. Bone ground, Ink type, same as its neighbours. -->
-  <section class="section" id="why">
+  <!-- 3. Why this. Type only. The one quiet moment in the page. -->
+  <section class="section section--pause" id="why">
     <div class="wrap wrap--narrow">
-      <h2 class="section__title">Why this</h2>
+      <h2 class="section__label">Why this</h2>
       <ul class="why">
         <li>No machine, no pods, no grinder</li>
         <li>Real ground coffee, not instant</li>
@@ -221,50 +219,46 @@
     </div>
   </section>
 
-  <!-- 4. The packs. Bone ground, Ink type. -->
+  <!-- 4. The packs. Two tiles. The photograph fills each tile with nothing
+       around it. The 12 cup carton sits smaller in its frame by design. -->
   <section class="section" id="packs">
     <div class="wrap">
-      <h2 class="section__title">The packs</h2>
+      <h2 class="section__label">The packs</h2>
     </div>
 
-    <div class="packs">
+    <div class="wrap packs">
 
       <article class="pack">
         <figure class="feature">
-          <img class="feature__img feature__img--wide" src="images/pack-open.webp" width="1672" height="941"
-               loading="lazy" decoding="async"
-               alt="The open 30 cup carton of The Drip Pack with a row of branded sachets fanned beside it">
+          <img class="feature__img feature__img--tall" src="images/hero-pack.webp" width="1122" height="1402"
+               loading="lazy" fetchpriority="low" decoding="async"
+               alt="The 30 cup carton of The Drip Pack lit hard from the left on a deep green ground, roasted beans and grounds scattered across its face">
         </figure>
-        <div class="wrap pack__body">
+        <div class="pack__body">
           <h3 class="pack__title">30 cups</h3>
-          <ul class="pack__facts">
-            <li>The box</li>
-            <li>Net 300g</li>
-          </ul>
-          <button type="button" class="btn btn--primary" data-amazon="hero" aria-disabled="true">Coming soon on Amazon.ae</button>
+          <p class="pack__line">Net 300g</p>
+          <button type="button" class="btn" data-amazon="hero" aria-disabled="true">Coming soon on Amazon.ae</button>
         </div>
       </article>
 
       <article class="pack">
         <figure class="feature">
           <img class="feature__img feature__img--tall" src="images/pack-12.webp" width="1122" height="1402"
-               loading="lazy" decoding="async"
+               loading="lazy" fetchpriority="low" decoding="async"
                alt="The squat 12 cup carton of The Drip Pack on a deep green ground, lit hard from one side">
         </figure>
-        <div class="wrap pack__body">
+        <div class="pack__body">
           <h3 class="pack__title">12 cups</h3>
-          <ul class="pack__facts">
-            <li>Try it first</li>
-            <li>Net 120g</li>
-          </ul>
-          <button type="button" class="btn btn--secondary" data-amazon="trial" aria-disabled="true">Coming soon on Amazon.ae</button>
+          <p class="pack__line">Net 120g</p>
+          <button type="button" class="btn" data-amazon="trial" aria-disabled="true">Coming soon on Amazon.ae</button>
         </div>
       </article>
 
     </div>
   </section>
 
-  <!-- 5. Statement. Pack Green. The only other green ground on the site. -->
+  <!-- 5. Statement. Pack Green, full bleed. The photographs are the same green,
+       so the band reads as continuous with them rather than as a stripe. -->
   <section class="statement ground--green">
     <div class="wrap">
       <h2 class="statement__line">REAL COFFEE NO MACHINE</h2>
@@ -272,10 +266,10 @@
     </div>
   </section>
 
-  <!-- 6. The coffee. Bone ground, Ink type. -->
-  <section class="section" id="coffee">
+  <!-- 6. The coffee. Type only, four approved claims. -->
+  <section class="section section--pause" id="coffee">
     <div class="wrap wrap--narrow">
-      <h2 class="section__title">The coffee</h2>
+      <h2 class="section__label">The coffee</h2>
       <ul class="facts">
         <li>100% arabica</li>
         <li>Specialty grade</li>
@@ -285,10 +279,10 @@
     </div>
   </section>
 
-  <!-- 7. FAQ. Bone ground, Ink type. -->
+  <!-- 7. FAQ. Questions at body size in Bold, answers in Regular, no rules. -->
   <section class="section" id="faq">
     <div class="wrap wrap--narrow">
-      <h2 class="section__title">FAQ</h2>
+      <h2 class="section__label">FAQ</h2>
 
       <div class="faq">
         <details class="faq__item">
@@ -321,35 +315,6 @@
           <p>A cup and hot water.</p>
         </details>
       </div>
-    </div>
-  </section>
-
-  <!-- 8. Email signup. Bone ground, Ink type. -->
-  <section class="section signup" id="signup">
-    <div class="wrap wrap--narrow">
-      <h2 class="visually-hidden">Email signup</h2>
-
-      <form class="signup__form" id="signupForm" novalidate>
-        <label class="visually-hidden" for="email">Email address</label>
-        <input class="signup__input" type="email" id="email" name="email"
-               placeholder="Email address" autocomplete="email" required
-               aria-describedby="signupNote" spellcheck="false">
-
-        <!-- Honeypot. Off screen, off the tab order, hidden from assistive technology. -->
-        <div class="honeypot" aria-hidden="true">
-          <label for="company">Company</label>
-          <input type="text" id="company" name="_gotcha" tabindex="-1" autocomplete="off">
-        </div>
-
-        <button type="submit" class="btn btn--primary">Notify me</button>
-      </form>
-
-      <p class="signup__status" id="signupStatus" role="status" aria-live="polite"></p>
-
-      <p class="signup__note">
-        <span id="signupNote">We will email you when it is live</span>
-        <a href="privacy.html">Privacy</a>
-      </p>
     </div>
   </section>
 
