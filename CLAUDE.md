@@ -236,13 +236,22 @@ thumbnail inside a card.
 | File | Native | Slot |
 |---|---|---|
 | `brew-pour.webp` | 1672x941 | Hero, full bleed, type over it |
-| `pack-open.webp` | 1672x941 | How it works |
+| `pack-open.webp` | 1672x941 | Beside the claims, right column |
 | `hero-pack.webp` | 1122x1402 | The packs, 30 cups |
 | `pack-12.webp` | 1122x1402 | The packs, 12 cups |
 
-Every section opens with a photograph. Each one bleeds to both screen edges on
-a phone and is contained on desktop, with generous space around it and nothing
-around its edge. The hero photograph is the section rather than an image inside
+Each one bleeds to both screen edges on a phone and is contained on desktop,
+with generous space around it and nothing around its edge.
+
+An earlier version of this file said every section opens with a photograph. That
+is no longer true and should not be restored. The claims and `pack-open.webp`
+are one block rather than two: at 900 and up the four claims hold the left
+column and the photograph the right, at roughly 56 per cent of the content
+width, centred against each other so the claims sit at the optical middle of the
+frame rather than at its top. Below 900 they stack, claims first, both full
+width. Merging them is what removed the band of empty cream that sat between a
+claim section and a photograph section. How it works therefore leads with its
+label, not with an image. The hero photograph is the section rather than an image inside
 it: it fills the full bleed at 80vh, and the type sits over its lower left
 corner as one tight stack, held by a gradient that reaches that corner alone.
 80vh rather than more, so the claim row beneath is visible at the fold.
