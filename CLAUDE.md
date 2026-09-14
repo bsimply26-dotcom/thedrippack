@@ -64,14 +64,25 @@ Defined once as CSS custom properties. Never hardcode a hex anywhere else.
 |---|---|---|
 | `--bone` | #F1EBE1 | The ground. Default background of the whole site. |
 | `--ink` | #141414 | All primary type on bone. |
-| `--green` | #1A331E | The statement band, and nothing else. Opt in only. |
+| `--green` | #1A331E | The statement band and the footer. Opt in only. |
 | `--emerald` | #14A05C | The full stop, and one rule under REAL COFFEE NO MACHINE. Nothing else. |
 | `--sage` | #A9B6A6 | Retired from the stylesheet. See below. |
 
 The ground is set once as `--ground: var(--bone)`. Green is reached only through
 an explicit `.ground--green` class, so it cannot creep back as a default. There
-is exactly one such section on the site. That is what makes the statement band
-land.
+are exactly two such blocks on the site: the statement band and the footer.
+
+Green has two jobs and no more. The band is the argument, the footer is the
+ending: green closes the page the way the hero photograph opens it, so the page
+stops rather than running out of content on the same cream as everything above.
+An earlier version of this file said the statement band and nothing else. Two is
+the limit, and a third would cost the band its weight.
+
+Secondary text on green is Bone at 70 per cent, `--bone-quiet`, composited
+rgb(176, 180, 166), which reads at 6.46:1. Never Ink, which is unreadable there,
+and never Sage, which is retired and would read at 4.0:1. 70 rather than 60
+because the footer carries the smallest type on the site at 13px, so this one is
+set with headroom rather than at the floor.
 
 Secondary text on bone is Ink at 60 per cent opacity. Composited that is
 rgb(108, 106, 102), which reads at 4.55:1. That clears AA for normal text by
@@ -101,12 +112,13 @@ The statement band is the one exception, and only in appearance. Its padding is
 the height of the green, not a gap, so it keeps a full band inside and still
 takes a single band of cream above and below.
 
-Sage is no longer defined in the stylesheet. It was specified as secondary text
-on green, and the one green section on the site carries only the locked line, so
-nothing used it. It stays in this table as a brand colour rather than a live
-token. If a green section ever needs quiet text, reinstate `--sage: #A9B6A6` in
-the token block and scope it inside `.ground--green`. Never put it on bone: it
-falls to 1.9:1.
+Sage is no longer defined in the stylesheet and should not be reinstated. It was
+specified as secondary text on green, which is now a real need in the footer,
+but `--bone-quiet` fills that role at 6.46:1 where Sage reads 4.0:1 and stays in
+the same family as the type around it. An earlier version of this file said to
+bring Sage back if a green section ever needed quiet text. That moment came and
+Bone reduced was the better answer. Sage stays in the table as a brand colour
+rather than a live token. Never put it on bone: it falls to 1.9:1.
 
 Emerald is an accent of last resort. It is not a button colour, not a link
 colour, not a hover state. If you find yourself reaching for it a third time,
@@ -230,7 +242,7 @@ If a piece of copy is not in this file or in SPEC.md, do not invent it. Ask.
 
 ## 8. Imagery
 
-Four photographs, and only four. Each one dominates: no image is ever an inset
+Five photographs, and only five. Each one dominates: no image is ever an inset
 thumbnail inside a card.
 
 | File | Native | Slot |
@@ -239,6 +251,7 @@ thumbnail inside a card.
 | `pack-open.webp` | 1672x941 | Beside the claims, right column |
 | `hero-pack.webp` | 1122x1402 | The packs, 30 cups |
 | `pack-12.webp` | 1122x1402 | The packs, 12 cups |
+| `sachet-in-hand.webp` | 1536x516 | The closing block, above the footer |
 
 Each one bleeds to both screen edges on a phone and is contained on desktop,
 with generous space around it and nothing around its edge.
@@ -255,6 +268,12 @@ label, not with an image. The hero photograph is the section rather than an imag
 it: it fills the full bleed at 80vh, and the type sits over its lower left
 corner as one tight stack, held by a gradient that reaches that corner alone.
 80vh rather than more, so the claim row beneath is visible at the fold.
+
+`sachet-in-hand.webp` is the closing block. It runs full bleed at every width
+and meets the green footer with no gap at all, so the dark photograph and the
+dark footer read as one ending rather than as a section followed by a footer.
+Nothing else sits in that block: no heading, no caption, no copy. The standard
+band above it and zero below.
 
 The two pack photographs sit as tiles side by side. The 12 cup carton sits
 smaller in its own frame than the 30 cup by design, so the two are never scaled

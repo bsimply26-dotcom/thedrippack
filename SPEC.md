@@ -23,8 +23,8 @@ that behaviour, do not leave dead links.
 
 ## Structure
 
-One page, `index.html`, built as ten blocks in this order. Plus three standalone
-pages.
+One page, `index.html`, built as eleven blocks in this order. Plus three
+standalone pages.
 
 The page is image led. The type is small and quiet and sits beneath or over a
 photograph as a label. There
@@ -258,7 +258,23 @@ Six questions. Questions at body size in Bold, answers in Regular. No rules
 between items, the open state does the separating. Answers within the approved
 claim set only. Marked up with FAQPage JSON-LD.
 
-### 10. Footer
+### 10. The closing block
+
+`sachet-in-hand.webp`, full bleed at every width, running straight into the
+green footer with no gap between the two, so the dark photograph and the dark
+footer read as one ending. The standard band above it and zero below.
+
+Nothing else in the block: no heading, no caption, no copy, no label. It is the
+one section with no type in it at all.
+
+### 11. Footer
+
+Pack Green ground with Bone type, reached through the same `.ground--green`
+class as the statement band. Green closes the page the way the hero photograph
+opens it, so the page ends rather than running out of content on the same cream
+as every section above it. Secondary text is `--bone-quiet`, Bone at 70 per
+cent, never Ink and never Sage. The emerald full stop in the logo is unchanged
+and reads better on green than it did on Bone.
 
 - Single line logo lockup
 - Origin line, verbatim
@@ -267,7 +283,12 @@ claim set only. Marked up with FAQPage JSON-LD.
 - Arabic descriptor
 - Copyright line, The Drip Pack, Dubai, UAE
 
-Content unchanged from the first build, set to the type scale above.
+Content unchanged from the first build, set to the type scale above. The same
+footer, on the same green, ends `privacy.html` and `terms.html`.
+
+`404.html` has no footer. It is a single centred block at full viewport height
+and always has been, so there is nothing there to put on green. Adding one would
+change what that page is, which is a separate decision.
 
 ---
 
