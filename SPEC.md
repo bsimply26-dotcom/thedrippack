@@ -38,6 +38,14 @@ photograph is the only edge on the page, and a button is a filled pill rather
 than an outlined one. Four photographs carry the whole page, and their slots are
 fixed in section 8 of CLAUDE.md.
 
+One left margin for the whole page. Every section label and every block of type
+starts on the same left edge, and nothing is pushed to the far right of the
+screen. Verify it by measuring, not by eye: read the left edge of every block on
+the page and assert there is exactly one value.
+
+Section padding is one band, 96px on desktop and 64px on mobile. Nothing exceeds
+it and no section gets extra breathing room of its own.
+
 ### 1. Navbar
 
 Fixed to the top. Transparent over the hero photograph with Bone type, because
@@ -72,7 +80,13 @@ transparent bar and the Bone sheet read as two separate objects.
 ### 2. Hero
 
 The photograph is the section, not an image inside it. `brew-pour.webp` runs
-full bleed, edge to edge, at 70vh at the least.
+full bleed, edge to edge, at 80vh. Not more: the claim row beneath has to be
+visible at the fold, so the top padding is nav clearance only rather than a full
+band, which would push the section past 80vh on a short viewport.
+
+The four elements are one tight left aligned stack, not four positions. They
+share the page's left margin and sit a few pixels apart, so they read as a
+single group over the lower left corner.
 
 - POUR WAIT DRINK set over the photograph in Bone, positioned lower left with
   generous margin. The largest display type on the site and the only large type
@@ -129,9 +143,11 @@ Arabic version beneath each step in Ink 60%, `dir="rtl"`.
 Type only, no image. This is the one quiet moment in the page and it should feel
 like a pause, so it carries more vertical space than its neighbours.
 
-Three lines, verbatim from section 6 of CLAUDE.md, set as a short list with
-generous space. No paragraphs, no rules, no icons, no cards, no list markers. No
-supporting copy of any kind.
+Three lines, verbatim from section 6 of CLAUDE.md, set one body line apart as a
+tight block. No paragraphs, no rules, no icons, no cards, no list markers. No
+supporting copy of any kind. An earlier version of this file asked for generous
+space between them, which read as three separated statements rather than one
+argument.
 
 ### 6. The packs
 
@@ -141,6 +157,12 @@ and the buy control.
 
 - **30 cups.** `hero-pack.webp`. One line, "Net 300g"
 - **12 cups.** `pack-12.webp`. One line, "Net 120g"
+
+The count, the weight and the control sit directly beneath the photograph on the
+page's left margin, tight to it, and the control goes under the text rather than
+across the row from it. On a phone the tiles stack, so the gap under a
+photograph is small and the gap between tiles is large: that is what tells the
+reader which pack a label describes.
 
 These are short labels, so they take no full stop. See section 2 of CLAUDE.md,
 which governs punctuation. An earlier version of this file wrote them as
@@ -157,9 +179,13 @@ No price, no per cup figure.
 
 ### 7. Statement
 
-Full width green band, tall and empty. REAL COFFEE NO MACHINE in Bone with a
-short emerald rule beneath it. This is the only emerald rule on the site and the
-only place this line appears.
+Full width green band. REAL COFFEE NO MACHINE in Bone, broken over two lines
+with REAL COFFEE above NO MACHINE, which is how the side panel of the carton
+sets it. A short emerald rule beneath. This is the only emerald rule on the site
+and the only place this line appears.
+
+The band takes the same padding as every other section and must never run more
+than a screen tall.
 
 Because the four photographs are the same deep green, this band now reads as
 continuous with them rather than as a stripe. That is the intended effect and it

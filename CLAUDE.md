@@ -84,6 +84,17 @@ No borders, no card backgrounds, no hairlines and no shadows. The edge of a
 photograph is the only edge on the page, and a button is a filled pill rather
 than an outlined one.
 
+One left margin for the whole page. Every section label and every block of type
+starts on the same left edge, the page gutter, and nothing is pushed to the far
+right of the screen. That includes the buy controls, the footer copyright and
+the Arabic runs: an Arabic block is set `width: fit-content` so its box starts
+at the margin while its text stays right to left. Contained photographs are
+sized to the page wrap rather than to a share of the viewport, so their edges
+land on that same line.
+
+Section padding is one band, 96px on desktop and 64px on mobile, and nothing
+exceeds it. No section gets extra breathing room of its own.
+
 Sage is no longer defined in the stylesheet. It was specified as secondary text
 on green, and the one green section on the site carries only the locked line, so
 nothing used it. It stays in this table as a brand colour rather than a live
@@ -160,7 +171,8 @@ Clear space around either lockup is no less than the cap height on all sides.
 **Slogan.** POUR WAIT DRINK
 
 **Statement.** REAL COFFEE NO MACHINE, used once on the site, with a short
-emerald rule beneath it. Once means once.
+emerald rule beneath it. Once means once. Set it over two lines, REAL COFFEE
+above NO MACHINE, which is how the side panel of the carton sets it.
 
 **Claims, in this order.** SINGLE SERVE POUR OVER / 100% ARABICA /
 SPECIALTY GRADE / CUPPED ABOVE 80
@@ -177,7 +189,8 @@ SPECIALTY GRADE / CUPPED ABOVE 80
 اسكب قليلاً من الماء الساخن وانتظر /
 أكمل السكب على دفعات ثم ارفع الكيس
 
-**Why this.** Three lines, in this order. No full stops, they are labels.
+**Why this.** Three lines, in this order. No full stops, they are labels. Set
+them one body line apart, as a tight block rather than three spaced statements.
 1. No machine, no pods, no grinder
 2. Real ground coffee, not instant
 3. Sealed until the moment you brew it
@@ -218,8 +231,9 @@ thumbnail inside a card.
 Every section opens with a photograph. Each one bleeds to both screen edges on
 a phone and is contained on desktop, with generous space around it and nothing
 around its edge. The hero photograph is the section rather than an image inside
-it: it fills the full bleed at 70vh at the least, and the type sits over its
-lower left corner held by a gradient that reaches that corner alone.
+it: it fills the full bleed at 80vh, and the type sits over its lower left
+corner as one tight stack, held by a gradient that reaches that corner alone.
+80vh rather than more, so the claim row beneath is visible at the fold.
 
 The two pack photographs sit as tiles side by side. The 12 cup carton sits
 smaller in its own frame than the 30 cup by design, so the two are never scaled
