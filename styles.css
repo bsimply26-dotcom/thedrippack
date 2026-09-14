@@ -32,6 +32,12 @@
      measured at 4.55:1. It clears AA by 0.05, so it is the floor. */
   --ink-quiet: color-mix(in srgb, var(--ink) 60%, transparent);
 
+  /* Secondary type on the green ground, which is now the footer as well as the
+     statement band. Bone at 70 per cent, composited rgb(176, 180, 166), which
+     reads at 6.46:1. Chosen with headroom rather than at the floor, because the
+     footer carries the smallest type on the site at 13px. */
+  --bone-quiet: color-mix(in srgb, var(--bone) 70%, transparent);
+
   /* The hero gradient. Ink at three strengths, anchored to the bottom left
      corner and fully clear of the pour, the kettle and the top right of the
      frame. The strengths are not a taste decision: they are the measured
@@ -183,9 +189,10 @@ a { color: inherit; }
 
 /* --------------------------------------------------------------------------
    4. Grounds and rhythm.
-   Bone with Ink type is the whole site. Pack Green is opt in and belongs to the
-   statement band alone. Because the four photographs are the same green, that
-   band reads as continuous with them rather than as a stripe.
+   Bone with Ink type is the whole site. Pack Green is opt in and has two jobs:
+   the statement band and the footer. Because the photographs are the same
+   green, the band reads as continuous with them rather than as a stripe, and
+   the footer closes the page the way the hero opens it.
    -------------------------------------------------------------------------- */
 
 .ground--green { background: var(--green); color: var(--bone); }
@@ -694,6 +701,23 @@ body.is-locked { overflow: hidden; }
 }
 
 /* --------------------------------------------------------------------------
+   14b. The closing block.
+   The photograph runs full bleed straight into the green footer. No bottom
+   margin, so there is no cream between the two and the dark image and the dark
+   footer read as one ending. The standard band above it, and nothing else in
+   the block.
+   -------------------------------------------------------------------------- */
+
+.closing__media { width: 100%; margin-block: 0; }
+
+.closing__img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1536 / 516;
+  object-fit: cover;
+}
+
+/* --------------------------------------------------------------------------
    15. Footer. One logo, the origin line, the two contents blocks side by side,
    legal links, copyright. Content unchanged, set to the new scale.
    -------------------------------------------------------------------------- */
@@ -709,7 +733,7 @@ body.is-locked { overflow: hidden; }
 }
 
 .foot__origin {
-  color: var(--ink-quiet);
+  color: var(--bone-quiet);
   font-size: var(--t-body);
 }
 
@@ -718,7 +742,7 @@ body.is-locked { overflow: hidden; }
   margin-top: 0.5rem;
   font-family: var(--font-arabic);
   font-weight: 400;
-  color: var(--ink-quiet);
+  color: var(--bone-quiet);
   font-size: var(--t-body);
   line-height: 1.9;
 }
@@ -736,7 +760,7 @@ body.is-locked { overflow: hidden; }
 }
 
 .foot__col p {
-  color: var(--ink-quiet);
+  color: var(--bone-quiet);
   font-size: var(--t-micro);
   line-height: 1.6;
 }
@@ -764,7 +788,7 @@ body.is-locked { overflow: hidden; }
 .foot__copy {
   display: block;
   padding-block: 0.75rem;
-  color: var(--ink-quiet);
+  color: var(--bone-quiet);
   font-size: var(--t-micro);
 }
 
